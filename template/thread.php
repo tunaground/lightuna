@@ -5,11 +5,11 @@
         <p class="thread_id"><?= $thread->getThreadUid() ?></p>
         <p class="thread_owner"><?= $thread->getUserName() ?></p>
         <p class="thread_title">
-            <a href="<?= $config['site']['baseUrl'] ?>/trace.php/tuna/<?= $thread->getThreadUid() ?>/recent">
+            <a href="<?= $config['site']['baseUrl'] ?>/trace.php/<?= $board['uid'] ?>/<?= $thread->getThreadUid() ?>/recent">
                 <?= $thread->getTitle() ?>
             </a>
             ::
-            <a href="<?= $config['site']['baseUrl'] ?>/trace.php/tuna/<?= $thread->getThreadUid() ?>">
+            <a href="<?= $config['site']['baseUrl'] ?>/trace.php/<?= $board['uid'] ?>/<?= $thread->getThreadUid() ?>">
                 <?= $thread->getSize() ?>
             </a>
         </p>
