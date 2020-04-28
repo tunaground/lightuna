@@ -6,10 +6,10 @@ use Lightuna\Object\Response;
 use Lightuna\Object\ResponseContent;
 
 /**
- * Class ResponseDao
+ * Class AbstractResponseDao
  * @package Lightuna\Database
  */
-class ResponseDao extends AbstractDao
+abstract class AbstractResponseDao extends AbstractDao
 {
     /**
      * @param int $threadUid
@@ -73,26 +73,6 @@ SQL;
     }
 
     /**
-     * @return int
-     * @throws DataAccessException
-     */
-    public function getNextResponseUid(): int
-    {
-        $sql = <<<SQL
-select nextval(seq_response_uid);
-SQL;
-        $conn = $this->dataSource->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] !== '00000') {
-            $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
-        }
-        return $stmt->fetchColumn();
-    }
-
-    /**
      * @param Response $response
      * @throws DataAccessException
      */
@@ -146,7 +126,7 @@ SQL;
      * @param array $rawResponse
      * @return Response
      */
-    private function rawToObject(array $rawResponse): Response
+    protected function rawToObject(array $rawResponse): Response
     {
         return new Response(
             $rawResponse['thread_uid'],

@@ -1,9 +1,11 @@
 <?php
 
 use Lightuna\Object\Board;
-use Lightuna\Database\ThreadDao;
 use Lightuna\Database\DataSource;
-use Lightuna\Database\ResponseDao;
+use Lightuna\Database\MariadbThreadDao;
+use Lightuna\Database\MariadbResponseDao;
+use Lightuna\Database\MysqlThreadDao;
+use Lightuna\Database\MysqlResponseDao;
 use Lightuna\Util\UriParser;
 use Lightuna\Util\ContextParser;
 use Lightuna\Log\Logger;
@@ -30,8 +32,13 @@ $dataSource = new DataSource(
 
 $uriParser = new UriParser($config, $_SERVER['REQUEST_URI']);
 $board = new Board($config, $uriParser->getBoardUid());
-$threadDao = new ThreadDao($dataSource, $logger);
-$responseService = new ResponseDao($dataSource, $logger);
+if ($config['database']['type'] === 'mysql') {
+    $threadDao = new MysqlThreadDao($dataSource, $logger);
+    $responseDao = new MysqlResponseDao($dataSource, $logger);
+} else {
+    $threadDao = new MariadbThreadDao($dataSource, $logger);
+    $responseDao = new MariadbResponseDao($dataSource, $logger);
+}
 
 $threadUid = $uriParser->getThreadUid();
 try {
@@ -65,7 +72,7 @@ try {
     }
     if ($responseStart === 0) {
         $thread->setResponses(
-            $responseService->getResponseListByThreadUid(
+            $responseDao->getResponseListByThreadUid(
                 $thread->getThreadUid(),
                 $responseStart,
                 $responseLimit
@@ -73,8 +80,8 @@ try {
         );
     } else {
         $thread->setResponses(array_merge(
-            $responseService->getResponseListByThreadUid($thread->getThreadUid(), 0, 1),
-            $responseService->getResponseListByThreadUid($thread->getThreadUid(), $responseStart, $responseLimit)
+            $responseDao->getResponseListByThreadUid($thread->getThreadUid(), 0, 1),
+            $responseDao->getResponseListByThreadUid($thread->getThreadUid(), $responseStart, $responseLimit)
         ));
     }
 } catch (PDOException $e) {

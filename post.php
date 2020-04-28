@@ -1,8 +1,10 @@
 <?php
 
 use Lightuna\Database\DataSource;
-use Lightuna\Database\ResponseDao;
-use Lightuna\Database\ThreadDao;
+use Lightuna\Database\MariadbThreadDao;
+use Lightuna\Database\MariadbResponseDao;
+use Lightuna\Database\MysqlThreadDao;
+use Lightuna\Database\MysqlResponseDao;
 use Lightuna\Object\Board;
 use Lightuna\Service\AttachmentService;
 use Lightuna\Service\PostService;
@@ -35,8 +37,13 @@ $dataSource = new DataSource(
 );
 $netUtil = new NetworkUtil();
 
-$threadDao = new ThreadDao($dataSource, $logger);
-$responseDao = new ResponseDao($dataSource, $logger);
+if ($config['database']['type'] === 'mysql') {
+    $threadDao = new MysqlThreadDao($dataSource, $logger);
+    $responseDao = new MysqlResponseDao($dataSource, $logger);
+} else {
+    $threadDao = new MariadbThreadDao($dataSource, $logger);
+    $responseDao = new MariadbResponseDao($dataSource, $logger);
+}
 $postService = new PostService($dataSource, $threadDao, $responseDao, $board);
 $attachmentService = new AttachmentService($config, $board, new ThumbUtil());
 

@@ -6,10 +6,10 @@ use Lightuna\Exception\InvalidUserInputException;
 use Lightuna\Object\Thread;
 
 /**
- * Class ThreadDao
+ * Class AbstractThreadDao
  * @package Lightuna\Database
  */
-class ThreadDao extends AbstractDao
+abstract class AbstractThreadDao extends AbstractDao
 {
     /**
      * @param int $threadUid
@@ -84,26 +84,6 @@ SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':thread_uid', $threadUid, \PDO::PARAM_STR);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] !== '00000') {
-            $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
-        }
-        return $stmt->fetchColumn();
-    }
-
-    /**
-     * @return int
-     * @throws DataAccessException
-     */
-    public function getNextThreadUid(): int
-    {
-        $sql = <<<SQL
-select nextval(seq_thread_uid);
-SQL;
-        $conn = $this->dataSource->getConnection();
-        $stmt = $conn->prepare($sql);
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
@@ -198,7 +178,7 @@ SQL;
      * @param array $rawThread
      * @return Thread
      */
-    private function rawToObject(array $rawThread): Thread
+    protected function rawToObject(array $rawThread): Thread
     {
         return new Thread(
             $rawThread['board_uid'],
