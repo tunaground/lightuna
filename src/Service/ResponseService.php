@@ -1,10 +1,10 @@
 <?php
 namespace Lightuna\Service;
 
-use Lightuna\Database\ArcResponseDao;
+use Lightuna\Database\ArcResponseDaoInterface;
 use Lightuna\Database\DataSource;
-use Lightuna\Database\ResponseDao;
-use Lightuna\Database\ThreadDao;
+use Lightuna\Database\ResponseDaoInterface;
+use Lightuna\Database\ThreadDaoInterface;
 use Lightuna\Exception\DataAccessException;
 use Lightuna\Exception\InvalidUserInputException;
 use Lightuna\Object\ArcResponse;
@@ -17,25 +17,25 @@ class ResponseService
 {
     /** @var DataSource */
     private $dataSource;
-    /** @var ThreadDao */
+    /** @var ThreadDaoInterface */
     private $threadDao;
-    /** @var ResponseDao */
+    /** @var ResponseDaoInterface */
     private $responseDao;
-    /** @var ArcResponseDao */
+    /** @var ArcResponseDaoInterface */
     private $arcResponseDao;
 
     /**
      * ResponseService constructor.
      * @param DataSource $dataSource
-     * @param ThreadDao $threadDao
-     * @param ResponseDao $responseDao
-     * @param ArcResponseDao $arcResponseDao
+     * @param ThreadDaoInterface $threadDao
+     * @param ResponseDaoInterface $responseDao
+     * @param ArcResponseDaoInterface $arcResponseDao
      */
     public function __construct(
         DataSource $dataSource,
-        ThreadDao $threadDao,
-        ResponseDao $responseDao,
-        ArcResponseDao $arcResponseDao
+        ThreadDaoInterface $threadDao,
+        ResponseDaoInterface $responseDao,
+        ArcResponseDaoInterface $arcResponseDao
     ) {
         $this->dataSource = $dataSource;
         $this->threadDao = $threadDao;

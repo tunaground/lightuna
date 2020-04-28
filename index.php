@@ -1,8 +1,10 @@
 <?php
 
 use Lightuna\Database\DataSource;
-use Lightuna\Database\ResponseDao;
-use Lightuna\Database\ThreadDao;
+use Lightuna\Database\MariadbThreadDao;
+use Lightuna\Database\MariadbResponseDao;
+use Lightuna\Database\MysqlThreadDao;
+use Lightuna\Database\MysqlResponseDao;
 use Lightuna\Object\Board;
 use Lightuna\Util\UriParser;
 use Lightuna\Util\ContextParser;
@@ -34,8 +36,15 @@ try {
     $exceptionHandler->handle('/invalid-board-uid', $e);
 }
 
+if ($config['database']['type'] === 'mysql') {
+    $threadDao = new MysqlThreadDao($dataSource, $logger);
+    $responseDao = new MysqlResponseDao($dataSource, $logger);
+} else {
+    $threadDao = new MariadbThreadDao($dataSource, $logger);
+    $responseDao = new MariadbResponseDao($dataSource, $logger);
+}
+
 try {
-    $threadDao = new ThreadDao($dataSource, $logger);
     $threads = $threadDao->getThreadListByBoardUid($board['id'], $board['maxThreadListView']);
     for ($i = 0; $i < sizeof($threads); $i++) {
         $threads[$i]->setSize($threadDao->getThreadSize($threads[$i]->getThreadUid()) - 1);
@@ -43,7 +52,6 @@ try {
     }
 
     $threadViewCount = (count($threads) < $board['maxThreadView']) ? count($threads) : $board['maxThreadView'];
-    $responseDao = new ResponseDao($dataSource, $logger);
     for ($i = 0; $i < $threadViewCount; $i++) {
         $responseStart = max(0, $threads[$i]->getSize() - $board['maxResponseView']);
         $responseLimit = $board['maxResponseView'];

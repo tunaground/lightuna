@@ -3,8 +3,8 @@ namespace Lightuna\Service;
 
 use DateTime;
 use Lightuna\Database\DataSource;
-use Lightuna\Database\ResponseDao;
-use Lightuna\Database\ThreadDao;
+use Lightuna\Database\ResponseDaoInterface;
+use Lightuna\Database\ThreadDaoInterface;
 use Lightuna\Exception\DataAccessException;
 use Lightuna\Exception\InvalidUserInputException;
 use Lightuna\Object\Board;
@@ -24,9 +24,9 @@ class PostService
     const HASH_SHA256 = 'sha256';
     /** @var DataSource */
     private $dataSource;
-    /** @var ThreadDao */
+    /** @var ThreadDaoInterface */
     private $threadDao;
-    /** @var ResponseDao */
+    /** @var ResponseDaoInterface */
     private $responseDao;
     /** @var Board */
     private $board;
@@ -34,14 +34,14 @@ class PostService
     /**
      * PostService constructor.
      * @param DataSource $dataSource
-     * @param ThreadDao $threadDao
-     * @param ResponseDao $responseDao
+     * @param ThreadDaoInterface $threadDao
+     * @param ResponseDaoInterface $responseDao
      * @param Board $board
      */
     public function __construct(
         DataSource $dataSource,
-        ThreadDao $threadDao,
-        ResponseDao $responseDao,
+        ThreadDaoInterface $threadDao,
+        ResponseDaoInterface $responseDao,
         Board $board
     ) {
         $this->dataSource = $dataSource;
