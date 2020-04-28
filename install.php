@@ -15,9 +15,7 @@ define('FRONT_PAGE', true);
 
 require('./require.php');
 
-$contextParser = new ContextParser();
-$logger = new Logger($config['site']['logFilePath'], $contextParser);
-$exceptionHandler = new ExceptionHandler($config, $logger);
+$databaseType = $config['database']['type'];
 $dataSource = new DataSource(
     $config['database']['host'],
     $config['database']['port'],
@@ -29,7 +27,7 @@ $dataSource = new DataSource(
 );
 
 $conn = $dataSource->getConnection();
-$sql = file_get_contents(__DIR__ . '/config/init.sql');
+$sql = file_get_contents(__DIR__ . '/config/init.' . $databaseType . '.sql');
 $conn->exec($sql);
 ?>
 <html>

@@ -6,7 +6,7 @@ lightuna는 누구나 쉽게 웹호스팅을 통해 서비스할 수 있는 스�
 ## 요구사항
 
  * PHP 7.3
- * MariaDB 10.3
+ * MariaDB 10.3 or Mysql 5.7
 
 ## 설정
 
@@ -18,6 +18,10 @@ lightuna는 누구나 쉽게 웹호스팅을 통해 서비스할 수 있는 스�
 `boards` 하위에 신규 게시판을 추가할 경우 `uid`, `name` 키를 반드시 설정해야한다.
 이외에 `__default__` 배열과 겹치는 키값을 설정하면 해당 게시판 전용으로 해당 설정을 덮어쓴다.
 
-`/config/init.sql` 파일에 데이터베이스 설정을 위한 DDL이 존재한다.
+MariaDB 10.3일 경우 `sequence`를 사용한다.
+MariaDB 10.3 이하 버전을 사용하거나 MySQL을 사용할 경우 `sequence`를 대체하는 테이블을 생성한다.
+자신이 사용하는 데이터베이스와 버전에 따라 설정에서 `database.type`을 `mysql`이나 `mariadb`로 설정해야한다.
+
+`/config/init.*.sql` 파일에 데이터베이스 설정을 위한 DDL이 존재한다.
 `https://your-domain.com/lightuna/install.php`로 접속하면 해당 DDL을 실행한다.
-데이터베이스 셋업이 완료되면 `install.php`는 삭제한다.
+데이터베이스 셋업이 완료되면 `install.php`는 삭제해야한다.
