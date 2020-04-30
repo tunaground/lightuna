@@ -151,9 +151,15 @@ class PostService
             array_key_exists('lastContentHash', $_SESSION)
             && $_SESSION['lastContentHash'] === $currentResponseContentHash
         ) {
-            throw new InvalidUserInputException('To many duplicated response content.');
+            throw new InvalidUserInputException('Too many duplicated response content.');
         } else {
             $_SESSION['lastContentHash'] = $currentResponseContentHash;
+        }
+        $userName = preg_replace_callback("/([^\#]*)\#(.+)/", function ($matches) {
+            return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2]), -10) . '</b>';
+        }, $userName);
+        if (mb_strlen($userName) > $this->board['maxNameLength']) {
+            throw new InvalidUserInputException('User name too long.');
         }
 
         $isResponseTransaction = false;

@@ -12,7 +12,7 @@ create table thread
     board_uid    varchar(10)        not null,
     title    varchar(50)        not null,
     password varchar(256)       not null,
-    user_name varchar(30)       not null,
+    user_name varchar(60)       not null,
     create_date datetime           not null,
     update_date datetime           not null,
     primary key (thread_uid),
@@ -25,7 +25,7 @@ create table response
     response_uid    bigint(0) unsigned not null,
     thread_uid    bigint(0) unsigned not null,
     sequence      int(0) unsigned    not null,
-    user_name   varchar(30)        not null,
+    user_name   varchar(60)        not null,
     user_id     varchar(10)        not null,
     ip          varchar(15)        not null,
     create_date datetime           not null,
@@ -43,28 +43,13 @@ create table response
     index idx_create_date (create_date)
 );
 --
-create table arc_thread
-(
-    arc_thread_uid bigint(0) unsigned not null,
-    thread_uid bigint(0) unsigned not null,
-    board_uid    varchar(10)        not null,
-    title    varchar(50)        not null,
-    password varchar(256)       not null,
-    archive_date datetime          not null,
-    primary key (arc_thread_uid),
-    index idx_thread_uid (thread_uid),
-    index idx_thread_board (board_uid),
-    index idx_thread_title (title),
-    index idx_archive_date (archive_date)
-);
---
 create table arc_response
 (
     arc_response_uid bigint(0) unsigned not null,
     response_uid    bigint(0) unsigned not null,
     thread_uid    bigint(0) unsigned not null,
     sequence      int(0) unsigned    not null,
-    user_name   varchar(30)        not null,
+    user_name   varchar(60)        not null,
     user_id     varchar(10)        not null,
     ip          varchar(15)        not null,
     create_date datetime           not null,
