@@ -39,23 +39,25 @@ SQL;
     }
 
     /**
-     * @param string $boardId
+     * @param string $boardUid
      * @param int $limit
+     * @param int $start
      * @return Thread[]
      * @throws DataAccessException
      */
-    public function getThreadListByBoardUid(string $boardId, int $limit): array
+    public function getThreadListByBoardUid(string $boardUid, int $limit, int $start = 0): array
     {
         $sql = <<<SQL
 select  *
 from    thread
 where   board_uid = :board_uid
 order by update_date desc
-limit 0, :limit
+limit :start, :limit
 SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':board_uid', $boardId, \PDO::PARAM_STR);
+        $stmt->bindValue(':board_uid', $boardUid, \PDO::PARAM_STR);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->execute();
         $error = $stmt->errorInfo();

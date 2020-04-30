@@ -98,6 +98,19 @@ class UriParser
     }
 
     /**
+     * @return int
+     */
+    public function getListPage(): int
+    {
+        try {
+            $listPage = (int)$this->getPartByIndex(1);
+            return ($listPage < 1) ? 1 : $listPage;
+        } catch (\OutOfBoundsException $e) {
+            return 1;
+        }
+    }
+
+    /**
      * @param int $index
      * @return string
      * @throws \OutOfBoundsException
