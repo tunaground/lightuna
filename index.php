@@ -96,36 +96,41 @@ try {
 <?php require(__DIR__ . '/template/menu.php'); ?>
 <div id="top"></div>
 <div id="thread_list">
-<?php
-if (sizeof($threads) > 0) {
-    for ($i = 0; $i < sizeof($threads); $i++) {
-        $thread = $threads[$i];
-        if ($thread->getSequence() < $board['maxThreadView']) {
-            $titleLink = "#thread_{$thread->getSequence()}";
-            $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
-            $sequenceLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
-        } else {
-            $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
-            $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
-            $sequenceLink = '#';
+    <?php
+    if (sizeof($threads) > 0) {
+        for ($i = 0; $i < sizeof($threads); $i++) {
+            $thread = $threads[$i];
+            if ($thread->getSequence() < $board['maxThreadView']) {
+                $titleLink = "#thread_{$thread->getSequence()}";
+                $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+                $sequenceLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+            } else {
+                $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+                $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+                $sequenceLink = '#';
+            }
+            require(__DIR__ . '/template/thread_list_item.php');
         }
-        require(__DIR__ . '/template/thread_list_item.php');
     }
-}
-?>
+    ?>
+    <div class="thread_list_item center">
+        <a href="<?= $config['site']['baseUrl'] ?>/list.php/<?= $board['uid'] ?>">
+            <p>더 보기<p>
+        </a>
+    </div>
 </div>
 <div id="thread_section">
-<?php
-if (sizeof($threads) > 0) {
-    for ($i = 0; $i < min($board['maxThreadView'], sizeof($threads)); $i++) {
-        if (sizeof($threads[$i]->getResponses()) < 1) {
-            continue;
+    <?php
+    if (sizeof($threads) > 0) {
+        for ($i = 0; $i < min($board['maxThreadView'], sizeof($threads)); $i++) {
+            if (sizeof($threads[$i]->getResponses()) < 1) {
+                continue;
+            }
+            $thread = $threads[$i];
+            require(__DIR__ . '/template/thread.php');
         }
-        $thread = $threads[$i];
-        require(__DIR__ . '/template/thread.php');
     }
-}
-?>
+    ?>
 </div>
 <?php
 require(__DIR__ . '/template/create_thread.php');

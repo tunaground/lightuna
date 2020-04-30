@@ -26,6 +26,10 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+.center {
+    text-align: center;
+}
+
 body {
     margin: 0;
     padding: 3em 0 0 0;

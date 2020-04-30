@@ -66,7 +66,7 @@ $nextPageHtml = '';
 
 if ($previousPage > 0) {
     $previousPageHtml = <<<HTML
-<div class="thread_list_item">
+<div class="thread_list_item center">
     <a href="$baseUrl/list.php/$boardUid/$previousPage"><p>이전 페이지</p></a>
 </div>
 HTML;
@@ -74,7 +74,7 @@ HTML;
 
 if (sizeof($threads) === $board['maxThreadListView']) {
     $nextPageHtml = <<<HTML
-<div class="thread_list_item">
+<div class="thread_list_item center">
     <a href="$baseUrl/list.php/$boardUid/$nextPage"><p>다음 페이지</p></a>
 </div>
 HTML;
@@ -92,19 +92,19 @@ HTML;
 <?php require(__DIR__ . '/template/menu.php'); ?>
 <div id="top"></div>
 <div id="thread_list">
-<?php
-if (sizeof($threads) > 0) {
-    for ($i = 0; $i < sizeof($threads); $i++) {
-        $thread = $threads[$i];
-        $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
-        $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
-        $sequenceLink = '#';
-        require(__DIR__ . '/template/thread_list_item.php');
+    <?php
+    if (sizeof($threads) > 0) {
+        for ($i = 0; $i < sizeof($threads); $i++) {
+            $thread = $threads[$i];
+            $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+            $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+            $sequenceLink = '#';
+            require(__DIR__ . '/template/thread_list_item.php');
+        }
     }
-}
-?>
-<?= $previousPageHtml ?>
-<?= $nextPageHtml ?>
+    ?>
+    <?= $previousPageHtml ?>
+    <?= $nextPageHtml ?>
 </div>
 <?php
 require(__DIR__ . '/template/version.php');
