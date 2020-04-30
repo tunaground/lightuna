@@ -53,5 +53,13 @@ document.addEventListener('DOMContentLoaded', function () {
         el.addEventListener('input', function () {
             sessionStorage.setItem(threadUid + '-console', this.value);
         });
+
+        el.addEventListener('input', function () {
+            if (this.value.includes('aa')) {
+                this.nextElementSibling.classList.add('mona')
+            } else {
+                this.nextElementSibling.classList.remove('mona')
+            }
+        })
     });
 });
