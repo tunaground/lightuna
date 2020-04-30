@@ -168,13 +168,16 @@ class PostService
             $userId = mb_substr(crypt($ip, $currentDateTime->format('Ymd')), -10);
             $responseContent = new ResponseContent($content);
             $responseContent->newLineToBreak();
-            if (in_array('off', $console) !== true) {
+            if (in_array('off', $console, true) !== true) {
                 $responseContent->applyAsciiArtTag();
                 $responseContent->applyHorizonTag();
                 $responseContent->applySpoilerTag();
                 $responseContent->applyColorTag();
                 $responseContent->applyRubyTag();
                 $responseContent->applyDiceTag();
+            }
+            if (in_array('aa', $console, true) === true) {
+                $responseContent->applyAsciiArtTagAll();
             }
             $response = new Response(
                 $thread->getThreadUid(),
@@ -188,7 +191,9 @@ class PostService
                 $attachment
             );
             $this->responseDao->createResponse($response);
-            $this->threadDao->setUpdateDate($thread->getThreadUid(), $currentDateTime);
+            if (!in_array('noup', $console, true)) {
+                $this->threadDao->setUpdateDate($thread->getThreadUid(), $currentDateTime);
+            }
             if ($isResponseTransaction) {
                 $this->dataSource->commit();
             }

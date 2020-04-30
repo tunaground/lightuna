@@ -16,7 +16,6 @@ HTML;
     <ul>
         <li><a href="#top">맨 위</a></li>
         <li><a href="#bottom">맨 아래</a></li>
-        <li><a href="<?= $baseUrl ?>/list.php/<?= $board['uid'] ?>">목록</a></li>
         <?= $list ?>
     </ul>
 </nav>

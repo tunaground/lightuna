@@ -47,7 +47,7 @@ try {
     $start = ($listPage - 1) * $board['maxThreadListView'];
     $threads = $threadDao->getThreadListByBoardUid($board['id'], $board['maxThreadListView'], $start);
     for ($i = 0; $i < sizeof($threads); $i++) {
-        $threads[$i]->setSize($threadDao->getThreadSize($threads[$i]->getThreadUid()) - 1);
+        $threads[$i]->setSize($threadDao->getLastResponseSequence($threads[$i]->getThreadUid()));
         $threads[$i]->setSequence($i + 1 + $start);
     }
 } catch (PDOException $e) {
@@ -66,13 +66,17 @@ $nextPageHtml = '';
 
 if ($previousPage > 0) {
     $previousPageHtml = <<<HTML
-<a href="$baseUrl/list.php/$boardUid/$previousPage"><p>이전 페이지</p></a>
+<div class="thread_list_item center">
+    <a href="$baseUrl/list.php/$boardUid/$previousPage"><p>이전 페이지</p></a>
+</div>
 HTML;
 }
 
 if (sizeof($threads) === $board['maxThreadListView']) {
     $nextPageHtml = <<<HTML
-<a href="$baseUrl/list.php/$boardUid/$nextPage"><p>다음 페이지</p></a>
+<div class="thread_list_item center">
+    <a href="$baseUrl/list.php/$boardUid/$nextPage"><p>다음 페이지</p></a>
+</div>
 HTML;
 }
 
@@ -83,24 +87,28 @@ HTML;
     <meta charset="UTF-8"/>
     <title>인덱스 :: <?= $board['name'] ?></title>
     <link rel="stylesheet" type="text/css" href="<?= $config['site']['baseUrl'] ?>/asset/<?= $board['style'] ?>"/>
-    <script type="text/javascript" src="<?= $config['site']['baseUrl'] ?>/asset/main.js"></script>
 </head>
 <body>
 <?php require(__DIR__ . '/template/menu.php'); ?>
-<?php
-if (sizeof($threads) > 0) {
-    for ($i = 0; $i < sizeof($threads); $i++) {
-        $thread = $threads[$i];
-        require(__DIR__ . '/template/thread_header.php');
+<div id="top"></div>
+<div id="thread_list">
+    <?php
+    if (sizeof($threads) > 0) {
+        for ($i = 0; $i < sizeof($threads); $i++) {
+            $thread = $threads[$i];
+            $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+            $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+            $sequenceLink = '#';
+            require(__DIR__ . '/template/thread_list_item.php');
+        }
     }
-}
-?>
-    <div>
-        <?= $previousPageHtml ?>
-        <?= $nextPageHtml ?>
-    </div>
+    ?>
+    <?= $previousPageHtml ?>
+    <?= $nextPageHtml ?>
+</div>
 <?php
 require(__DIR__ . '/template/version.php');
 ?>
+<div id="bottom"></div>
 </body>
 </html>

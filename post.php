@@ -90,6 +90,9 @@ try {
             $currentDateTime
         );
     }
+    if (in_array('relay', $console, true)) {
+        $returnUrl .= '#bottom';
+    }
     Redirection::temporary($returnUrl);
 } catch (PDOException $e) {
     $logger->error('post.php: Database exception: {msg}', ['msg' => $e->getMessage()]);

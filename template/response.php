@@ -35,12 +35,12 @@ HTML;
         :
         <span class="response_sequence"><?= $response->getSequence() ?></span>
         <span class="response_owner"><?= $response->getUserName() ?></span>
-        <span class="response_owner_id"><?= $response->getUserId() ?></span>
+        <span class="response_owner_id">(<?= $response->getUserId() ?>)</span>
         <button class="response_hide" onclick="hideResponse('<?= $config['site']['baseUrl'] ?>', <?= $response->getThreadUid() ?>, <?= $response->getResponseUid() ?>)">
             Hide
         </button>
     </p>
     <p class="response_create_date"><?= $createDate ?></p>
     <?= $image ?>
-    <p class="content"><?= $response->getContent() ?></p>
+    <div class="content"><?= $response->getContent() ?></div>
 </div>

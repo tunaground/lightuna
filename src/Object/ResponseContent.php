@@ -30,6 +30,11 @@ class ResponseContent
         $this->content = preg_replace('/(aa\.)/', '</p>', $this->content);
     }
 
+    public function applyAsciiArtTagAll()
+    {
+        $this->content = '<p class="mona">' . $this->content . '</p>';
+    }
+
     public function applyHorizonTag()
     {
         $this->content = preg_replace('/(\.hr\.)/', '<hr />', $this->content);

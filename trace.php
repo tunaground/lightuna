@@ -55,19 +55,19 @@ try {
 }
 
 try {
-    $thread->setSize($threadDao->getThreadSize($thread->getThreadUid()) - 1);
+    $thread->setSize($threadDao->getLastResponseSequence($thread->getThreadUid()));
     $thread->setSequence(0);
 
     if ($uriParser->isTraceRecent()) {
         $responseStart = max(0, $thread->getSize() - $board['maxResponseView']);
-        $responseLimit = $board['maxResponseView'];
+        $responseEnd = $board['maxResponseView'];
     } else {
         try {
             $responseStart = $uriParser->getResponseStart();
-            $responseLimit = $uriParser->getResponseEnd($responseStart) - $responseStart + 1;
+            $responseEnd = $uriParser->getResponseEnd($responseStart);
         } catch (OutOfBoundsException $e) {
             $responseStart = 1;
-            $responseLimit = $thread->getSize();
+            $responseEnd = $thread->getSize() + 1;
         }
     }
     if ($responseStart === 0) {
@@ -75,13 +75,13 @@ try {
             $responseDao->getResponseListByThreadUid(
                 $thread->getThreadUid(),
                 $responseStart,
-                $responseLimit
+                $responseEnd
             )
         );
     } else {
         $thread->setResponses(array_merge(
-            $responseDao->getResponseListByThreadUid($thread->getThreadUid(), 0, 1),
-            $responseDao->getResponseListByThreadUid($thread->getThreadUid(), $responseStart, $responseLimit)
+            $responseDao->getResponseListBySequence($thread->getThreadUid(), 0, 0),
+            $responseDao->getResponseListBySequence($thread->getThreadUid(), $responseStart, $responseEnd)
         ));
     }
 } catch (PDOException $e) {
@@ -97,10 +97,14 @@ try {
 <head>
     <meta charset="UTF-8"/>
     <title>추적중 : <?= $thread->getTitle() ?> : <?= $board['name'] ?></title>
+    <link rel="stylesheet" type="text/css" href="<?= $config['site']['baseUrl'] ?>/asset/<?= $board['style'] ?>"/>
+    <script type="text/javascript" src="<?= $config['site']['baseUrl'] ?>/asset/main.js"></script>
 </head>
 <body>
 <?php require(__DIR__ . '/template/menu.php'); ?>
+<div id="top"></div>
 <?php require(__DIR__ . '/template/thread.php'); ?>
 <?php require(__DIR__ . '/template/version.php'); ?>
+<div id="bottom"></div>
 </body>
 </html>

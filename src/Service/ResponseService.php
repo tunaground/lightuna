@@ -60,6 +60,9 @@ class ResponseService
             if ((int)$response->getThreadUid() !== $threadUid) {
                 throw new InvalidUserInputException('Thread UID is not matched with Response.');
             }
+            if ((int)$response->getSequence() === 0) {
+                throw new InvalidUserInputException('Cannot delete first response.');
+            }
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $arcResponse = new ArcResponse(
                 $arcResponseUid,
