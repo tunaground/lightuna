@@ -45,6 +45,40 @@ SQL;
     }
 
     /**
+     * @param int $threadUid
+     * @param int $start
+     * @param int $end
+     * @return Response[]
+     * @throws DataAccessException
+     */
+    public function getResponseListBySequence(int $threadUid, int $start, int $end): array
+    {
+        $sql = <<<SQL
+select  *
+from    response
+where   thread_uid = :thread_uid
+    and sequence >= :start
+    and sequence <= :end
+order by sequence asc
+SQL;
+        $conn = $this->dataSource->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':thread_uid', $threadUid, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':end', $end, \PDO::PARAM_INT);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $this->logQueryError(__METHOD__, $error[2]);
+            throw new DataAccessException('Failed to query.');
+        }
+        $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
+        return array_map(function ($rawResponse) {
+            return $this->rawToObject($rawResponse);
+        }, $rawResponses);
+    }
+
+    /**
      * @param int $responseUid
      * @return Response
      * @throws DataAccessException
