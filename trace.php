@@ -55,7 +55,7 @@ try {
 }
 
 try {
-    $thread->setSize($threadDao->getThreadSize($thread->getThreadUid()) - 1);
+    $thread->setSize($threadDao->getLastResponseSequence($thread->getThreadUid()));
     $thread->setSequence(0);
 
     if ($uriParser->isTraceRecent()) {

@@ -47,7 +47,7 @@ try {
     $start = ($listPage - 1) * $board['maxThreadListView'];
     $threads = $threadDao->getThreadListByBoardUid($board['id'], $board['maxThreadListView'], $start);
     for ($i = 0; $i < sizeof($threads); $i++) {
-        $threads[$i]->setSize($threadDao->getThreadSize($threads[$i]->getThreadUid()) - 1);
+        $threads[$i]->setSize($threadDao->getLastResponseSequence($threads[$i]->getThreadUid()));
         $threads[$i]->setSequence($i + 1 + $start);
     }
 } catch (PDOException $e) {
