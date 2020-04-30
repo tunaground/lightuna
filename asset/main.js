@@ -33,8 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.prototype.forEach.call(contentForms, function (el) {
         const defaultHeight = el.offsetHeight;
         el.addEventListener('input', function () {
-            el.style.height = "0px";
-            el.style.height = (el.scrollHeight < defaultHeight) ? defaultHeight : el.scrollHeight;
+            el.style.height = (el.scrollHeight < defaultHeight) ? defaultHeight + 'px' : el.scrollHeight + 'px';
         })
     })
-})
+});
