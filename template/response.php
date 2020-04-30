@@ -35,7 +35,7 @@ HTML;
         :
         <span class="response_sequence"><?= $response->getSequence() ?></span>
         <span class="response_owner"><?= $response->getUserName() ?></span>
-        <span class="response_owner_id"><?= $response->getUserId() ?></span>
+        <span class="response_owner_id">(<?= $response->getUserId() ?>)</span>
         <button class="response_hide" onclick="hideResponse('<?= $config['site']['baseUrl'] ?>', <?= $response->getThreadUid() ?>, <?= $response->getResponseUid() ?>)">
             Hide
         </button>

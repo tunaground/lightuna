@@ -94,6 +94,7 @@ try {
 </head>
 <body>
 <?php require(__DIR__ . '/template/menu.php'); ?>
+<div id="top"></div>
 <?php
 if (sizeof($threads) > 0) {
     for ($i = 0; $i < min($board['maxThreadView'], sizeof($threads)); $i++) {
@@ -111,5 +112,6 @@ require(__DIR__ . '/template/create_thread.php');
 <?php
 require(__DIR__ . '/template/version.php');
 ?>
+<div id="bottom"></div>
 </body>
 </html>

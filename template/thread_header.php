@@ -11,6 +11,6 @@
             <?= $thread->getSize() ?>
         </a>
     </p>
-    <p class="thread_careted_date"><?= $thread->getCreateDate()->format('Y-m-d H:i:s') ?></p>
-    <p class="thread_refresh_date"><?= $thread->getUpdateDate()->format('Y-m-d H:i:s') ?></p>
+    <p class="thread_create_date"><?= $thread->getCreateDate()->format('Y-m-d H:i:s') ?></p>
+    <p class="thread_update_date"><?= $thread->getUpdateDate()->format('Y-m-d H:i:s') ?></p>
 </div>
