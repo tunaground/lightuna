@@ -42,5 +42,5 @@ HTML;
     </p>
     <p class="response_create_date"><?= $createDate ?></p>
     <?= $image ?>
-    <p class="content"><?= $response->getContent() ?></p>
+    <div class="content"><?= $response->getContent() ?></div>
 </div>
