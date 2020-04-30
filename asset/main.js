@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
             sessionStorage.setItem(threadUid + '-console', this.value);
         });
 
+        if (el.value.includes('aa')) {
+            el.nextElementSibling.classList.add('mona')
+        }
+
         el.addEventListener('input', function () {
             if (this.value.includes('aa')) {
                 this.nextElementSibling.classList.add('mona')
