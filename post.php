@@ -91,7 +91,7 @@ try {
         );
     }
     if (in_array('relay', $console, true)) {
-        $returnUrl .= '#bottom';
+        $returnUrl .= '#relay';
     }
     Redirection::temporary($returnUrl);
 } catch (PDOException $e) {
