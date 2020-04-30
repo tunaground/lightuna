@@ -15,8 +15,18 @@
             <input type="hidden" name="board_uid" value="<?= $board['uid'] ?>">
             <input type="hidden" name="thread_uid" value="<?= $thread->getThreadUid() ?>">
             <input type="hidden" name="return_url" value="<?= $_SERVER['REQUEST_URI'] ?>">
-            <input type="text" name="name" placeholder="나메(60자까지)" value="" class="post_form_default">
-            <input type="text" name="console" placeholder="콘솔" value="" class="post_form_default">
+            <input type="text"
+                   name="name"
+                   placeholder="나메(60자까지)"
+                   value=""
+                   class="post_form_default post_form_name"
+                   data-thread-uid="<?= $thread->getThreadUid() ?>">
+            <input type="text"
+                   name="console"
+                   placeholder="콘솔"
+                   value=""
+                   class="post_form_default post_form_console"
+                   data-thread-uid="<?= $thread->getThreadUid() ?>">
             <textarea name="content"
                       placeholder="본문(<?= $board['maxContentLength'] ?>자까지)"
                       spellcheck="false"

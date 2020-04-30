@@ -35,5 +35,23 @@ document.addEventListener('DOMContentLoaded', function () {
         el.addEventListener('input', function () {
             el.style.height = (el.scrollHeight < defaultHeight) ? defaultHeight + 'px' : el.scrollHeight + 'px';
         })
-    })
+    });
+
+    const nameForms = document.getElementsByClassName('post_form_name');
+    Array.prototype.forEach.call(nameForms, function (el) {
+        const threadUid = el.dataset.threadUid;
+        el.value = sessionStorage.getItem(threadUid + '-name');
+        el.addEventListener('input', function () {
+            sessionStorage.setItem(threadUid + '-name', this.value);
+        });
+    });
+
+    const consoleForm = document.getElementsByClassName('post_form_console');
+    Array.prototype.forEach.call(consoleForm, function (el) {
+        const threadUid = el.dataset.threadUid;
+        el.value = sessionStorage.getItem(threadUid + '-console');
+        el.addEventListener('input', function () {
+            sessionStorage.setItem(threadUid + '-console', this.value);
+        });
+    });
 });
