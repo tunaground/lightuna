@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteRule ".*/logs/.*" "-" [F]
+RewriteRule ".*/src/.*" "-" [F]
+RewriteRule ".*/template/.*" "-" [F]
+RewriteRule ".*/config/.*" "-" [F]

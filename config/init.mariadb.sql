@@ -1,12 +1,12 @@
-create or replace sequence seq_thread_uid start with 1 increment by 1;
+create sequence seq_thread_uid start with 1 increment by 1;
 --
-create or replace sequence seq_response_uid start with 1 increment by 1;
+create sequence seq_response_uid start with 1 increment by 1;
 --
-create or replace sequence seq_arc_thread_uid start with 1 increment by 1;
+create sequence seq_arc_thread_uid start with 1 increment by 1;
 --
-create or replace sequence seq_arc_response_uid start with 1 increment by 1;
+create sequence seq_arc_response_uid start with 1 increment by 1;
 --
-create or replace table thread
+create table thread
 (
     thread_uid bigint(0) unsigned not null,
     board_uid    varchar(10)        not null,
@@ -20,14 +20,14 @@ create or replace table thread
     index idx_thread_title (title)
 );
 --
-create or replace table response
+create table response
 (
     response_uid    bigint(0) unsigned not null,
     thread_uid    bigint(0) unsigned not null,
     sequence      int(0) unsigned    not null,
     user_name   varchar(30)        not null,
     user_id     varchar(10)        not null,
-    ip          varchar(10)        not null,
+    ip          varchar(15)        not null,
     create_date datetime           not null,
     content     TEXT(20000)     not null,
     attachment  varchar(100)       not null,
@@ -43,7 +43,7 @@ create or replace table response
     index idx_create_date (create_date)
 );
 --
-create or replace table arc_thread
+create table arc_thread
 (
     arc_thread_uid bigint(0) unsigned not null,
     thread_uid bigint(0) unsigned not null,
@@ -58,7 +58,7 @@ create or replace table arc_thread
     index idx_archive_date (archive_date)
 );
 --
-create or replace table arc_response
+create table arc_response
 (
     arc_response_uid bigint(0) unsigned not null,
     response_uid    bigint(0) unsigned not null,
@@ -66,7 +66,7 @@ create or replace table arc_response
     sequence      int(0) unsigned    not null,
     user_name   varchar(30)        not null,
     user_id     varchar(10)        not null,
-    ip          varchar(10)        not null,
+    ip          varchar(15)        not null,
     create_date datetime           not null,
     content     TEXT(20000)     not null,
     attachment  varchar(100)       not null,
