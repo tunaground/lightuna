@@ -105,6 +105,7 @@ try {
 <div id="top"></div>
 <?php require(__DIR__ . '/template/thread.php'); ?>
 <?php require(__DIR__ . '/template/version.php'); ?>
+<div id="relay"></div>
 <div id="bottom"></div>
 </body>
 </html>
