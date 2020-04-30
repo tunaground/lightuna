@@ -29,6 +29,19 @@ HTML;
 } else {
     $image = '';
 }
+
+if ($response->getSequence() > 0) {
+    $baseUrl = $config['site']['baseUrl'];
+    $threadUid = $response->getThreadUid();
+    $responseUid = $response->getResponseUid();
+    $hideButtonHtml = <<<HTML
+<button class="response_hide" onclick="hideResponse('$baseUrl', $threadUid, $responseUid)">
+Hide
+</button>
+HTML;
+} else {
+    $hideButtonHtml = '';
+}
 ?>
 <div class="response">
     <p class="response_info">
@@ -36,9 +49,9 @@ HTML;
         <span class="response_sequence"><?= $response->getSequence() ?></span>
         <span class="response_owner"><?= $response->getUserName() ?></span>
         <span class="response_owner_id">(<?= $response->getUserId() ?>)</span>
-        <button class="response_hide" onclick="hideResponse('<?= $config['site']['baseUrl'] ?>', <?= $response->getThreadUid() ?>, <?= $response->getResponseUid() ?>)">
-            Hide
-        </button>
+        <span class="response_hide_button">
+        <?= $hideButtonHtml ?>
+        </span>
     </p>
     <p class="response_create_date"><?= $createDate ?></p>
     <?= $image ?>
