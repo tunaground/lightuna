@@ -42,7 +42,11 @@ HTML;
     $hideButtonHtml = '';
 }
 ?>
-<div class="response">
+<div class="response"
+     id="response_<?= $response->getThreadUid() ?>_<?= $response->getSequence() ?>"
+     data-board-uid="<?= $board['uid'] ?>"
+     data-thread-uid="<?= $response->getThreadUid() ?>"
+     data-response-sequence="<?= $response->getSequence() ?>">
     <p class="response_info">
         :
         <span class="response_sequence"><?= $response->getSequence() ?></span>

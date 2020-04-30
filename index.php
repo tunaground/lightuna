@@ -96,6 +96,9 @@ try {
 <body>
 <?php require(__DIR__ . '/template/menu.php'); ?>
 <div id="top"></div>
+<div id="server_info"
+     data-base-url="<?= $config['site']['baseUrl'] ?>">
+</div>
 <div id="thread_list">
     <?php
     if (sizeof($threads) > 0) {
