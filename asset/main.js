@@ -27,3 +27,14 @@ function hideResponse(root, threadUid, responseUid) {
         }
     }));
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const contentForms = document.getElementsByClassName('post_form_content');
+    Array.prototype.forEach.call(contentForms, function (el) {
+        const defaultHeight = el.offsetHeight;
+        el.addEventListener('input', function () {
+            el.style.height = "0px";
+            el.style.height = (el.scrollHeight < defaultHeight) ? defaultHeight : el.scrollHeight;
+        })
+    })
+})
