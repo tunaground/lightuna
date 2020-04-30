@@ -273,3 +273,47 @@ nav ul li a {
     line-height: 1.1em;
     background-color: rgba(255, 255, 255, 0.7);
 }
+
+@media (max-width: 768px) {
+    #thread_list {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .thread {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .thread_owner {
+        font-size: 1em;
+    }
+
+    .thread_title {
+        font-size: 1em;
+    }
+
+    .response_sequence {
+        font-size: 0.8em;
+    }
+
+    .response_owner {
+        font-size: 0.8em;
+    }
+
+    .content {
+        font-size: 0.8em;
+    }
+
+    .mona {
+        font-size: 0.7em;
+    }
+
+    .post_form_thread {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .post_form_content {
+        font-size: 0.8em;
+    }
+}
