@@ -60,7 +60,7 @@ try {
 
     if ($uriParser->isTraceRecent()) {
         $responseStart = max(0, $thread->getSize() - $board['maxResponseView']);
-        $responseEnd = $board['maxResponseView'];
+        $responseEnd = $thread->getSize() + 1;
     } else {
         try {
             $responseStart = $uriParser->getResponseStart();
