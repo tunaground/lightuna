@@ -1,6 +1,6 @@
 <?php
 // Version
-$version = '0.1.4';
+$version = '0.1.5';
 
 // Check Front Page
 if (FRONT_PAGE !== true) {
