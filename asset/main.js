@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.prototype.forEach.call(content, function (el) {
         const parentElement = el.parentElement;
         el.innerHTML = el.innerHTML.replace(
-            /([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/,
+            /([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/gm,
             function (match, boardUid, threadUid, responseStart, responseEnd) {
                 boardUid = (boardUid === '') ? parentElement.dataset.boardUid : boardUid;
                 threadUid = (threadUid === '') ? parentElement.dataset.threadUid : threadUid;
