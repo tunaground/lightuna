@@ -32,46 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const serverInfo = document.getElementById('server_info');
     const baseUrl = serverInfo.dataset.baseUrl;
 
-    const contentForms = document.getElementsByClassName('post_form_content');
-    Array.prototype.forEach.call(contentForms, function (el) {
-        const defaultHeight = el.offsetHeight;
-        el.addEventListener('input', function () {
-            el.style.height = (el.scrollHeight < defaultHeight) ? defaultHeight + 'px' : el.scrollHeight + 'px';
-        })
-    });
-
-    const nameForms = document.getElementsByClassName('post_form_name');
-    Array.prototype.forEach.call(nameForms, function (el) {
-        const threadUid = el.dataset.threadUid;
-        el.value = sessionStorage.getItem(threadUid + '-name');
-        el.addEventListener('input', function () {
-            sessionStorage.setItem(threadUid + '-name', this.value);
+    function ncrToChar(text) {
+        return text.replace(/&#(\d+);/gm, function (matches, match) {
+            return String.fromCharCode(match);
         });
-    });
-
-    const consoleForm = document.getElementsByClassName('post_form_console');
-    Array.prototype.forEach.call(consoleForm, function (el) {
-        const threadUid = el.dataset.threadUid;
-        el.value = sessionStorage.getItem(threadUid + '-console');
-        el.addEventListener('input', function () {
-            sessionStorage.setItem(threadUid + '-console', this.value);
-        });
-
-        if (el.value.includes('aa')) {
-            el.nextElementSibling.classList.add('mona')
-        }
-
-        el.addEventListener('input', function () {
-            if (this.value.includes('aa')) {
-                this.nextElementSibling.classList.add('mona')
-            } else {
-                this.nextElementSibling.classList.remove('mona')
-            }
-        })
-    });
-
-
-    const content = document.getElementsByClassName('content');
+    }
 
     function applyAnchor(el) {
         const parentElement = el.parentElement;
@@ -103,7 +68,63 @@ document.addEventListener('DOMContentLoaded', function () {
         )
     }
 
-    Array.prototype.forEach.call(content, applyAnchor);
+    const contentForms = document.getElementsByClassName('post_form_content');
+    Array.prototype.forEach.call(contentForms, function (el) {
+        const defaultHeight = el.offsetHeight;
+        el.addEventListener('input', function () {
+            el.style.height = (el.scrollHeight < defaultHeight) ? defaultHeight + 'px' : el.scrollHeight + 'px';
+        })
+    });
+
+    const nameForms = document.getElementsByClassName('post_form_name');
+    Array.prototype.forEach.call(nameForms, function (el) {
+        const threadUid = el.dataset.threadUid;
+        el.value = sessionStorage.getItem(threadUid + '-name');
+        el.addEventListener('input', function () {
+            sessionStorage.setItem(threadUid + '-name', this.value);
+        });
+    });
+
+    const consoleForm = document.getElementsByClassName('post_form_console');
+
+
+    Array.prototype.forEach.call(consoleForm, function (el) {
+        const threadUid = el.dataset.threadUid;
+        el.value = sessionStorage.getItem(threadUid + '-console');
+
+        el.addEventListener('input', function () {
+            sessionStorage.setItem(threadUid + '-console', this.value);
+        });
+
+        el.addEventListener('input', function () {
+            if (this.value.split('.').includes('aa')) {
+                this.nextElementSibling.classList.add('mona');
+            } else {
+                this.nextElementSibling.classList.remove('mona');
+            }
+        });
+
+        el.addEventListener('input', function () {
+            if (el.value.split('.').includes('ncr')) {
+                el.nextElementSibling.value = ncrToChar(el.nextElementSibling.value);
+
+                function elementNcrToChar(evt) {
+                    evt.target.value = ncrToChar(evt.target.value)
+                }
+
+                el.nextElementSibling.addEventListener('input', elementNcrToChar)
+            } else {
+                el.nextElementSibling.removeEventListener('input', elementNcrToChar)
+            }
+        });
+
+        const evt = new Event('input');
+        el.dispatchEvent(evt);
+    });
+
+
+    const contents = document.getElementsByClassName('content');
+    Array.prototype.forEach.call(contents, applyAnchor);
 
     const testButton = document.getElementsByClassName('post_form_test');
     Array.prototype.forEach.call(testButton, function (el) {
