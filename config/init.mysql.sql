@@ -1,10 +1,8 @@
-create table seq_thread_uid (sequence bigint(0) auto_increment primary key);
+create table seq_thread_uid (sequence bigint(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
-create table seq_response_uid (sequence bigint(0) auto_increment primary key);
+create table seq_response_uid (sequence bigint(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
-create table seq_arc_thread_uid (sequence bigint(0) auto_increment primary key);
---
-create table seq_arc_response_uid (sequence bigint(0) auto_increment primary key);
+create table seq_arc_response_uid (sequence bigint(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table thread
 (
@@ -18,7 +16,7 @@ create table thread
     primary key (thread_uid),
     index idx_thread_board (board_uid),
     index idx_thread_title (title)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table response
 (
@@ -41,7 +39,7 @@ create table response
     index idx_user_name (user_id),
     index idx_ip (ip),
     index idx_create_date (create_date)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table arc_response
 (
@@ -64,4 +62,4 @@ create table arc_response
     index idx_ip (ip),
     index idx_create_date (create_date),
     index idx_archive_date (archive_date)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
