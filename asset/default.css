@@ -39,6 +39,8 @@ nav {
     height: 3em;
     position: fixed;
     top: 0;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 nav ul {
