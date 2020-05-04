@@ -16,6 +16,7 @@ define('FRONT_PAGE', true);
 
 require('./require.php');
 
+$returnUrl = $_SERVER['REQUEST_URI'];
 $contextParser = new ContextParser();
 $logger = new Logger($config['site']['logFilePath'], $contextParser);
 $exceptionHandler = new ExceptionHandler($config, $logger);
@@ -99,28 +100,31 @@ try {
 <div id="server_info"
      data-base-url="<?= $config['site']['baseUrl'] ?>">
 </div>
-<div id="thread_list">
-    <?php
-    if (sizeof($threads) > 0) {
-        for ($i = 0; $i < sizeof($threads); $i++) {
-            $thread = $threads[$i];
-            if ($thread->getSequence() < $board['maxThreadView']) {
-                $titleLink = "#thread_{$thread->getSequence()}";
-                $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
-                $sequenceLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
-            } else {
-                $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
-                $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
-                $sequenceLink = '#';
+<div id="thread_list_container">
+    <div id="thread_list">
+        <?php
+        if (sizeof($threads) > 0) {
+            for ($i = 0; $i < sizeof($threads); $i++) {
+                $thread = $threads[$i];
+                if ($thread->getSequence() < $board['maxThreadView']) {
+                    $titleLink = "#thread_{$thread->getSequence()}";
+                    $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+                    $sequenceLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+                } else {
+                    $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+                    $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+                    $sequenceLink = '#';
+                }
+                require(__DIR__ . '/template/thread_list_item.php');
             }
-            require(__DIR__ . '/template/thread_list_item.php');
         }
-    }
-    ?>
-    <div class="thread_list_item center">
-        <a href="<?= $config['site']['baseUrl'] ?>/list.php/<?= $board['uid'] ?>">
-            <p>더 보기<p>
-        </a>
+        ?>
+        <div class="thread_list_item center">
+            <a href="<?= $config['site']['baseUrl'] ?>/list.php/<?= $board['uid'] ?>">
+                <p>더 보기
+                <p>
+            </a>
+        </div>
     </div>
 </div>
 <div id="thread_section">
@@ -136,9 +140,11 @@ try {
     }
     ?>
 </div>
-<?php
-require(__DIR__ . '/template/create_thread.php');
-?>
+<div id="create_thread_container">
+    <?php
+    require(__DIR__ . '/template/create_thread.php');
+    ?>
+</div>
 <?php
 require(__DIR__ . '/template/version.php');
 ?>

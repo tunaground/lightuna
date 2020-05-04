@@ -17,6 +17,7 @@ define('FRONT_PAGE', true);
 
 require('./require.php');
 
+$returnUrl = $_SERVER['REQUEST_URI'];
 $contextParser = new ContextParser();
 $logger = new Logger($config['site']['logFilePath'], $contextParser);
 $exceptionHandler = new ExceptionHandler($config, $logger);
@@ -104,7 +105,12 @@ try {
 <body>
 <?php require(__DIR__ . '/template/menu.php'); ?>
 <div id="top"></div>
-<?php require(__DIR__ . '/template/thread.php'); ?>
+<div id="server_info"
+     data-base-url="<?= $config['site']['baseUrl'] ?>">
+</div>
+<div id="thread_section">
+    <?php require(__DIR__ . '/template/thread.php'); ?>
+</div>
 <?php require(__DIR__ . '/template/version.php'); ?>
 <div id="relay"></div>
 <div id="bottom"></div>
