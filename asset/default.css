@@ -337,6 +337,10 @@ span.spoiler {
         display: block;
     }
 
+    .post_form_button_group {
+        display: block;
+    }
+
     #thread_list {
         width: auto;
     }
@@ -375,5 +379,16 @@ span.spoiler {
 
     .post_form_content {
         font-size: 0.8em;
+    }
+
+    .post_form_submit {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .post_form_test {
+        width: 100%;
+        min-width: 0;
+        margin: 0.5em 0 0 0;
     }
 }
