@@ -12,11 +12,12 @@ use Lightuna\Service\PostService;
 use Lightuna\Util\ContextParser;
 use Lightuna\Log\Logger;
 use Lightuna\Object\Board;
-use DateTime;
 
 define('FRONT_PAGE', true);
 
 require('./require.php');
+
+ini_set('display_errors', false);
 
 header('Content-Type: application/json');
 
