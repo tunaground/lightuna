@@ -58,7 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (el.value.includes('aa')) {
+          const tempValue = el.nextElementSibling.innerHTML + '\n';
             el.nextElementSibling.classList.add('mona')
+          el.nextElementSibling.innerHTML = tempValue;
         }
 
         el.addEventListener('input', function () {
@@ -72,10 +74,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     const content = document.getElementsByClassName('content');
-    Array.prototype.forEach.call(content, function (el) {
+    function applyAnchor(el) {
         const parentElement = el.parentElement;
         el.innerHTML = el.innerHTML.replace(
-            /([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/,
+            /([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/gm,
             function (match, boardUid, threadUid, responseStart, responseEnd) {
                 boardUid = (boardUid === '') ? parentElement.dataset.boardUid : boardUid;
                 threadUid = (threadUid === '') ? parentElement.dataset.threadUid : threadUid;
@@ -100,5 +102,68 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         )
-    })
+    }
+    Array.prototype.forEach.call(content, applyAnchor);
+
+  const testButton = document.getElementsByClassName('post_form_test');
+  Array.prototype.forEach.call(testButton, function (el) {
+    const parentElement = el.parentElement.parentElement;
+    const boardUid = parentElement.getElementsByClassName('post_form_board_uid')[0].value;
+    const threadUid = parentElement.getElementsByClassName('post_form_thread_uid')[0].value;
+    const thread = document.getElementById('thread_' + threadUid);
+    const threadBody = thread.getElementsByClassName('thread_body')[0];
+    el.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      const testIndicator = document.createElement('SPAN');
+      testIndicator.classList.add('response_test_indicator');
+      testIndicator.innerHTML = '테스트 중...';
+      const userName = parentElement.getElementsByClassName('post_form_name')[0].value;
+      const consoleText = parentElement.getElementsByClassName('post_form_console')[0].value;
+      const content = parentElement.getElementsByClassName('post_form_content')[0].value;
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', baseUrl + '/console.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/json"');
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            console.log(xhr.responseText);
+            const response = JSON.parse(xhr.responseText);
+            if (response.result === true) {
+              Array.prototype.forEach.call(threadBody.getElementsByClassName('test_response'), el => el.remove());
+              const res = threadBody.lastElementChild;
+              const cloneRes = res.cloneNode(true);
+              threadBody.append(cloneRes);
+              cloneRes.getElementsByClassName('response_info')[0].append(testIndicator)
+              cloneRes.getElementsByClassName('response_hide')[0].remove();
+              cloneRes.getElementsByClassName('response_sequence')[0].innerHTML =
+                Number(cloneRes.getElementsByClassName('response_sequence')[0].innerHTML)
+                + 1;
+              cloneRes.getElementsByClassName('response_owner')[0].innerHTML = response.payload.userName;
+              cloneRes.getElementsByClassName('response_owner_id')[0].innerHTML = '(' + response.payload.userId + ')';
+              cloneRes.getElementsByClassName('response_create_date')[0].innerHTML = response.payload.createDate;
+              cloneRes.getElementsByClassName('content')[0].innerHTML = response.payload.content;
+              cloneRes.classList.add('test_response');
+              applyAnchor(cloneRes);
+            } else {
+              alert('Failed: ' + response.message);
+            }
+          } else {
+            alert('Failed...');
+          }
+        }
+      };
+      xhr.send(JSON.stringify({
+        'action': 'testResponse',
+        'payload': {
+          'boardUid': boardUid,
+          'userName': userName,
+          'console': consoleText,
+          'content': content
+        }
+      }));
+    });
+  })
+
+  
 });

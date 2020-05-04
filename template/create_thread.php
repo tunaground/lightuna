@@ -6,7 +6,7 @@
             <input type="hidden" name="return_url" value="<?= $_SERVER['REQUEST_URI'] ?>">
             <input type="text" name="title" placeholder="타이틀" value="" class="post_form_default">
             <input type="password" name="password" placeholder="암호" value="" class="post_form_default">
-            <input type="text" name="name" placeholder="나메(60자까지)" value="" class="post_form_default">
+            <input type="text" name="name" placeholder="나메(<?= $board['maxNameLength'] ?>자까지)" value="" class="post_form_default">
             <input type="text" name="console" placeholder="콘솔" value="" class="post_form_default">
             <textarea name="content"
                       placeholder="본문(<?= $board['maxContentLength'] ?>자까지)"

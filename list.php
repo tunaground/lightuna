@@ -92,20 +92,22 @@ HTML;
 <body>
 <?php require(__DIR__ . '/template/menu.php'); ?>
 <div id="top"></div>
-<div id="thread_list">
-    <?php
-    if (sizeof($threads) > 0) {
-        for ($i = 0; $i < sizeof($threads); $i++) {
-            $thread = $threads[$i];
-            $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
-            $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
-            $sequenceLink = '#';
-            require(__DIR__ . '/template/thread_list_item.php');
+<div id="thread_list_container">
+    <div id="thread_list">
+        <?php
+        if (sizeof($threads) > 0) {
+            for ($i = 0; $i < sizeof($threads); $i++) {
+                $thread = $threads[$i];
+                $titleLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}/recent";
+                $sizeLink = "{$config['site']['baseUrl']}/trace.php/{$board['uid']}/{$thread->getThreadUid()}";
+                $sequenceLink = '#';
+                require(__DIR__ . '/template/thread_list_item.php');
+            }
         }
-    }
-    ?>
-    <?= $previousPageHtml ?>
-    <?= $nextPageHtml ?>
+        ?>
+        <?= $previousPageHtml ?>
+        <?= $nextPageHtml ?>
+    </div>
 </div>
 <?php
 require(__DIR__ . '/template/version.php');

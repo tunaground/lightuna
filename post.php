@@ -53,7 +53,7 @@ if ($userName === '') {
     $userName = $board['userName'];
 }
 $console = explode('.', $_POST['console']);
-$content = str_replace(PHP_EOL, '<br/>', htmlspecialchars($_POST['content']));
+$content = str_replace(array("\r\n", "\r", "\n"), '<br/>', htmlspecialchars($_POST['content']));
 $returnUrl = $_POST['return_url'];
 $ip = $netUtil->getIP();
 $currentDateTime = new DateTime();
@@ -101,7 +101,26 @@ try {
     $logger->error('post.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
     $exceptionHandler->handle('/data-access', $e);
 } catch (InvalidUserInputException $e) {
-    // TODO: 재입력 요청 구현
     $logger->notice('post.php: Invalid user input exception: {msg}', ['msg' => $e->getMessage()]);
     echo $e->getMessage();
+    $thread = $threadDao->getThreadbyThreadUid($threadUid);
+    $content = $_POST['content'];
 }
+?>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>인덱스 :: <?= $board['name'] ?></title>
+    <link rel="stylesheet" type="text/css" href="<?= $config['site']['baseUrl'] ?>/asset/<?= $board['style'] ?>"/>
+    <script type="text/javascript" src="<?= $config['site']['baseUrl'] ?>/asset/main.js"></script>
+</head>
+<body>
+<?php require(__DIR__ . '/template/menu.php'); ?>
+<div id="top"></div>
+<div id="server_info"
+     data-base-url="<?= $config['site']['baseUrl'] ?>">
+</div>
+<?php require(__DIR__ . '/template/create_response.php'); ?>
+</body>
+</html>

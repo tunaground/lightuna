@@ -8,12 +8,16 @@ use Lightuna\Database\MysqlThreadDao;
 use Lightuna\Database\MysqlResponseDao;
 use Lightuna\Database\MysqlArcResponseDao;
 use Lightuna\Service\ResponseService;
+use Lightuna\Service\PostService;
 use Lightuna\Util\ContextParser;
 use Lightuna\Log\Logger;
+use Lightuna\Object\Board;
 
 define('FRONT_PAGE', true);
 
 require('./require.php');
+
+ini_set('display_errors', false);
 
 header('Content-Type: application/json');
 
@@ -59,6 +63,33 @@ if ($data->action === 'hideResponse') {
     } catch (Exception $e) {
         $result['result'] = false;
         $result['message'] = $e->getMessage();
+    } finally {
+        echo json_encode($result, JSON_FORCE_OBJECT);
     }
-    echo json_encode($result, JSON_FORCE_OBJECT);
+}
+
+if ($data->action === 'testResponse') {
+    $result = [
+        'result' => false,
+        'message' => '',
+        'payload' => [],
+    ];
+    
+    try {
+        $board = new Board($config, $data->payload->boardUid);
+        $postService = new PostService($dataSource, $threadDao, $responseDao, $board);
+        $result['payload'] = $postService->testResponse(
+            htmlspecialchars($data->payload->userName),
+            explode('.', $data->payload->console),
+            str_replace(array("\r\n", "\r", "\n"), '<br/>', htmlspecialchars($data->payload->content)),
+            $_SERVER['REMOTE_ADDR'],
+            new DateTime()
+        );
+        $result['result'] = true;
+    } catch (Exception $e) {
+        $result['result'] = false;
+        $result['messsage'] = $e->getMessage();
+    } finally {
+        echo json_encode($result, JSON_FORCE_OBJECT);
+    }
 }

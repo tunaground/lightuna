@@ -131,35 +131,13 @@ class PostService
         string $ip,
         DateTime $currentDateTime
     ) {
-        if (array_key_exists('lastResponseDateTime', $_SESSION) !== false) {
-            $lastResponseDateTime = DateTime::createFromFormat(
-                PostService::DATETIME_FORMAT,
-                $_SESSION['lastResponseDateTime']
-            );
-            $responseInterval = $currentDateTime->getTimestamp() - $lastResponseDateTime->getTimestamp();
-            if ($responseInterval < $this->board['maxResponseInterval']) {
-                throw new InvalidUserInputException('Too many response.');
-            }
-            if ($responseInterval > $this->board['maxDuplicateResponseInterval']) {
-                unset($_SESSION['lastContentHash']);
-            }
-        }
-        $_SESSION['lastResponseDateTime'] = $currentDateTime->format(PostService::DATETIME_FORMAT);
-
-        $currentResponseContentHash = hash(self::HASH_SHA256, $content);
-        if (
-            array_key_exists('lastContentHash', $_SESSION)
-            && $_SESSION['lastContentHash'] === $currentResponseContentHash
-        ) {
-            throw new InvalidUserInputException('Too many duplicated response content.');
-        } else {
-            $_SESSION['lastContentHash'] = $currentResponseContentHash;
-        }
-        $userName = preg_replace_callback("/([^\#]*)\#(.+)/", function ($matches) {
-            return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2]), -10) . '</b>';
-        }, $userName);
-        if (mb_strlen($userName) > $this->board['maxNameLength']) {
-            throw new InvalidUserInputException('User name too long.');
+        try {
+            $userName = $this->makeUserName($userName);
+            $userId = $this->makeUserId($ip, $currentDateTime);
+            $responseContent = $this->makeResponseContent($content, $console);
+            $this->checkAbuse($currentDateTime, $content);
+        } catch (InvalidUserInputException $e) {
+            throw $e;
         }
 
         $isResponseTransaction = false;
@@ -171,20 +149,6 @@ class PostService
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $responseSequence = $this->threadDao->getLastResponseSequence($threadUid) + 1;
             $responseId = $this->responseDao->getNextResponseUid();
-            $userId = mb_substr(crypt($ip, $currentDateTime->format('Ymd')), -10);
-            $responseContent = new ResponseContent($content);
-            $responseContent->newLineToBreak();
-            if (in_array('off', $console, true) !== true) {
-                $responseContent->applyAsciiArtTag();
-                $responseContent->applyHorizonTag();
-                $responseContent->applySpoilerTag();
-                $responseContent->applyColorTag();
-                $responseContent->applyRubyTag();
-                $responseContent->applyDiceTag();
-            }
-            if (in_array('aa', $console, true) === true) {
-                $responseContent->applyAsciiArtTagAll();
-            }
             $response = new Response(
                 $thread->getThreadUid(),
                 $responseId,
@@ -214,5 +178,108 @@ class PostService
             }
             throw $e;
         }
+    }
+
+    public function testResponse(
+        string $userName,
+        array $console,
+        string $content,
+        string $ip,
+        DateTime $currentDateTime
+    ) {
+        try {
+            return [
+                'userName' => $this->makeUserName($userName),
+                'userId' => $this->makeUserId($ip, $currentDateTime),
+                'content' => $this->makeResponseContent($content, $console)->__toString(),
+                'createDate' => $currentDateTime->format('Y-m-d H:i:s')
+            ];
+        } catch (InvalidUserInputException $e) {
+            throw $e;
+        }
+
+    }
+
+    /**
+     * @param DateTime $currentDateTime
+     * @param string $content
+     * @throws InvalidUserInputException
+     */
+    private function checkAbuse(DateTime $currentDateTime, string $content)
+    {
+        if (array_key_exists('lastResponseDateTime', $_SESSION) !== false) {
+            $lastResponseDateTime = DateTime::createFromFormat(
+                PostService::DATETIME_FORMAT,
+                $_SESSION['lastResponseDateTime']
+            );
+            $responseInterval = $currentDateTime->getTimestamp() - $lastResponseDateTime->getTimestamp();
+            if ($responseInterval < $this->board['maxResponseInterval']) {
+                throw new InvalidUserInputException('Too many response.');
+            }
+            if ($responseInterval > $this->board['maxDuplicateResponseInterval']) {
+                unset($_SESSION['lastContentHash']);
+            }
+        }
+        $_SESSION['lastResponseDateTime'] = $currentDateTime->format(PostService::DATETIME_FORMAT);
+
+        $currentResponseContentHash = hash(self::HASH_SHA256, $content);
+        if (
+            array_key_exists('lastContentHash', $_SESSION)
+            && $_SESSION['lastContentHash'] === $currentResponseContentHash
+        ) {
+            throw new InvalidUserInputException('Too many duplicated response content.');
+        } else {
+            $_SESSION['lastContentHash'] = $currentResponseContentHash;
+        }
+    }
+
+    /**
+     * @param string $userName
+     * @throws InvalidUserInputException
+     */
+    private function makeUserName(string $userName)
+    {
+        $userName = preg_replace_callback("/([^\#]*)\#(.+)/", function ($matches) {
+            return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2]), -10) . '</b>';
+        }, $userName);
+        if (mb_strlen($userName) > $this->board['maxNameLength']) {
+            throw new InvalidUserInputException('User name too long.');
+        }
+        return $userName;
+    }
+
+    /**
+     * @param string $ip
+     * @param DateTime $currentDateTime
+     */
+    private function makeUserId(string $ip, Datetime $currentDateTime)
+    {
+        return mb_substr(crypt($ip, $currentDateTime->format('Ymd')), -10);
+    }
+
+    /**
+     * @param string $content
+     * @param array $console
+     * @throws InvalidUserInputException
+     */
+    private function makeResponseContent(string $content, array $console)
+    {
+        $responseContent = new ResponseContent($content);
+        $responseContent->newLineToBreak();
+        if (in_array('off', $console, true) !== true) {
+            $responseContent->applyAsciiArtTag();
+            $responseContent->applyHorizonTag();
+            $responseContent->applySpoilerTag();
+            $responseContent->applyColorTag();
+            $responseContent->applyRubyTag();
+            $responseContent->applyDiceTag();
+        }
+        if (in_array('aa', $console, true) === true) {
+            $responseContent->applyAsciiArtTagAll();
+        }
+        if (mb_strlen($responseContent) > $this->board['maxContentLength']) {
+            throw new InvalidUserInputException("Content length too long.");
+        }
+        return $responseContent;
     }
 }
