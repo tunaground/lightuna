@@ -279,7 +279,7 @@ nav ul li a {
 
 .post_form_submit {
     min-width: 40em;
-    max-width: 45em;
+    max-width: 60em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -293,14 +293,12 @@ nav ul li a {
 
 .post_form_test {
     min-width: 10em;
-    max-width: 15em;
     font-size: 1em;
     padding: 0.4em;
     border: none 0 black;
     color: rgb(120, 120, 120);
     background-color: rgb(180, 180, 180);
-    margin: 0em;
-    margin-left: 0.5em;
+    margin: 0 0 0 0.5em;
 }
 
 .version {
@@ -323,7 +321,7 @@ textarea.mona {
 }
 
 span.spoiler {
-    color: rgba(0,0,0,0);
+    color: rgba(0, 0, 0, 0);
 }
 
 @media (max-width: 60em) {
