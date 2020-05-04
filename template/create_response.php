@@ -1,3 +1,8 @@
+<?php
+if (!isset($content)) {
+    $content = '';
+}
+?>
 <fieldset class="post_form">
     <form action="<?= $config['site']['baseUrl'] ?>/post.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="type" value="response">
@@ -20,7 +25,7 @@
                   placeholder="본문(<?= $board['maxContentLength'] ?>자까지)"
                   spellcheck="false"
                   required=""
-                  class="post_form_content"><?php if (isset($content)) echo $content ?></textarea>
+                  class="post_form_content"><?= $content ?></textarea>
         <input type="file" name="attachment" class="post_form_attachment">
         <div class="post_form_button_group">
             <input type="submit" value="작성" class="post_form_submit">
