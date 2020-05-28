@@ -149,6 +149,13 @@ nav ul li a {
     background-color: rgb(50, 50, 50);
 }
 
+.dead_sign {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 0.3em;
+    background-color: rgb(50, 50, 50);
+}
+
 .thread_order {
     font-size: 8em;
     line-height: 0.01em;
