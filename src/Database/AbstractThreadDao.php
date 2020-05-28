@@ -131,9 +131,14 @@ SQL;
     public function getLastResponseSequence(int $threadUid): int
     {
         $sql = <<<SQL
-select  max(sequence)
-from    response
-where   thread_uid = :thread_uid
+select  max(r.ms)
+from   (select  max(sequence) as ms
+        from    response
+        where   thread_uid = :thread_uid
+        union
+        select  max(sequence) as ms
+        from    arc_response
+        where   thread_uid = :thread_uid) r
 SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
