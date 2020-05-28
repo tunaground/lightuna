@@ -29,6 +29,8 @@ class Thread
     private $responses;
     /** @var int */
     private $sequence;
+    /** @var bool */
+    private $dead;
 
     /**
      * Thread constructor.
@@ -131,6 +133,14 @@ class Thread
     }
 
     /**
+     * @return bool
+     */
+    public function getDead(): bool
+    {
+        return $this->dead;
+    }
+
+    /**
      * @return int
      */
     public function getSequence(): int
@@ -160,5 +170,13 @@ class Thread
     public function setSequence(int $sequence)
     {
         $this->sequence = $sequence;
+    }
+
+    /**
+     * @param bool $dead
+     */
+    public function setDead(bool $dead)
+    {
+        $this->dead = $dead;
     }
 }
