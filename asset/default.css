@@ -287,6 +287,10 @@ nav ul li a {
     color: rgb(80, 80, 80);
 }
 
+.response_owner_id a {
+    color: inherit;
+}
+
 #create_thread_container {
     display: flex;
     justify-content: center;
