@@ -8,13 +8,13 @@ create table seq_ban_uid (sequence int(0) auto_increment primary key) ENGINE=Inn
 --
 create table thread
 (
-    thread_uid int(0) unsigned not null,
-    board_uid    varchar(10)        not null,
-    title    varchar(50)        not null,
-    password varchar(256)       not null,
-    user_name varchar(60)       not null,
-    create_date datetime           not null,
-    update_date datetime           not null,
+    thread_uid  int(0) unsigned not null,
+    board_uid   varchar(10)     not null,
+    title       varchar(50)     not null,
+    password    varchar(256)    not null,
+    user_name   varchar(60)     not null,
+    create_date datetime        not null,
+    update_date datetime        not null,
     primary key (thread_uid),
     index idx_thread_board (board_uid),
     index idx_thread_title (title)
@@ -23,14 +23,14 @@ create table thread
 create table response
 (
     response_uid    int(0) unsigned not null,
-    thread_uid    int(0) unsigned not null,
-    sequence      int(0) unsigned    not null,
-    user_name   varchar(60)        not null,
-    user_id     varchar(10)        not null,
-    ip          varchar(15)        not null,
-    create_date datetime           not null,
-    content     TEXT(20000)     not null,
-    attachment  varchar(100)       not null,
+    thread_uid      int(0) unsigned not null,
+    sequence        int(0) unsigned not null,
+    user_name       varchar(60)     not null,
+    user_id         varchar(10)     not null,
+    ip              varchar(15)     not null,
+    create_date     datetime        not null,
+    content         TEXT(20000)     not null,
+    attachment      varchar(100)    not null,
     primary key (response_uid),
     constraint fk_thread_uid
         foreign key (thread_uid) references thread (thread_uid)
@@ -45,17 +45,17 @@ create table response
 --
 create table arc_response
 (
-    arc_response_uid int(0) unsigned not null,
-    response_uid    int(0) unsigned not null,
-    thread_uid    int(0) unsigned not null,
-    sequence      int(0) unsigned    not null,
-    user_name   varchar(60)        not null,
-    user_id     varchar(10)        not null,
-    ip          varchar(15)        not null,
-    create_date datetime           not null,
-    content     TEXT(20000)     not null,
-    attachment  varchar(100)       not null,
-    archive_date datetime          not null,
+    arc_response_uid    int(0) unsigned not null,
+    response_uid        int(0) unsigned not null,
+    thread_uid          int(0) unsigned not null,
+    sequence            int(0) unsigned not null,
+    user_name           varchar(60)     not null,
+    user_id             varchar(10)     not null,
+    ip                  varchar(15)     not null,
+    create_date         datetime        not null,
+    content             TEXT(20000)     not null,
+    attachment          varchar(100)    not null,
+    archive_date        datetime        not null,
     primary key (arc_response_uid),
     index idx_response_uid (response_uid),
     index idx_thread_uid (thread_uid),
