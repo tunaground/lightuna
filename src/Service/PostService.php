@@ -148,6 +148,9 @@ class PostService
             }
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $responseSequence = $this->threadDao->getLastResponseSequence($threadUid) + 1;
+            if ($responseSequence > $this->board['maxResponseSize']) {
+                throw new InvalidUserInputException('Dead thread.');
+            }
             $responseId = $this->responseDao->getNextResponseUid();
             $response = new Response(
                 $thread->getThreadUid(),

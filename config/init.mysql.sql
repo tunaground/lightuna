@@ -1,14 +1,12 @@
-create table seq_thread_uid (sequence bigint(0) auto_increment primary key);
+create table seq_thread_uid (sequence int(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
-create table seq_response_uid (sequence bigint(0) auto_increment primary key);
+create table seq_response_uid (sequence int(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
-create table seq_arc_thread_uid (sequence bigint(0) auto_increment primary key);
---
-create table seq_arc_response_uid (sequence bigint(0) auto_increment primary key);
+create table seq_arc_response_uid (sequence int(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table thread
 (
-    thread_uid bigint(0) unsigned not null,
+    thread_uid int(0) unsigned not null,
     board_uid    varchar(10)        not null,
     title    varchar(50)        not null,
     password varchar(256)       not null,
@@ -18,12 +16,12 @@ create table thread
     primary key (thread_uid),
     index idx_thread_board (board_uid),
     index idx_thread_title (title)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table response
 (
-    response_uid    bigint(0) unsigned not null,
-    thread_uid    bigint(0) unsigned not null,
+    response_uid    int(0) unsigned not null,
+    thread_uid    int(0) unsigned not null,
     sequence      int(0) unsigned    not null,
     user_name   varchar(60)        not null,
     user_id     varchar(10)        not null,
@@ -41,13 +39,13 @@ create table response
     index idx_user_name (user_id),
     index idx_ip (ip),
     index idx_create_date (create_date)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table arc_response
 (
-    arc_response_uid bigint(0) unsigned not null,
-    response_uid    bigint(0) unsigned not null,
-    thread_uid    bigint(0) unsigned not null,
+    arc_response_uid int(0) unsigned not null,
+    response_uid    int(0) unsigned not null,
+    thread_uid    int(0) unsigned not null,
     sequence      int(0) unsigned    not null,
     user_name   varchar(60)        not null,
     user_id     varchar(10)        not null,
@@ -64,4 +62,4 @@ create table arc_response
     index idx_ip (ip),
     index idx_create_date (create_date),
     index idx_archive_date (archive_date)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;

@@ -160,4 +160,6 @@ fabric.properties
 
 .idea
 
-logs/info.log
+logs/*
+upload/*
+profile.php

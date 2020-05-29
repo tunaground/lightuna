@@ -10,5 +10,9 @@
         }
         ?>
     </div>
-    <?php require(__DIR__ . '/create_response.php'); ?>
+    <?php if (!$thread->getDead()) { ?>
+    <?php     require(__DIR__ . '/create_response.php'); ?>
+    <?php } else { ?>
+    <div class="dead_sign">끝.</div>
+    <?php } ?>
 </div>

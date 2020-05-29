@@ -78,10 +78,16 @@ if ($data->action === 'testResponse') {
     try {
         $board = new Board($config, $data->payload->boardUid);
         $postService = new PostService($dataSource, $threadDao, $responseDao, $board);
+        $userName = htmlspecialchars($data->payload->userName);
+        if ($userName === '') {
+            $userName = $board['userName'];
+        }
+        $console = explode('.', $data->payload->console);
+        $content = str_replace(array("\r\n", "\r", "\n"), '<br/>', htmlspecialchars($data->payload->content));
         $result['payload'] = $postService->testResponse(
-            htmlspecialchars($data->payload->userName),
-            explode('.', $data->payload->console),
-            str_replace(array("\r\n", "\r", "\n"), '<br/>', htmlspecialchars($data->payload->content)),
+            $userName,
+            $console,
+            $content,
             $_SERVER['REMOTE_ADDR'],
             new DateTime()
         );

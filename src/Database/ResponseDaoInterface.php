@@ -43,4 +43,22 @@ interface ResponseDaoInterface
      * @throws DataAccessException
      */
     public function getNextResponseUid(): int;
+
+    /**
+     * @param string $userName
+     * @param int $start
+     * @param int $limit
+     * @return Response[]
+     * @throws DataAccessException
+     */
+    public function findByResponseUserName(string $userName, int $start, int $limit): array;
+
+    /**
+     * @param string $userId
+     * @param int $start
+     * @param int $limit
+     * @return Response[]
+     * @throws DataAccessException
+     */
+    public function findByResponseUserId(string $userId, int $start, int $limit): array;
 }

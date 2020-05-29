@@ -48,8 +48,11 @@ if ($config['database']['type'] === 'mysql') {
 try {
     $threads = $threadDao->getThreadListByBoardUid($board['id'], $board['maxThreadListView']);
     for ($i = 0; $i < sizeof($threads); $i++) {
-        $threads[$i]->setSize($threadDao->getLastResponseSequence($threads[$i]->getThreadUid()));
+        $lastResponseSequence = $threadDao->getLastResponseSequence($threads[$i]->getThreadUid());
+        $dead = ($lastResponseSequence >= $board['maxResponseSize']);
+        $threads[$i]->setSize($lastResponseSequence);
         $threads[$i]->setSequence($i + 1);
+        $threads[$i]->setDead($dead);
     }
 
     $threadViewCount = (count($threads) < $board['maxThreadView']) ? count($threads) : $board['maxThreadView'];

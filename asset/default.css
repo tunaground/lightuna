@@ -39,6 +39,8 @@ nav {
     height: 3em;
     position: fixed;
     top: 0;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 nav ul {
@@ -55,6 +57,56 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: rgb(230, 230, 230);
+}
+
+.search_form_container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 3em;
+}
+
+.search_form {
+    width: 60em;
+    padding: 0;
+    border: none;
+    background-color: rgb(50, 50, 50);
+}
+
+.search_form form {
+    display: flex;
+    padding: 0.4em;
+    margin: 0;
+}
+
+.search_form_input {
+    font-size: 1em;
+    padding: 0.4em;
+}
+
+.search_type_input {
+    -webkit-appearance: menulist-button;
+    margin: 0;
+}
+
+.search_keyword_input {
+    flex-grow: 2;
+    width: 4em;
+    max-width: 60em;
+    margin: 0 0.4em;
+}
+
+.search_form_submit {
+    flex-grow: 1;
+    width: 2em;
+    max-width: 6em;
+    margin: 0;
+    font-size: 1em;
+    padding: 0.4em;
+    border: none 0 black;
+    color: rgb(120, 120, 120);
+    background-color: rgb(180, 180, 180);
 }
 
 #thread_list_container {
@@ -143,6 +195,13 @@ nav ul li a {
 }
 
 .thread_head {
+    padding: 0.3em;
+    background-color: rgb(50, 50, 50);
+}
+
+.dead_sign {
+    color: rgb(255, 255, 255);
+    text-align: center;
     padding: 0.3em;
     background-color: rgb(50, 50, 50);
 }
@@ -279,10 +338,7 @@ nav ul li a {
 
 .post_form_submit {
     min-width: 40em;
-    max-width: 45em;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    max-width: 60em;
     font-size: 1em;
     padding: 0.4em;
     border: none 0 black;
@@ -293,14 +349,23 @@ nav ul li a {
 
 .post_form_test {
     min-width: 10em;
-    max-width: 15em;
     font-size: 1em;
     padding: 0.4em;
     border: none 0 black;
     color: rgb(120, 120, 120);
     background-color: rgb(180, 180, 180);
-    margin: 0em;
-    margin-left: 0.5em;
+    margin: 0 0 0 0.5em;
+}
+
+.thread_form_submit {
+    width: 100%;
+    min-width: 40em;
+    font-size: 1em;
+    padding: 0.4em;
+    border: none 0 black;
+    color: rgb(120, 120, 120);
+    background-color: rgb(180, 180, 180);
+    margin: 0;
 }
 
 .version {
@@ -323,7 +388,7 @@ textarea.mona {
 }
 
 span.spoiler {
-    color: rgba(0,0,0,0);
+    color: rgba(0, 0, 0, 0);
 }
 
 @media (max-width: 60em) {
@@ -336,6 +401,10 @@ span.spoiler {
     }
 
     #create_thread_container {
+        display: block;
+    }
+
+    .post_form_button_group {
         display: block;
     }
 
@@ -377,5 +446,20 @@ span.spoiler {
 
     .post_form_content {
         font-size: 0.8em;
+    }
+
+    .post_form_submit {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .post_form_test {
+        width: 100%;
+        min-width: 0;
+        margin: 0.5em 0 0 0;
+    }
+
+    .thread_form_submit {
+        min-width: 0;
     }
 }
