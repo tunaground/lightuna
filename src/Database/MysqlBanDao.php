@@ -3,20 +3,12 @@ namespace Lightuna\Database;
 
 use Lightuna\Exception\DataAccessException;
 
-/**
- * Class MysqlArcResponseDao
- * @package Lightuna\Database
- */
-class MysqlArcResponseDao extends AbstractArcResponseDao implements ArcResponseDaoInterface
+class MysqlBanDao extends AbstractBanDao implements BanDaoInterface
 {
-    /**
-     * @return int
-     * @throws DataAccessException
-     */
-    public function getNextArcResponseUid(): int
+    public function getNextBanUid(): int
     {
         $sql = <<<SQL
-insert into seq_arc_response_uid(sequence) values (0);
+insert into seq_ban_uid(sequence) values (0);
 SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);

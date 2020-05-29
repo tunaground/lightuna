@@ -1,5 +1,4 @@
-function hideResponse(root, threadUid, responseUid) {
-    const threadPassword = prompt('Thread password?');
+function useConsole(root, threadUid) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', root + '/console.php', true);
     xhr.setRequestHeader('Content-Type', 'application/json"');
@@ -9,7 +8,7 @@ function hideResponse(root, threadUid, responseUid) {
                 console.log(xhr.responseText);
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === true) {
-                    alert('Response has been deleted.');
+                    alert('Success!');
                 } else {
                     alert('Failed: ' + response.message);
                 }
@@ -18,8 +17,25 @@ function hideResponse(root, threadUid, responseUid) {
             }
         }
     };
-    xhr.send(JSON.stringify({
+    return xhr;
+}
+
+function hideResponse(root, threadUid, responseUid) {
+    const threadPassword = prompt('Thread password?');
+    useConsole(root, threadUid).send(JSON.stringify({
         'action': 'hideResponse',
+        'payload': {
+            'threadUid': threadUid,
+            'responseUid': responseUid,
+            'threadPassword': threadPassword
+        }
+    }));
+}
+
+function banUserId(root, threadUid, responseUid) {
+    const threadPassword = prompt('Thread password?');
+    useConsole(root, threadUid).send(JSON.stringify({
+        'action': 'banUserId',
         'payload': {
             'threadUid': threadUid,
             'responseUid': responseUid,

@@ -95,10 +95,7 @@ SQL;
         $stmt->bindValue(':response_uid', $responseUid, \PDO::PARAM_INT);
         $stmt->execute();
         $error = $stmt->errorInfo();
-        if (
-            $error[0] !== '00000' ||
-            $stmt->rowCount() === 1
-        ) {
+        if ($error[0] === '00000' && $stmt->rowCount() === 1) {
             return $this->rawToObject($stmt->fetch(\PDO::FETCH_ASSOC));
         } else {
             $this->logQueryError(__METHOD__, $error[2]);

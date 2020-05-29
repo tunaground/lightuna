@@ -4,6 +4,8 @@ create table seq_response_uid (sequence int(0) auto_increment primary key) ENGIN
 --
 create table seq_arc_response_uid (sequence int(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
+create table seq_ban_uid (sequence int(0) auto_increment primary key) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+--
 create table thread
 (
     thread_uid int(0) unsigned not null,
@@ -62,4 +64,17 @@ create table arc_response
     index idx_ip (ip),
     index idx_create_date (create_date),
     index idx_archive_date (archive_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+--
+create table ban
+(
+    ban_uid     int(0) unsigned not null,
+    thread_uid  int(0) unsigned not null,
+    user_id     varchar(10)     not null,
+    ip          varchar(15)     not null,
+    issue_date  datetime        not null,
+    primary key (ban_uid),
+    index idx_ban_status (thread_uid, user_id, issue_date),
+    index idx_user_id (user_id),
+    index idx_ip (ip)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;

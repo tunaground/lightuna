@@ -2,6 +2,7 @@
 namespace Lightuna\Service;
 
 use DateTime;
+use Lightuna\Database\BanDaoInterface;
 use Lightuna\Database\DataSource;
 use Lightuna\Database\ResponseDaoInterface;
 use Lightuna\Database\ThreadDaoInterface;
@@ -28,6 +29,8 @@ class PostService
     private $threadDao;
     /** @var ResponseDaoInterface */
     private $responseDao;
+    /** @var BanDaoInterface */
+    private $banDao;
     /** @var Board */
     private $board;
 
@@ -36,17 +39,20 @@ class PostService
      * @param DataSource $dataSource
      * @param ThreadDaoInterface $threadDao
      * @param ResponseDaoInterface $responseDao
+     * @param BanDaoInterface $banDao
      * @param Board $board
      */
     public function __construct(
         DataSource $dataSource,
         ThreadDaoInterface $threadDao,
         ResponseDaoInterface $responseDao,
+        BanDaoInterface $banDao,
         Board $board
     ) {
         $this->dataSource = $dataSource;
         $this->threadDao = $threadDao;
         $this->responseDao = $responseDao;
+        $this->banDao = $banDao;
         $this->board = $board;
     }
 
@@ -138,6 +144,10 @@ class PostService
             $this->checkAbuse($currentDateTime, $content);
         } catch (InvalidUserInputException $e) {
             throw $e;
+        }
+
+        if ($this->banDao->checkBanStatus($threadUid, $userId, $currentDateTime)) {
+            throw new InvalidUserInputException('Denied for user.');
         }
 
         $isResponseTransaction = false;
