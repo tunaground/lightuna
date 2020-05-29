@@ -78,6 +78,9 @@ class PostService
         string $ip,
         DateTime $currentDateTime
     ) {
+        if ($password === '') {
+            $password = rand();
+        }
         try {
             $this->dataSource->beginTransaction();
             $threadUid = $this->threadDao->getNextThreadUid();
