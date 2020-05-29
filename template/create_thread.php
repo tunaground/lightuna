@@ -14,7 +14,7 @@
                       required=""
                       class="post_form_content"></textarea>
             <input type="file" name="attachment" class="post_form_attachment">
-            <button class="post_form_submit">작성</button>
+            <button class="thread_form_submit">작성</button>
         </form>
     </fieldset>
 </div>

@@ -57,4 +57,24 @@ interface ThreadDaoInterface
      * @throws DataAccessException
      */
     public function getNextThreadUid(): int;
+
+    /**
+     * @param string $boardUid
+     * @param string $keyword
+     * @param int $start
+     * @param int $limit
+     * @return Thread[]
+     * @throws DataAccessException
+     */
+    public function findByThreadTitle(string $boardUid, string $keyword, int $start, int $limit): array;
+
+    /**
+     * @param string $boardUid
+     * @param string $keyword
+     * @param int $start
+     * @param int $limit
+     * @return Thread[]
+     * @throws DataAccessException
+     */
+    public function findByThreadOwner(string $boardUid, string $keyword, int $start, int $limit): array;
 }

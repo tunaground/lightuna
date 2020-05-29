@@ -25,7 +25,7 @@ class UriParser
     {
         $this->config = $config;
         $this->startIndex = ($this->config['site']['baseUrl'] === '') ? 1 : 2;
-        $this->uri = explode('/', ltrim($uri, '/'));
+        $this->uri = explode('/', ltrim(strtok($uri, '?'), '/'));
     }
 
     /**

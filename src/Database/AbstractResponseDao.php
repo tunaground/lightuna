@@ -9,7 +9,7 @@ use Lightuna\Object\ResponseContent;
  * Class AbstractResponseDao
  * @package Lightuna\Database
  */
-abstract class AbstractResponseDao extends AbstractDao
+abstract class AbstractResponseDao extends AbstractDao implements ResponseDaoInterface
 {
     /**
      * @param int $threadUid
@@ -155,6 +155,78 @@ SQL;
             throw new DataAccessException('Failed to query.');
         }
     }
+
+    /**
+     * @param string $userName
+     * @param int $start
+     * @param int $limit
+     * @return Response[]
+     * @throws DataAccessException
+     */
+    public function findByResponseUserName(string $userName, int $start, int $limit): array
+    {
+        $sql = <<<SQL
+select  *
+from    response
+where   user_name = :keyword
+limit   :start, :limit
+SQL;
+        try {
+            return $this->findBy($sql, $userName, $start, $limit);
+        } catch (DataAccessException $e) {
+            throw new DataAccessException('Failed to query.');
+        }
+    }
+
+    /**
+     * @param string $userId
+     * @param int $start
+     * @param int $limit
+     * @return Response[]
+     * @throws DataAccessException
+     */
+    public function findByResponseUserId(string $userId, int $start, int $limit): array
+    {
+        $sql = <<<SQL
+select  *
+from    response
+where   user_id = :keyword
+limit   :start, :limit
+SQL;
+        try {
+            return $this->findBy($sql, $userId, $start, $limit);
+        } catch (DataAccessException $e) {
+            throw new DataAccessException('Failed to query.');
+        }
+    }
+
+    /**
+     * @param string $sql
+     * @param string $keyword
+     * @prarm int $start
+     * @param int $limit
+     * @return Response[]
+     * @throws DataAccessException
+     */
+    private function findBy(string $sql, string $keyword, $start, $limit)
+    {
+        $conn = $this->dataSource->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':keyword', $keyword, \PDO::PARAM_STR);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $this->logQueryError(__METHOD__, $error[2]);
+            throw new DataAccessException('Failed to query.');
+        }
+        $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
+        return array_map(function ($rawResponse) {
+            return $this->rawToObject($rawResponse);
+        }, $rawResponses);
+    }
+
 
     /**
      * @param array $rawResponse

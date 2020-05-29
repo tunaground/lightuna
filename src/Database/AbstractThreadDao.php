@@ -9,7 +9,7 @@ use Lightuna\Object\Thread;
  * Class AbstractThreadDao
  * @package Lightuna\Database
  */
-abstract class AbstractThreadDao extends AbstractDao
+abstract class AbstractThreadDao extends AbstractDao implements ThreadDaoInterface
 {
     /**
      * @param int $threadUid
@@ -179,6 +179,83 @@ SQL;
             $this->logQueryError(__METHOD__, $error[2]);
             throw new DataAccessException('Failed to query.');
         }
+    }
+
+    /**
+     * @param string $boardUid
+     * @param string $keyword
+     * @param int $start
+     * @param int $limit
+     * @return Thread[]
+     * @throws DataAccessException
+     */
+    public function findByThreadTitle(string $boardUid, string $keyword, int $start, int $limit): array
+    {
+        $sql = <<<SQL
+select  *
+from    thread
+where   board_uid = :board_uid
+    and title like :keyword
+limit   :start, :limit
+SQL;
+        try {
+            return $this->findBy($sql, $boardUid, $keyword, $start, $limit);
+        } catch (DataAccessException $e) {
+            throw new DataAccessException('Failed to query');
+        }
+    }
+
+    /**
+     * @param string $boardUid
+     * @param string $keyword
+     * @param int $start
+     * @param int $limit
+     * @return Thread[]
+     * @throws DataAccessException
+     */
+    public function findByThreadOwner(string $boardUid, string $keyword, int $start, int $limit): array
+    {
+        $sql = <<<SQL
+select  *
+from    thread
+where   board_uid = :board_uid
+    and user_name like :keyword
+limit   :start, :limit
+SQL;
+        try {
+            return $this->findBy($sql, $boardUid, $keyword, $start, $limit);
+        } catch (DataAccessException $e) {
+            throw new DataAccessException('Failed to query');
+        }
+    }
+
+    /**
+     * @param string $sql
+     * @param string $boardUid
+     * @param string $keyword
+     * @param int $start
+     * @param int $limit
+     * @return Thread[]
+     * @throws DataAccessException
+     */
+    private function findBy(string $sql, string $boardUid, string $keyword, int $start, int $limit): array
+    {
+        $conn = $this->dataSource->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':board_uid', $boardUid, \PDO::PARAM_STR);
+        $stmt->bindValue(':keyword', "%$keyword%", \PDO::PARAM_STR);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $this->logQueryError(__METHOD__, $error[2]);
+            throw new DataAccessException('Failed to query');
+        }
+        $rawThreads = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
+        return array_map(function ($rawThread) {
+            return $this->rawToObject($rawThread);
+        }, $rawThreads);
     }
 
     /**
