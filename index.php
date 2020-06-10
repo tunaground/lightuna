@@ -11,6 +11,7 @@ use Lightuna\Util\ContextParser;
 use Lightuna\Log\Logger;
 use Lightuna\Exception\DataAccessException;
 use Lightuna\Util\ExceptionHandler;
+use Lightuna\Common\SearchType;
 
 define('FRONT_PAGE', true);
 
@@ -87,6 +88,9 @@ try {
     $logger->error('index.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
     $exceptionHandler->handle('/data-access', $e);
 }
+
+$searchType = SearchType::NONE;
+$keyword = '';
 ?>
 
 <html>
@@ -103,6 +107,7 @@ try {
 <div id="server_info"
      data-base-url="<?= $config['site']['baseUrl'] ?>">
 </div>
+<?php require(__DIR__ . '/template/search.php'); ?>
 <div id="thread_list_container">
     <div id="thread_list">
         <?php
