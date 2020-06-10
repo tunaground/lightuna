@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             cloneRes.getElementsByClassName('response_create_date')[0].innerHTML = response.payload.createDate;
                             cloneRes.getElementsByClassName('content')[0].innerHTML = response.payload.content;
                             cloneRes.classList.add('test_response');
-                            applyAnchor(cloneRes);
+                            applyAnchor(cloneRes.getElementsByClassName('content')[0]);
                         } else {
                             alert('Failed: ' + response.message);
                         }
