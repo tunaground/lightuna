@@ -172,7 +172,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             const cloneRes = res.cloneNode(true);
                             threadBody.append(cloneRes);
                             cloneRes.getElementsByClassName('response_info')[0].append(testIndicator)
-                            cloneRes.getElementsByClassName('response_hide')[0].remove();
+                            if (cloneRes.getElementsByClassName('response_hide')[0]) {
+                                cloneRes.getElementsByClassName('response_hide')[0].remove();
+                            }
                             cloneRes.getElementsByClassName('response_sequence')[0].innerHTML =
                                 Number(cloneRes.getElementsByClassName('response_sequence')[0].innerHTML)
                                 + 1;
