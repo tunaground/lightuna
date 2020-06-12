@@ -51,6 +51,47 @@ SQL;
      * @return Response[]
      * @throws DataAccessException
      */
+    public function getAllResponseListByThreadUid(int $threadUid, int $start, int $end): array
+    {
+        $sql = <<<SQL
+select  *
+from   (select  response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, 0 as mask
+        from    response
+        where   thread_uid = :thread_uid
+            and sequence >= :start
+            and sequence <= :end
+        union
+        select  response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, 1 as mask
+        from    arc_response
+        where   thread_uid = :thread_uid
+            and sequence >= :start
+            and sequence <= :end) r
+order by sequence asc
+SQL;
+        $conn = $this->dataSource->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':thread_uid', $threadUid, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':end', $end, \PDO::PARAM_INT);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $this->logQueryError(__METHOD__, $error[2]);
+            throw new DataAccessException('Failed to query.');
+        }
+        $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
+        return array_map(function ($rawResponse) {
+            return $this->rawToObject($rawResponse);
+        }, $rawResponses);
+    }
+
+    /**
+     * @param int $threadUid
+     * @param int $start
+     * @param int $end
+     * @return Response[]
+     * @throws DataAccessException
+     */
     public function getResponseListBySequence(int $threadUid, int $start, int $end): array
     {
         $sql = <<<SQL
@@ -224,14 +265,13 @@ SQL;
         }, $rawResponses);
     }
 
-
     /**
      * @param array $rawResponse
      * @return Response
      */
     protected function rawToObject(array $rawResponse): Response
     {
-        return new Response(
+        $response = new Response(
             $rawResponse['thread_uid'],
             $rawResponse['response_uid'],
             $rawResponse['sequence'],
@@ -242,5 +282,9 @@ SQL;
             new ResponseContent($rawResponse['content']),
             $rawResponse['attachment'],
         );
+        if (isset($rawResponse['mask'])) {
+            $response->setMask(($rawResponse['mask'] === '1'));
+        };
+        return $response;
     }
 }
