@@ -272,7 +272,7 @@ nav ul li a {
     margin-bottom: 0;
 }
 
-.response_test_indicator {
+.response_test_indicator, .response_mask_mark {
     font-size: 0.8em;
     font-weight: bold;
     color: rgb(255, 80, 80);
@@ -306,6 +306,7 @@ nav ul li a {
 .post_form {
     border: none;
     background-color: rgb(50, 50, 50);
+    margin: 0;
 }
 
 .post_form form {
@@ -393,6 +394,22 @@ textarea.mona {
 
 span.spoiler {
     color: rgba(0, 0, 0, 0);
+}
+
+.manage_button_set {
+    display: flex;
+    background-color: rgb(50, 50, 50);
+    padding: 0.3em;
+}
+
+.manage_button_set button {
+    width: 100%;
+    font-size: 1em;
+    border: none 0 black;
+    color: rgb(120, 120, 120);
+    background-color: rgb(180, 180, 180);
+    padding: 0.4em;
+    margin: 0.4em;
 }
 
 @media (max-width: 60em) {

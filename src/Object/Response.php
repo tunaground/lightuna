@@ -9,26 +9,28 @@ use DateTime;
  */
 class Response
 {
-    /** @var int  */
+    /** @var int */
     private $threadUid;
-    /** @var int  */
+    /** @var int */
     private $responseUid;
-    /** @var int  */
+    /** @var int */
     private $sequence;
-    /** @var string  */
+    /** @var string */
     private $userName;
-    /** @var string  */
+    /** @var string */
     private $userId;
-    /** @var string  */
+    /** @var string */
     private $ip;
-    /** @var DateTime  */
+    /** @var DateTime */
     private $createDate;
-    /** @var ResponseContent  */
+    /** @var ResponseContent */
     private $content;
-    /** @var string  */
+    /** @var string */
     private $attachment;
     /** @var array */
     private $attachmentInfo;
+    /** @var bool */
+    private $mask;
 
     /**
      * Response constructor.
@@ -150,5 +152,15 @@ class Response
     public function setAttachmentInfo(array $attachmentInfo)
     {
         $this->attachmentInfo = $attachmentInfo;
+    }
+
+    public function getMask(): bool
+    {
+        return $this->mask;
+    }
+
+    public function setMask(bool $mask)
+    {
+        $this->mask = $mask;
     }
 }

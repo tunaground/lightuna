@@ -48,17 +48,29 @@ HTML;
      data-thread-uid="<?= $response->getThreadUid() ?>"
      data-response-sequence="<?= $response->getSequence() ?>">
     <p class="response_info">
-        :
-        <span class="response_sequence"><?= $response->getSequence() ?></span>
-        <span class="response_owner"><?= $response->getUserName() ?></span>
+        <input type="checkbox"
+               id="check_response_<?= $response->getResponseUid() ?>"
+               class="check_response"
+               name="responses"
+               value="<?= $response->getResponseUid() ?>"/>
+        <label for="check_response_<?= $response->getResponseUid() ?>">
+            :
+            <span class="response_sequence"><?= $response->getSequence() ?></span>
+            <span class="response_owner"><?= $response->getUserName() ?></span>
+        </label>
         <span class="response_owner_id">
-            <a href="#" onclick="banUserId('<?= $baseUrl ?>', <?= $response->getThreadUid() ?>, <?= $response->getResponseUid() ?>)">
+            <a href="#"
+               onclick="banUserId('<?= $baseUrl ?>', <?= $response->getThreadUid() ?>, <?= $response->getResponseUid() ?>)">
                 (<?= $response->getUserId() ?>)
             </a>
         </span>
         <span class="response_mask_button">
-        <?= $maskButtonHtml ?>
         </span>
+        <?php if ($response->getMask()) { ?>
+            <span class="response_mask_mark">Masked</span>
+        <?php } else { ?>
+            <?= $maskButtonHtml ?>
+        <?php } ?>
     </p>
     <p class="response_create_date"><?= $createDate ?></p>
     <?= $image ?>

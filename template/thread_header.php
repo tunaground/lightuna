@@ -1,6 +1,18 @@
+<?php
+$baseUrl = $config['site']['baseUrl'];
+$threadUid = $thread->getThreadUid();
+$manageThreadButton = <<<HTML
+<button onclick="manageThread('$baseUrl', '$boardUid', $threadUid)">Manage</button>
+HTML;
+?>
 <div class="thread_head" id="thread_<?= $thread->getSequence() ?>">
     <p class="thread_order"><?= $thread->getSequence() ?></p>
-    <p class="thread_id"><?= $thread->getThreadUid() ?></p>
+    <p class="thread_id">
+        <span>
+        <?= $thread->getThreadUid() ?>
+        </span>
+        <?= $manageThreadButton ?>
+    </p>
     <p class="thread_owner"><?= $thread->getUserName() ?></p>
     <p class="thread_title">
         <a href="<?= $config['site']['baseUrl'] ?>/trace.php/<?= $board['uid'] ?>/<?= $thread->getThreadUid() ?>/recent">

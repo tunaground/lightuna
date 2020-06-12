@@ -5,7 +5,6 @@ function useConsole(root, threadUid) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                console.log(xhr.responseText);
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === true) {
                     alert('Success!');
@@ -20,16 +19,62 @@ function useConsole(root, threadUid) {
     return xhr;
 }
 
-function hideResponse(root, threadUid, responseUid) {
+function maskResponse(root, threadUid, responseUids) {
     const threadPassword = prompt('Thread password?');
     useConsole(root, threadUid).send(JSON.stringify({
-        'action': 'hideResponse',
+        'action': 'maskResponse',
         'payload': {
             'threadUid': threadUid,
-            'responseUid': responseUid,
+            'responseUids': (Array.isArray(responseUids)) ? responseUids : [responseUids],
             'threadPassword': threadPassword
         }
     }));
+}
+
+function maskResponses(root, threadUid) {
+    const checkResponses = document.getElementsByClassName('check_response');
+    const responseUids = Array.prototype.reduce.call(
+        checkResponses,
+        (carry, checkResponse) => {
+            if (checkResponse.checked) {
+                carry.push(checkResponse.value);
+                return carry;
+            } else {
+                return carry;
+            }
+        },
+        []
+    );
+    maskResponse(root, threadUid, responseUids);
+}
+
+function unmaskResponse(root, threadUid, responseUids) {
+    const threadPassword = prompt('Thread password?');
+    useConsole(root, threadUid).send(JSON.stringify({
+        'action': 'unmaskResponse',
+        'payload': {
+            'threadUid': threadUid,
+            'responseUids': (Array.isArray(responseUids)) ? responseUids : [responseUids],
+            'threadPassword': threadPassword
+        }
+    }));
+}
+
+function unmaskResponses(root, threadUid) {
+    const checkResponses = document.getElementsByClassName('check_response');
+    const responseUids = Array.prototype.reduce.call(
+        checkResponses,
+        (carry, checkResponse) => {
+            if (checkResponse.checked) {
+                carry.push(checkResponse.value);
+                return carry;
+            } else {
+                return carry;
+            }
+        },
+        []
+    );
+    unmaskResponse(root, threadUid, responseUids);
 }
 
 function banUserId(root, threadUid, responseUid) {
@@ -39,6 +84,34 @@ function banUserId(root, threadUid, responseUid) {
         'payload': {
             'threadUid': threadUid,
             'responseUid': responseUid,
+            'threadPassword': threadPassword
+        }
+    }));
+}
+
+function manageThread(root, boardUid, threadUid) {
+    const threadPassword = prompt('Thread password?');
+    const xhr = useConsole(root, threadUid);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+                const response = JSON.parse(xhr.responseText);
+                if (response.result === true) {
+                    alert('Success!');
+                    window.location.href = root + '/mthread.php/' + boardUid + '/' + threadUid;
+                } else {
+                    alert('Failed: ' + response.message);
+                }
+            } else {
+                alert('Failed...');
+            }
+        }
+    };
+    xhr.send(JSON.stringify({
+        'action': 'manageThread',
+        'payload': {
+            'threadUid': threadUid,
             'threadPassword': threadPassword
         }
     }));
@@ -164,7 +237,6 @@ document.addEventListener('DOMContentLoaded', function () {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        console.log(xhr.responseText);
                         const response = JSON.parse(xhr.responseText);
                         if (response.result === true) {
                             Array.prototype.forEach.call(threadBody.getElementsByClassName('test_response'), el => el.remove());
@@ -172,8 +244,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             const cloneRes = res.cloneNode(true);
                             threadBody.append(cloneRes);
                             cloneRes.getElementsByClassName('response_info')[0].append(testIndicator)
-                            if (cloneRes.getElementsByClassName('response_hide')[0]) {
-                                cloneRes.getElementsByClassName('response_hide')[0].remove();
+                            if (cloneRes.getElementsByClassName('response_mask')[0]) {
+                                cloneRes.getElementsByClassName('response_mask')[0].remove();
                             }
                             cloneRes.getElementsByClassName('response_sequence')[0].innerHTML =
                                 Number(cloneRes.getElementsByClassName('response_sequence')[0].innerHTML)

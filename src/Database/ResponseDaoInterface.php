@@ -56,9 +56,9 @@ interface ResponseDaoInterface
     /**
      * @param string $userId
      * @param int $start
-     * @param int $limit
+     * @param int $end
      * @return Response[]
      * @throws DataAccessException
      */
-    public function findByResponseUserId(string $userId, int $start, int $limit): array;
+    public function findByResponseUserId(string $userId, int $start, int $end): array;
 }

@@ -53,20 +53,66 @@ $userService = new UserService($responseDao, $banDao);
 
 $data = json_decode(file_get_contents('php://input'));
 
-if ($data->action === 'hideResponse') {
+if ($data->action === 'maskResponse') {
     $result = [
         'result' => false,
         'message' => ''
     ];
     $threadUid = (int) $data->payload->threadUid;
-    $responseUid = (int) $data->payload->responseUid;
+    $responseUids = $data->payload->responseUids;
     $threadPassword = $data->payload->threadPassword;
     try {
-        $responseService->archiveResponse(
-            $threadUid,
-            $responseUid,
-            $threadPassword
-        );
+        foreach ($responseUids as $responseUid) {
+            $responseService->archiveResponse(
+                $threadUid,
+                $responseUid,
+                $threadPassword
+            );
+        }
+        $result['result'] = true;
+    } catch (Exception $e) {
+        $result['result'] = false;
+        $result['message'] = $e->getMessage();
+    } finally {
+        echo json_encode($result, JSON_FORCE_OBJECT);
+    }
+}
+
+if ($data->action === 'unmaskResponse') {
+    $result = [
+        'result' => false,
+        'message' => ''
+    ];
+    $threadUid = (int) $data->payload->threadUid;
+    $responseUids = $data->payload->responseUids;
+    $threadPassword = $data->payload->threadPassword;
+    try {
+        foreach ($responseUids as $responseUid) {
+            $responseService->unarchiveResponse(
+                $threadUid,
+                $responseUid,
+                $threadPassword
+            );
+        }
+        $result['result'] = true;
+    } catch (Exception $e) {
+        $result['result'] = false;
+        $result['message'] = $e->getMessage();
+    } finally {
+        echo json_encode($result, JSON_FORCE_OBJECT);
+    }
+}
+
+if ($data->action === 'manageThread') {
+    $result = [
+        'result' => false,
+        'message' => ''
+    ];
+    $threadUid = (int) $data->payload->threadUid;
+    $threadPassword = $data->payload->threadPassword;
+    try {
+        $threadService->checkThreadPassword($threadUid, $threadPassword);
+        $_SESSION['thread_manager'][] = $threadUid;
         $result['result'] = true;
     } catch (Exception $e) {
         $result['result'] = false;
@@ -113,11 +159,11 @@ if ($data->action === 'banUserId') {
         'message' => ''
     ];
     $threadUid = (int) $data->payload->threadUid;
-    $responseUid = (int) $data->payload->responseUid;
+    $responseUids = (int) $data->payload->responseUid;
     $threadPassword = $data->payload->threadPassword;
     try {
         $threadService->checkThreadPassword($threadUid, $threadPassword);
-        $userService->banUserId($responseUid);
+        $userService->banUserId($responseUids);
         $result['result'] = true;
     } catch (Exception $e) {
         $result['result'] = false;

@@ -21,4 +21,18 @@ interface ArcResponseDaoInterface
      * @throws DataAccessException
      */
     public function getNextArcResponseUid(): int;
+
+    /**
+     * @param int $responseUid
+     * @return ArcResponse
+     * @throws DataAccessException
+     */
+    public function getArcResponseByResponseUid(int $responseUid): ArcResponse;
+
+    /**
+     * @param int $arcResponseUid
+     * @return mixed
+     * @throws DataAccessException
+     */
+    public function deleteArcResponse(int $arcResponseUid);
 }
