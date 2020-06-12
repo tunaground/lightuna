@@ -157,6 +157,16 @@ document.addEventListener('DOMContentLoaded', function () {
         )
     }
 
+    function applyLink(el) {
+        el.innerHTML = el.innerHTML.replace(
+            /(https?):\/\/(((?!www\.youtube\.com\/embed\/)[0-9a-z-+.\/@~?&=_%#!;:'])+)/gm,
+            function (match) {
+                console.log(match);
+                return '<a href="' + match + '">' + match + '</a>';
+            }
+        )
+    }
+
     const contentForms = document.getElementsByClassName('post_form_content');
     Array.prototype.forEach.call(contentForms, function (el) {
         const defaultHeight = el.offsetHeight;
@@ -214,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const contents = document.getElementsByClassName('content');
     Array.prototype.forEach.call(contents, applyAnchor);
+    Array.prototype.forEach.call(contents, applyLink);
 
     const testButton = document.getElementsByClassName('post_form_test');
     Array.prototype.forEach.call(testButton, function (el) {
@@ -256,6 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             cloneRes.getElementsByClassName('content')[0].innerHTML = response.payload.content;
                             cloneRes.classList.add('test_response');
                             applyAnchor(cloneRes.getElementsByClassName('content')[0]);
+                            applyLink(cloneRes.getElementsByClassName('content')[0]);
                         } else {
                             alert('Failed: ' + response.message);
                         }
