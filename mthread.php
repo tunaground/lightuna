@@ -76,12 +76,12 @@ try {
             $responseEnd = $uriParser->getResponseEnd($responseStart);
         } catch (OutOfBoundsException $e) {
             $responseStart = 1;
-            $responseEnd = $thread->getSize() + 1;
+            $responseEnd = $thread->getSize();
         }
     }
     if ($responseStart === 0) {
         $thread->setResponses(
-            $responseDao->getAllResponseListByThreadUid(
+            $responseDao->getResponseListBySequence(
                 $thread->getThreadUid(),
                 $responseStart,
                 $responseEnd

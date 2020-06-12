@@ -59,25 +59,25 @@ try {
     $threadViewCount = (count($threads) < $board['maxThreadView']) ? count($threads) : $board['maxThreadView'];
     for ($i = 0; $i < $threadViewCount; $i++) {
         $responseStart = max(0, $threads[$i]->getSize() - $board['maxResponseView']);
-        $responseLimit = $board['maxResponseView'];
+        $responseEnd = $threads[$i]->getSize();
         if ($responseStart > 0) {
             $threads[$i]->setResponses(array_merge(
-                $responseDao->getResponseListByThreadUid(
+                $responseDao->getResponseListBySequence(
                     $threads[$i]->getThreadUid(),
                     0,
-                    1
+                    0
                 ),
-                $responseDao->getResponseListByThreadUid(
+                $responseDao->getResponseListBySequence(
                     $threads[$i]->getThreadUid(),
                     $responseStart,
-                    $responseLimit
+                    $responseEnd
                 )
             ));
         } else {
-            $threads[$i]->setResponses($responseDao->getResponseListByThreadUid(
+            $threads[$i]->setResponses($responseDao->getResponseListBySequence(
                 $threads[$i]->getThreadUid(),
                 $responseStart,
-                $responseLimit
+                $responseEnd
             ));
         }
     }
