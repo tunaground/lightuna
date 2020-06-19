@@ -413,16 +413,13 @@ span.spoiler {
 
 .manage_button_set {
     display: flex;
-    background-color: rgb(50, 50, 50);
     padding: 0.3em;
+    border-top: rgb(210, 210, 210) 1px solid;
 }
 
 .manage_button_set button {
     width: 100%;
     font-size: 1em;
-    border: none 0 black;
-    color: rgb(120, 120, 120);
-    background-color: rgb(180, 180, 180);
     padding: 0.4em;
     margin: 0.4em;
 }

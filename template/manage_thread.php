@@ -2,12 +2,12 @@
 $baseUrl = $config['site']['baseUrl'];
 $threadUid = $thread->getThreadUid();
 $maskCheckedButtonHtml = <<<HTML
-<button class="response_mask" onclick="maskResponses('$baseUrl', $threadUid)">
+<button class="button_default response_mask" onclick="maskResponses('$baseUrl', $threadUid)">
 Mask
 </button>
 HTML;
 $unmaskCheckedButtonHtml = <<<HTML
-<button class="response_unmask" onclick="unmaskResponses('$baseUrl', $threadUid)">
+<button class="button_default response_unmask" onclick="unmaskResponses('$baseUrl', $threadUid)">
 Unmask
 </button>
 HTML;
