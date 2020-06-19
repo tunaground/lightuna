@@ -1,10 +1,5 @@
 <div class="thread_list_item">
     <p>
-    <span class="thread_list_item_order">
-        <a href="<?= $sequenceLink ?>">
-            <?= $thread->getSequence() ?>
-        </a>
-    </span>
         <span class="thread_list_item_title">
         <a href="<?= $titleLink ?>">
             <?= $thread->getTitle() ?>

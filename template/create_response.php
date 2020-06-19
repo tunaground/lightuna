@@ -28,8 +28,8 @@ if (!isset($content)) {
                   class="post_form_content"><?= $content ?></textarea>
         <input type="file" name="attachment" class="post_form_attachment">
         <div class="post_form_button_group">
-            <button class="post_form_submit">작성</button>
-            <button class="post_form_default post_form_test">테스트</button>
+            <button class="button_default post_form_submit">작성</button>
+            <button class="button_default post_form_default post_form_test">테스트</button>
         </div>
     </form>
 </fieldset>
