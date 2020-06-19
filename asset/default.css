@@ -271,6 +271,7 @@ nav ul li a {
     margin-top: 0.5em;
     margin-bottom: 0;
     color: rgb(40, 40, 40);
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 .response_test_indicator, .response_mask_mark {
