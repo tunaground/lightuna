@@ -454,12 +454,10 @@ span.spoiler {
 
     #thread_list {
         width: auto;
-        box-shadow: none;
     }
 
     .thread {
         width: auto;
-        box-shadow: none;
     }
 
     .create_thread {
@@ -510,6 +508,5 @@ span.spoiler {
     }
 
     .search_form {
-        box-shadow: none;
     }
 }
