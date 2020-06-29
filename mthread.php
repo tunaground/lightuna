@@ -76,12 +76,12 @@ try {
             $responseEnd = $uriParser->getResponseEnd($responseStart);
         } catch (OutOfBoundsException $e) {
             $responseStart = 1;
-            $responseEnd = $thread->getSize() + 1;
+            $responseEnd = $thread->getSize();
         }
     }
     if ($responseStart === 0) {
         $thread->setResponses(
-            $responseDao->getAllResponseListByThreadUid(
+            $responseDao->getResponseListBySequence(
                 $thread->getThreadUid(),
                 $responseStart,
                 $responseEnd
@@ -106,6 +106,7 @@ try {
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
     <title>추적중 : <?= $thread->getTitle() ?> : <?= $board['name'] ?></title>
     <link rel="stylesheet" type="text/css" href="<?= $config['site']['baseUrl'] ?>/asset/<?= $board['style'] ?>"/>
     <script type="text/javascript" src="<?= $config['site']['baseUrl'] ?>/asset/main.js"></script>

@@ -28,9 +28,9 @@
 
 body {
     font-family: 'Nanum Gothic', sans-serif;
-    background-color: rgb(220, 220, 220);
     margin: 0;
     padding: 3em 0 0 0;
+    background-color: rgb(240, 240, 240);
 }
 
 nav {
@@ -45,6 +45,7 @@ nav {
 
 nav ul {
     list-style: none;
+    padding: 0;
 }
 
 nav ul li {
@@ -70,8 +71,10 @@ nav ul li a {
 .search_form {
     width: 60em;
     padding: 0;
-    border: none;
-    background-color: rgb(50, 50, 50);
+    background-color: rgb(255, 255, 255);
+    border: rgb(210, 210, 210) 1px solid;
+    color: rgb(80, 80, 80);
+    box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
 }
 
 .search_form form {
@@ -81,7 +84,7 @@ nav ul li a {
 }
 
 .search_form_input {
-    font-size: 1em;
+    font-size: 0.8em;
     padding: 0.4em;
 }
 
@@ -95,6 +98,8 @@ nav ul li a {
     width: 4em;
     max-width: 60em;
     margin: 0 0.4em;
+    border: none;
+    border-bottom: rgb(150, 150, 150) 1px solid;
 }
 
 .search_form_submit {
@@ -118,20 +123,26 @@ nav ul li a {
 
 #thread_list {
     width: 60em;
-    border: rgb(135, 135, 135) 1px solid;
-    background-color: rgb(232, 232, 232);
+    background-color: rgb(255, 255, 255);
+    border: rgb(210, 210, 210) 1px solid;
+    color: rgb(80, 80, 80);
+    box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
 }
 
 .thread_list_item {
-    background-color: rgb(50, 50, 50);
     padding: 0.1em;
     margin: 0.3em;
+}
 
+.thread_list_item:hover {
+    background-color: rgb(250, 250, 250);
+    -webkit-transition: background-color 300ms linear;
+    transition: background-color 300ms linear;
 }
 
 .thread_list_item a {
     text-decoration: none;
-    color: rgb(230, 230, 230);
+    color: rgb(150, 150, 150);
 }
 
 .thread_list_item p {
@@ -142,8 +153,6 @@ nav ul li a {
     line-height: 0.01em;
     margin-top: 0;
     margin-bottom: 0.4em;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
 }
 
 .thread_list_item_order a {
@@ -153,17 +162,15 @@ nav ul li a {
 
 .thread_list_item_id {
     margin: 0;
-    color: rgb(180, 180, 180);
 }
 
 .thread_list_item_owner {
     margin: 0;
-    color: rgb(180, 180, 180);
 }
 
 .thread_list_item_title {
     margin: 0;
-    color: rgb(255, 255, 255);
+    font-weight: bold;
 }
 
 .thread_list_item_title a {
@@ -190,13 +197,18 @@ nav ul li a {
 }
 
 .thread {
+    background-color: rgb(255, 255, 255);
+    border: rgb(210, 210, 210) 1px solid;
+    color: rgb(80, 80, 80);
     width: 60em;
     margin: 2em 0;
+    box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
 }
 
 .thread_head {
-    padding: 0.3em;
-    background-color: rgb(50, 50, 50);
+    padding: 1.3em 0.8em;
+    border: none;
+    background-color: rgb(250, 250, 250);
 }
 
 .dead_sign {
@@ -207,30 +219,20 @@ nav ul li a {
 }
 
 .thread_order {
-    font-size: 8em;
-    line-height: 0.01em;
-    margin-top: 0;
-    margin-bottom: 0.4em;
-    font-family: 'Black Han Sans', sans-serif;
-    color: rgb(255, 255, 255);
 }
 
 .thread_id {
     margin: 0;
-    color: rgb(180, 180, 180);
 }
 
 .thread_owner {
     margin: 0;
-    color: rgb(180, 180, 180);
-    font-size: 1.5em;
 }
 
 .thread_title {
     margin: 0;
-    font-size: 3em;
     font-weight: bolder;
-    color: rgb(255, 255, 255);
+    font-size: 2em;
 }
 
 .thread_title a {
@@ -251,10 +253,15 @@ nav ul li a {
 }
 
 .response {
-    border-left: rgb(180, 180, 180) 1px solid;
-    margin: 0.5em;
+    margin: 1.0em 0.5em;
     padding: 0.3em 0.5em;
-    background-color: rgb(235, 235, 235);
+    border-left: rgb(210, 210, 210) 1px solid;
+}
+
+.response:hover {
+    background-color: rgb(250, 250, 250);
+    -webkit-transition: background-color 300ms linear;
+    transition: background-color 300ms linear;
 }
 
 .response_info {
@@ -270,6 +277,8 @@ nav ul li a {
 .content {
     margin-top: 0.5em;
     margin-bottom: 0;
+    color: rgb(40, 40, 40);
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 .response_test_indicator, .response_mask_mark {
@@ -301,16 +310,26 @@ nav ul li a {
 
 .create_thread {
     width: 60em;
+    border: rgb(210, 210, 210) 1px solid;
+    box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
 }
 
 .post_form {
     border: none;
-    background-color: rgb(50, 50, 50);
     margin: 0;
+    background-color: rgb(250, 250, 250);
 }
 
 .post_form form {
     margin: 0;
+}
+
+.post_form input {
+    background-color: rgb(250, 250, 250);
+ }
+
+.post_form textarea {
+    background-color: rgb(250, 250, 250);
 }
 
 .post_form_default {
@@ -318,6 +337,8 @@ nav ul li a {
     font-size: 1em;
     padding: 0.4em;
     margin-bottom: 0.5em;
+    border: none;
+    border-bottom: rgb(150, 150, 150) 1px solid;
 }
 
 .post_form_attachment {
@@ -325,7 +346,7 @@ nav ul li a {
     font-size: 1em;
     padding: 0.4em;
     margin-bottom: 0.5em;
-    color: rgb(255, 255, 255);
+    color: rgb(150, 150, 150);
 }
 
 .post_form_content {
@@ -334,6 +355,8 @@ nav ul li a {
     font-size: 1em;
     padding: 0.4em;
     margin-bottom: 0.5em;
+    border: none;
+    border-bottom: rgb(150, 150, 150) 1px solid;
 }
 
 .post_form_button_group {
@@ -346,19 +369,25 @@ nav ul li a {
     max-width: 60em;
     font-size: 1em;
     padding: 0.4em;
-    border: none 0 black;
-    color: rgb(120, 120, 120);
-    background-color: rgb(180, 180, 180);
     margin: 0;
+}
+
+.button_default {
+    color: rgb(120, 120, 120);
+    background-color: rgb(255, 255, 255);
+    border: rgb(150, 150, 150) 1px solid;
+}
+
+.button_default:hover {
+    background-color: rgb(240, 240, 240);
+    -webkit-transition: background-color 300ms linear;
+    transition: background-color 300ms linear;
 }
 
 .post_form_test {
     min-width: 10em;
     font-size: 1em;
     padding: 0.4em;
-    border: none 0 black;
-    color: rgb(120, 120, 120);
-    background-color: rgb(180, 180, 180);
     margin: 0 0 0 0.5em;
 }
 
@@ -367,9 +396,6 @@ nav ul li a {
     min-width: 40em;
     font-size: 1em;
     padding: 0.4em;
-    border: none 0 black;
-    color: rgb(120, 120, 120);
-    background-color: rgb(180, 180, 180);
     margin: 0;
 }
 
@@ -398,16 +424,13 @@ span.spoiler {
 
 .manage_button_set {
     display: flex;
-    background-color: rgb(50, 50, 50);
     padding: 0.3em;
+    border-top: rgb(210, 210, 210) 1px solid;
 }
 
 .manage_button_set button {
     width: 100%;
     font-size: 1em;
-    border: none 0 black;
-    color: rgb(120, 120, 120);
-    background-color: rgb(180, 180, 180);
     padding: 0.4em;
     margin: 0.4em;
 }
@@ -461,11 +484,11 @@ span.spoiler {
         font-size: 0.8em;
     }
 
-    .mona {
-        font-size: 0.7em;
+    .post_form_content {
+        font-size: 1.0em;
     }
 
-    .post_form_content {
+    .mona {
         font-size: 0.8em;
     }
 
@@ -482,5 +505,8 @@ span.spoiler {
 
     .thread_form_submit {
         min-width: 0;
+    }
+
+    .search_form {
     }
 }

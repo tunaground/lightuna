@@ -34,7 +34,7 @@ if ($response->getSequence() > 0) {
     $threadUid = $response->getThreadUid();
     $responseUid = $response->getResponseUid();
     $maskButtonHtml = <<<HTML
-<button class="response_mask" onclick="maskResponse('$baseUrl', $threadUid, $responseUid)">
+<button class="button_default response_mask" onclick="maskResponse('$baseUrl', $threadUid, $responseUid)">
 Mask
 </button>
 HTML;
@@ -48,7 +48,6 @@ HTML;
      data-thread-uid="<?= $response->getThreadUid() ?>"
      data-response-sequence="<?= $response->getSequence() ?>">
     <p class="response_info">
-        :
         <span class="response_sequence"><?= $response->getSequence() ?></span>
         <span class="response_owner"><?= $response->getUserName() ?></span>
         <span class="response_owner_id">

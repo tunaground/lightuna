@@ -97,7 +97,8 @@ try {
     if (in_array('relay', $console, true)) {
         $returnUrl .= '#relay';
     }
-    Redirection::temporary($returnUrl);
+    $baseUrl = $config['site']['baseUrl'];
+    Redirection::temporary("{$baseUrl}/post_delay.php?return_url=$returnUrl");
 } catch (PDOException $e) {
     $logger->error('post.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
     $exceptionHandler->handle('/database', $e);
@@ -115,7 +116,8 @@ try {
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>인덱스 :: <?= $board['name'] ?></title>
+    <meta name="format-detection" content="telephone=no">
+    <title>작성중 :: <?= $board['name'] ?></title>
     <link rel="stylesheet" type="text/css" href="<?= $config['site']['baseUrl'] ?>/asset/<?= $board['style'] ?>"/>
     <script type="text/javascript" src="<?= $config['site']['baseUrl'] ?>/asset/main.js"></script>
 </head>

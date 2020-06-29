@@ -24,4 +24,14 @@ class Redirection
         header(sprintf('Location: %s', $page), true, 301);
         die();
     }
+
+    /**
+     * @param string $page
+     * @param int $delay
+     */
+    public static function temporaryDelay(string $page, int $delay): void
+    {
+        header(sprintf('Refresh:%d; url=%s', $delay, $page), true, 302);
+        die();
+    }
 }

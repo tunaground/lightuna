@@ -6,7 +6,7 @@
                 <option value="thread_owner" <?php if ($searchType === 'thread_owner') { echo 'selected'; } ?>>스레드 작성자</option>
             </select>
             <input class="search_form_input search_keyword_input" type="text" name="keyword" value="<?= $keyword ?>" />
-            <button class="search_form_input search_form_submit">검색</button>
+            <button class="button_default search_form_input search_form_submit">검색</button>
         </form>
     </fieldset>
 </div>
