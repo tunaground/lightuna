@@ -36,4 +36,13 @@ class ThreadService
             throw new InvalidUserInputException('User password is not matched with Thread password.');
         }
     }
+
+    public function endThread(int $threadUid)
+    {
+        try {
+            $this->threadDao->setThreadEnd($threadUid, true);
+        } catch (DataAccessException $e) {
+            throw $e;
+        }
+    }
 }

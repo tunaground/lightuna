@@ -9,19 +9,19 @@ use DateTime;
  */
 class Thread
 {
-    /** @var string  */
+    /** @var string */
     private $boardUid;
-    /** @var int  */
+    /** @var int */
     private $threadUid;
-    /** @var string  */
+    /** @var string */
     private $title;
-    /** @var string  */
+    /** @var string */
     private $password;
-    /** @var string  */
+    /** @var string */
     private $userName;
-    /** @var DateTime  */
+    /** @var DateTime */
     private $createDate;
-    /** @var DateTime  */
+    /** @var DateTime */
     private $updateDate;
     /** @var int */
     private $size;
@@ -30,7 +30,7 @@ class Thread
     /** @var int */
     private $sequence;
     /** @var bool */
-    private $dead;
+    private $end;
 
     /**
      * Thread constructor.
@@ -41,6 +41,7 @@ class Thread
      * @param string $userName
      * @param DateTime $createDate
      * @param DateTime $updateDate
+     * @param bool $end
      */
     public function __construct(
         string $boardUid,
@@ -49,7 +50,8 @@ class Thread
         string $password,
         string $userName,
         DateTime $createDate,
-        DateTime $updateDate
+        DateTime $updateDate,
+        bool $end
     ) {
         $this->boardUid = $boardUid;
         $this->threadUid = $threadUid;
@@ -58,6 +60,7 @@ class Thread
         $this->userName = $userName;
         $this->createDate = $createDate;
         $this->updateDate = $updateDate;
+        $this->end = $end;
     }
 
     /**
@@ -135,9 +138,9 @@ class Thread
     /**
      * @return bool
      */
-    public function getDead(): bool
+    public function getEnd(): bool
     {
-        return $this->dead;
+        return $this->end;
     }
 
     /**
@@ -173,10 +176,10 @@ class Thread
     }
 
     /**
-     * @param bool $dead
+     * @param bool $end
      */
-    public function setDead(bool $dead)
+    public function setEnd(bool $end)
     {
-        $this->dead = $dead;
+        $this->end = $end;
     }
 }

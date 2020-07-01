@@ -15,6 +15,7 @@ create table thread
     user_name   varchar(60)     not null,
     create_date datetime        not null,
     update_date datetime        not null,
+    end         tinyint(1)      not null,
     primary key (thread_uid),
     index idx_thread_board (board_uid),
     index idx_thread_title (title)

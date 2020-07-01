@@ -60,7 +60,6 @@ try {
     $dead = ($lastResponseSequence >= $board['maxResponseSize']);
     $thread->setSize($lastResponseSequence);
     $thread->setSequence(0);
-    $thread->setDead($dead);
 
     if ($uriParser->isTraceRecent()) {
         $responseStart = max(0, $thread->getSize() - $board['maxResponseView']);

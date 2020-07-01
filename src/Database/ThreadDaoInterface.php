@@ -59,6 +59,13 @@ interface ThreadDaoInterface
     public function getNextThreadUid(): int;
 
     /**
+     * @param int $threadUid
+     * @param bool $end
+     * @throws DataAccessException
+     */
+    public function setThreadEnd(int $threadUid, bool $end): void;
+
+    /**
      * @param string $boardUid
      * @param string $keyword
      * @param int $start

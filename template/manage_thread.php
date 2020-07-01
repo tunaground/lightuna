@@ -29,7 +29,7 @@ HTML;
         <?= $maskCheckedButtonHtml ?>
         <?= $unmaskCheckedButtonHtml ?>
     </div>
-    <?php if (!$thread->getDead()) { ?>
+    <?php if (!$thread->getEnd()) { ?>
         <?php require(__DIR__ . '/create_response.php'); ?>
     <?php } else { ?>
         <div class="dead_sign">끝.</div>

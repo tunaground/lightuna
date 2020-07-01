@@ -91,7 +91,8 @@ class PostService
                 hash(self::HASH_SHA256, $password),
                 $userName,
                 $currentDateTime,
-                $currentDateTime
+                $currentDateTime,
+                false
             );
             $titleLength = mb_strlen($thread->getTitle());
             if ($titleLength < 1 || $titleLength > $this->board['maxTitleLength']) {
@@ -162,7 +163,10 @@ class PostService
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $responseSequence = $this->threadDao->getLastResponseSequence($threadUid) + 1;
             if ($responseSequence > $this->board['maxResponseSize']) {
-                throw new InvalidUserInputException('Dead thread.');
+                throw new InvalidUserInputException('End thread.');
+            }
+            if ($responseSequence === $this->board['maxResponseSize']) {
+                $this->threadDao->setThreadEnd($thread->getThreadUid(), true);
             }
             $responseId = $this->responseDao->getNextResponseUid();
             $response = new Response(

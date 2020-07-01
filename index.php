@@ -53,7 +53,6 @@ try {
         $dead = ($lastResponseSequence >= $board['maxResponseSize']);
         $threads[$i]->setSize($lastResponseSequence);
         $threads[$i]->setSequence($i + 1);
-        $threads[$i]->setDead($dead);
     }
 
     $threadViewCount = (count($threads) < $board['maxThreadView']) ? count($threads) : $board['maxThreadView'];

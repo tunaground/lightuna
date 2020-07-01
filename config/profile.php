@@ -64,7 +64,8 @@ return [
         'develop' => [
             'uid' => 'develop',
             'name' => '테스트용',
-            'userName' => '익명의 테스터'
+            'userName' => '익명의 테스터',
+            'maxResponseSize' => 5,
         ]
     ],
     'blocker' => [

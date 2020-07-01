@@ -103,8 +103,8 @@ SQL;
     {
         $boardUid = $thread->getBoardUid();
         $sql = <<<SQL
-insert into thread (thread_uid, board_uid, title, password, user_name, create_date, update_date)
-values (:thread_uid, :board_uid, :title, :password, :user_name, :create_date, :update_date)
+insert into thread (thread_uid, board_uid, title, password, user_name, create_date, update_date, end)
+values (:thread_uid, :board_uid, :title, :password, :user_name, :create_date, :update_date, :end)
 SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
@@ -115,6 +115,7 @@ SQL;
         $stmt->bindValue(':user_name', $thread->getUserName());
         $stmt->bindValue(':create_date', $thread->getCreateDate()->format('Y-m-d H:i:s'));
         $stmt->bindValue(':update_date', $thread->getUpdateDate()->format('Y-m-d H:i:s'));
+        $stmt->bindValue(':end', $thread->getEnd(), \PDO::PARAM_BOOL);
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
@@ -172,6 +173,30 @@ SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':update_date', $dateTime->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+        $stmt->bindValue(':thread_uid', $threadUid, \PDO::PARAM_INT);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $this->logQueryError(__METHOD__, $error[2]);
+            throw new DataAccessException('Failed to query.');
+        }
+    }
+
+    /**
+     * @param int $threadUid
+     * @param bool $end
+     * @throws DataAccessException
+     */
+    public function setThreadEnd(int $threadUid, bool $end): void
+    {
+        $sql = <<<SQL
+update  thread
+set     end = :end
+where   thread_uid = :thread_uid
+SQL;
+        $conn = $this->dataSource->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':end', $end, \PDO::PARAM_BOOL);
         $stmt->bindValue(':thread_uid', $threadUid, \PDO::PARAM_INT);
         $stmt->execute();
         $error = $stmt->errorInfo();
@@ -272,6 +297,7 @@ SQL;
             $rawThread['user_name'],
             \DateTime::createFromFormat('Y-m-d H:i:s', $rawThread['create_date']),
             \DateTime::createFromFormat('Y-m-d H:i:s', $rawThread['update_date']),
+            $rawThread['end']
         );
     }
 }
