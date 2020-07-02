@@ -82,6 +82,11 @@ class PostService
             $password = rand();
         }
         try {
+            $userName = $this->makeUserName($userName);
+        } catch (InvalidUserInputException $e) {
+            throw $e;
+        }
+        try {
             $this->dataSource->beginTransaction();
             $threadUid = $this->threadDao->getNextThreadUid();
             $thread = new Thread(
