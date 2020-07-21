@@ -9,7 +9,7 @@ return [
     'site' => [
         'domain' => 'localhost',
         'baseUrl' => '/lightuna',
-        'defaultBoard' => 'tuna',
+        'defaultBoard' => 'develop',
         'environment' => 'dev',
         'imageUploadPrefix' => '/upload',
         'imageUploadPath' => __DIR__ . '/../upload',
