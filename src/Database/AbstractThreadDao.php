@@ -132,14 +132,11 @@ SQL;
     public function getLastResponseSequence(int $threadUid): int
     {
         $sql = <<<SQL
-select  max(r.ms)
-from   (select  max(sequence) as ms
+        select  sequence as ms
         from    response
         where   thread_uid = :thread_uid
-        union
-        select  max(sequence) as ms
-        from    arc_response
-        where   thread_uid = :thread_uid) r
+        order by response_uid desc
+        limit 1
 SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
@@ -150,12 +147,28 @@ SQL;
             $this->logQueryError(__METHOD__, $error[2]);
             throw new DataAccessException('Failed to query.');
         }
-        $sequence = $stmt->fetchColumn();
-        if ($sequence === null) {
+        $sequence1 = $stmt->fetchColumn();
+        if ($sequence1 === null) {
             return -1;
-        } else {
-            return $sequence;
         }
+        $sql = <<<SQL
+        select  sequence as ms
+        from    arc_response
+        where   thread_uid = :thread_uid
+        order by response_uid desc
+        limit 1
+SQL;
+        $conn = $this->dataSource->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':thread_uid', $threadUid, \PDO::PARAM_INT);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $this->logQueryError(__METHOD__, $error[2]);
+            throw new DataAccessException('Failed to query.');
+        }
+        $sequence2 = $stmt->fetchColumn();
+        return max($sequence1, $sequence2);
     }
 
     /**
