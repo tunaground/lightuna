@@ -41,8 +41,7 @@ create table response
     index idx_user (user_name),
     index idx_user_name (user_id),
     index idx_ip (ip),
-    index idx_create_date (create_date),
-    index idx_sequence (sequence)
+    index idx_create_date (create_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table arc_response
@@ -65,8 +64,7 @@ create table arc_response
     index idx_user_name (user_id),
     index idx_ip (ip),
     index idx_create_date (create_date),
-    index idx_archive_date (archive_date),
-    index idx_sequence (sequence)
+    index idx_archive_date (archive_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table ban
