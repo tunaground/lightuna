@@ -148,7 +148,7 @@ SQL;
             throw new DataAccessException('Failed to query.');
         }
         $sequence1 = $stmt->fetchColumn();
-        if ($sequence1 === null) {
+        if ($sequence1 === false) {
             return -1;
         }
         $sql = <<<SQL
