@@ -279,7 +279,7 @@ class PostService
      */
     private function makeUserId(string $ip, Datetime $currentDateTime)
     {
-        return mb_substr(crypt($ip, $currentDateTime->format('Ymd')), -10);
+        return mb_substr(crypt($currentDateTime->format('Ymd'), $ip), -10);
     }
 
     /**
