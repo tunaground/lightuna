@@ -33,7 +33,7 @@ return [
         )
     ],
     'database' => [
-        'type' => 'mysql',
+        'type' => 'mariadb',
         'host' => 'localhost',
         'port' => 3306,
         'user' => 'lightuna',
@@ -66,6 +66,8 @@ return [
             'name' => '테스트용',
             'userName' => '익명의 테스터',
             'maxResponseSize' => 5,
+            'maxResponseInterval' => 1,
+            'maxDuplicateResponseInterval' => 1
         ]
     ],
     'blocker' => [
