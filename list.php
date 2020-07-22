@@ -99,7 +99,7 @@ $nextPageHtml = '';
 if ($previousPage > 0) {
     $previousPageHtml = <<<HTML
 <div class="thread_list_item center">
-    <a href="$baseUrl/list.php/$boardUid/$previousPage{$_SERVER['QUERY_STRING']}"><p>이전 페이지</p></a>
+    <a href="$baseUrl/list.php/$boardUid/$previousPage?{$_SERVER['QUERY_STRING']}"><p>이전 페이지</p></a>
 </div>
 HTML;
 }
@@ -107,7 +107,7 @@ HTML;
 if (sizeof($threads) === $board['maxThreadListView']) {
     $nextPageHtml = <<<HTML
 <div class="thread_list_item center">
-    <a href="$baseUrl/list.php/$boardUid/$nextPage{$_SERVER['QUERY_STRING']}"><p>다음 페이지</p></a>
+    <a href="$baseUrl/list.php/$boardUid/$nextPage?{$_SERVER['QUERY_STRING']}"><p>다음 페이지</p></a>
 </div>
 HTML;
 }
