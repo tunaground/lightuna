@@ -32,6 +32,7 @@ create table response
     create_date     datetime        not null,
     content         TEXT(20000)     not null,
     attachment      varchar(100)    not null,
+    youtube         varchar(100)    not null,
     primary key (response_uid),
     constraint fk_thread_uid
         foreign key (thread_uid) references thread (thread_uid)
@@ -56,6 +57,7 @@ create table arc_response
     create_date         datetime        not null,
     content             TEXT(20000)     not null,
     attachment          varchar(100)    not null,
+    youtube             varchar(100)    not null,
     archive_date        datetime        not null,
     primary key (arc_response_uid),
     index idx_response_uid (response_uid),

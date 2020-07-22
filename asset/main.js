@@ -159,9 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function applyLink(el) {
         el.innerHTML = el.innerHTML.replace(
-            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9가-힣()@:%_\+;.~#?&//=]*)/g,
+            /https?:\/\/((?!www\.youtube\.com\/embed\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b[-a-zA-Z0-9가-힣()@:%_\+;.~#?&//=]*)/g,
             function (match) {
-                console.log(match);
                 return '<a href="' + match + '">' + match + '</a>';
             }
         )

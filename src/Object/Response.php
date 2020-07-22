@@ -29,6 +29,8 @@ class Response
     private $attachment;
     /** @var array */
     private $attachmentInfo;
+    /** @var string */
+    private $youtube;
     /** @var bool */
     private $mask;
 
@@ -43,6 +45,7 @@ class Response
      * @param DateTime $createDate
      * @param ResponseContent $content
      * @param string $attachment
+     * @param string $youtube
      */
     public function __construct(
         int $threadUid,
@@ -53,7 +56,8 @@ class Response
         string $ip,
         DateTime $createDate,
         ResponseContent $content,
-        string $attachment
+        string $attachment,
+        string $youtube
     ) {
         $this->threadUid = $threadUid;
         $this->responseUid = $responseUid;
@@ -64,6 +68,7 @@ class Response
         $this->createDate = $createDate;
         $this->content = $content;
         $this->attachment = $attachment;
+        $this->youtube = $youtube;
     }
 
     /**
@@ -154,11 +159,25 @@ class Response
         $this->attachmentInfo = $attachmentInfo;
     }
 
+    /**
+     * @return string
+     */
+    public function getYoutube(): string
+    {
+        return $this->youtube;
+    }
+
+    /**
+     * @return bool
+     */
     public function getMask(): bool
     {
         return $this->mask;
     }
 
+    /**
+     * @param bool $mask
+     */
     public function setMask(bool $mask)
     {
         $this->mask = $mask;

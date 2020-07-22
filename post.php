@@ -58,6 +58,7 @@ if ($userName === '') {
 }
 $console = explode('.', $_POST['console']);
 $content = str_replace(array("\r\n", "\r", "\n"), '<br/>', htmlspecialchars($_POST['content']));
+$youtube = $_POST['youtube'];
 $returnUrl = $_POST['return_url'];
 $ip = $netUtil->getIP();
 $currentDateTime = new DateTime();
@@ -77,6 +78,7 @@ try {
             $console,
             $content,
             $attachment,
+            $youtube,
             $title,
             $password,
             $ip,
@@ -90,6 +92,7 @@ try {
             $console,
             $content,
             $attachment,
+            $youtube,
             $ip,
             $currentDateTime
         );

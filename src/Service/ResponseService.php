@@ -76,6 +76,7 @@ class ResponseService
                 $response->getCreateDate(),
                 $response->getContent(),
                 $response->getAttachment(),
+                $response->getYoutube(),
                 new \DateTime()
             );
             if ($thread->getPassword() !== hash('sha256', $threadPassword)) {
@@ -126,6 +127,7 @@ class ResponseService
                 $arcResponse->getCreateDate(),
                 $arcResponse->getContent(),
                 $arcResponse->getAttachment(),
+                $arcResponse->getYoutube()
             );
             if ($thread->getPassword() !== hash('sha256', $threadPassword)) {
                 throw new InvalidUserInputException('User password is not matched with Thread password.');

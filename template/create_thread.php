@@ -14,6 +14,10 @@
                       required=""
                       class="post_form_content"></textarea>
             <input type="file" name="attachment" class="post_form_attachment">
+            <input type="text"
+                   name="youtube"
+                   placeholder="유튜브 링크하기(예시: https://www.youtube.com/watch?v=a1b2c3d4)"
+                   class="post_form_default">
             <button class="button_default thread_form_submit">작성</button>
         </form>
     </fieldset>

@@ -28,6 +28,7 @@ insert into arc_response (arc_response_uid,
                           create_date,
                           content,
                           attachment,
+                          youtube,
                           archive_date)
 values (:arc_response_uid,
         :response_uid,
@@ -39,6 +40,7 @@ values (:arc_response_uid,
         :create_date,
         :content,
         :attachment,
+        :youtube,
         :archive_date)
 SQL;
         $conn = $this->dataSource->getConnection();
@@ -53,6 +55,7 @@ SQL;
         $stmt->bindValue(':create_date', $arcResponse->getCreateDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
         $stmt->bindValue(':content', $arcResponse->getContent(), \PDO::PARAM_STR);
         $stmt->bindValue(':attachment', $arcResponse->getAttachment(), \PDO::PARAM_STR);
+        $stmt->bindValue(':youtube', $arcResponse->getYoutube(), \PDO::PARAM_STR);
         $stmt->bindValue(':archive_date', $arcResponse->getArchiveDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
         $stmt->execute();
         $error = $stmt->errorInfo();
@@ -104,6 +107,7 @@ SQL;
             \DateTime::createFromFormat('Y-m-d H:i:s', $rawArcResponse['create_date']),
             new ResponseContent($rawArcResponse['content']),
             $rawArcResponse['attachment'],
+            $rawArcResponse['youtube'],
             \DateTime::createFromFormat('Y-m-d H:i:s', $rawArcResponse['archive_date']),
         );
         return $arcResponse;

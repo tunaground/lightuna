@@ -29,6 +29,23 @@ HTML;
     $image = '';
 }
 
+if ($response->getYoutube() !== '') {
+    $youtubeLink = $response->getYoutube();
+    preg_match('/https:\/\/www\.youtube.com\/watch\?v=(.+)/', $youtubeLink, $matches);
+    if (isset($matches[1])) {
+        $youtubeEmbed = <<<HTML
+<iframe
+    class="youtube"
+    src="https://www.youtube.com/embed/$matches[1]"
+    frameborder="0"
+    allowfullscreen>
+</iframe>
+HTML;
+    }
+} else {
+    $youtubeEmbed = '';
+}
+
 if ($response->getSequence() > 0) {
     $baseUrl = $config['site']['baseUrl'];
     $threadUid = $response->getThreadUid();
@@ -61,5 +78,8 @@ HTML;
     </p>
     <p class="response_create_date"><?= $createDate ?></p>
     <?= $image ?>
-    <div class="content"><?= $response->getContent() ?></div>
+    <div class="content">
+        <?= $youtubeEmbed ?>
+        <?= $response->getContent() ?>
+    </div>
 </div>

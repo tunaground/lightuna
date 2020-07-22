@@ -61,6 +61,7 @@ class PostService
      * @param array $console
      * @param string $content
      * @param string $attachment
+     * @param string $youtube
      * @param string $title
      * @param string $password
      * @param string $ip
@@ -73,6 +74,7 @@ class PostService
         array $console,
         string $content,
         string $attachment,
+        string $youtube,
         string $title,
         string $password,
         string $ip,
@@ -110,6 +112,7 @@ class PostService
                 $console,
                 $content,
                 $attachment,
+                $youtube,
                 $ip,
                 $currentDateTime
             );
@@ -132,6 +135,7 @@ class PostService
      * @param array $console
      * @param string $content
      * @param string $attachment
+     * @param string $youtube
      * @param string $ip
      * @param DateTime $currentDateTime
      * @throws InvalidUserInputException
@@ -143,6 +147,7 @@ class PostService
         array $console,
         string $content,
         string $attachment,
+        string $youtube,
         string $ip,
         DateTime $currentDateTime
     ) {
@@ -183,7 +188,8 @@ class PostService
                 $ip,
                 $currentDateTime,
                 $responseContent,
-                $attachment
+                $attachment,
+                $youtube
             );
             $this->responseDao->createResponse($response);
             if (!in_array('noup', $console, true)) {
@@ -306,5 +312,12 @@ class PostService
             throw new InvalidUserInputException("Content length too long.");
         }
         return $responseContent;
+    }
+
+
+    private function embedYoutube(string $youtube): string
+    {
+        preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $youtube, $matches);
+        return '<iframe class="youtube" src="https://www.youtube.com/embed/' . $matches[1] . '" frameborder="0" allowfullscreen></iframe>';
     }
 }

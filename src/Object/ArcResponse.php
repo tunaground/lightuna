@@ -31,6 +31,8 @@ class ArcResponse
     private $attachment;
     /** @var */
     private $attachmentInfo;
+    /** @var string */
+    private $youtube;
     /** @var DateTime */
     private $archiveDate;
 
@@ -46,6 +48,7 @@ class ArcResponse
      * @param DateTime $createDate
      * @param ResponseContent $content
      * @param string $attachment
+     * @param string $youtube
      * @param DateTime $archiveDate
      */
     public function __construct(
@@ -59,6 +62,7 @@ class ArcResponse
         DateTime $createDate,
         ResponseContent $content,
         string $attachment,
+        string $youtube,
         DateTime $archiveDate
     ) {
         $this->arcResponseUid = $arcResponseUid;
@@ -71,6 +75,7 @@ class ArcResponse
         $this->createDate = $createDate;
         $this->content = $content;
         $this->attachment = $attachment;
+        $this->youtube = $youtube;
         $this->archiveDate = $archiveDate;
     }
 
@@ -168,6 +173,11 @@ class ArcResponse
     public function setAttachmentInfo(array $attachmentInfo)
     {
         $this->attachmentInfo = $attachmentInfo;
+    }
+
+    public function getYoutube(): string
+    {
+        return $this->youtube;
     }
 
     /**

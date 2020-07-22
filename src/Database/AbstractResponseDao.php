@@ -151,8 +151,8 @@ SQL;
     public function createResponse(Response $response)
     {
         $sql = <<<SQL
-insert into response (response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment)
-values (:response_uid, :thread_uid, :sequence, :user_name, :user_id, :ip, :create_date, :content, :attachment)
+insert into response (response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, youtube)
+values (:response_uid, :thread_uid, :sequence, :user_name, :user_id, :ip, :create_date, :content, :attachment, :youtube)
 SQL;
         $conn = $this->dataSource->getConnection();
         $stmt = $conn->prepare($sql);
@@ -165,6 +165,7 @@ SQL;
         $stmt->bindValue(':create_date', $response->getCreateDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
         $stmt->bindValue(':content', $response->getContent(), \PDO::PARAM_STR);
         $stmt->bindValue(':attachment', $response->getAttachment(), \PDO::PARAM_STR);
+        $stmt->bindValue(':youtube', $response->getYoutube(), \PDO::PARAM_STR);
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
@@ -281,6 +282,7 @@ SQL;
             \DateTime::createFromFormat('Y-m-d H:i:s', $rawResponse['create_date']),
             new ResponseContent($rawResponse['content']),
             $rawResponse['attachment'],
+            $rawResponse['youtube']
         );
         if (isset($rawResponse['mask'])) {
             $response->setMask(($rawResponse['mask'] === '1'));
