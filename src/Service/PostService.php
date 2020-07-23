@@ -103,7 +103,7 @@ class PostService
             );
             $titleLength = mb_strlen($thread->getTitle());
             if ($titleLength < 1 || $titleLength > $this->board['maxTitleLength']) {
-                throw new InvalidUserInputException('Title length too long.');
+                throw new InvalidUserInputException(MSG_LIMIT_TITLE_LENGTH);
             }
             $this->threadDao->createThread($thread);
             $this->postResponse(
@@ -161,7 +161,7 @@ class PostService
         }
 
         if ($this->banDao->checkBanStatus($threadUid, $userId, $currentDateTime)) {
-            throw new InvalidUserInputException('Denied for user.');
+            throw new InvalidUserInputException(MSG_DENIED_USER);
         }
 
         $isResponseTransaction = false;
@@ -173,7 +173,7 @@ class PostService
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $responseSequence = $this->threadDao->getLastResponseSequence($threadUid) + 1;
             if ($responseSequence > $this->board['maxResponseSize']) {
-                throw new InvalidUserInputException('End thread.');
+                throw new InvalidUserInputException(MSG_THREAD_ENDED);
             }
             if ($responseSequence === $this->board['maxResponseSize']) {
                 $this->threadDao->setThreadEnd($thread->getThreadUid(), true);
@@ -245,7 +245,7 @@ class PostService
             );
             $responseInterval = $currentDateTime->getTimestamp() - $lastResponseDateTime->getTimestamp();
             if ($responseInterval < $this->board['maxResponseInterval']) {
-                throw new InvalidUserInputException('Too many response.');
+                throw new InvalidUserInputException(MSG_TOO_MANY_RESPONSE);
             }
             if ($responseInterval > $this->board['maxDuplicateResponseInterval']) {
                 unset($_SESSION['lastContentHash']);
@@ -258,7 +258,7 @@ class PostService
             array_key_exists('lastContentHash', $_SESSION)
             && $_SESSION['lastContentHash'] === $currentResponseContentHash
         ) {
-            throw new InvalidUserInputException('Too many duplicated response content.');
+            throw new InvalidUserInputException(MSG_TOO_MANY_DUPLICATED_RESPONSE);
         } else {
             $_SESSION['lastContentHash'] = $currentResponseContentHash;
         }
@@ -274,7 +274,7 @@ class PostService
             return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2]), -10) . '</b>';
         }, $userName);
         if (mb_strlen($userName) > $this->board['maxNameLength']) {
-            throw new InvalidUserInputException('User name too long.');
+            throw new InvalidUserInputException(MSG_LIMIT_USER_NAME_LENGTH);
         }
         return $userName;
     }
@@ -309,7 +309,7 @@ class PostService
             $responseContent->applyAsciiArtTagAll();
         }
         if (mb_strlen($responseContent) > $this->board['maxContentLength']) {
-            throw new InvalidUserInputException("Content length too long.");
+            throw new InvalidUserInputException(MSG_LIMIT_CONTENT_LENGTH);
         }
         return $responseContent;
     }

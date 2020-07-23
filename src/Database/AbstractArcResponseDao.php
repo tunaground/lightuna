@@ -61,7 +61,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -86,7 +86,7 @@ SQL;
             return $this->rawToObject($stmt->fetch(\PDO::FETCH_ASSOC));
         } else {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -130,7 +130,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 }

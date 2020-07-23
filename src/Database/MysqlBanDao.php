@@ -16,7 +16,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
         $sql = <<<SQL
 select last_insert_id();
@@ -26,7 +26,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
         return $stmt->fetchColumn();
     }

@@ -12,7 +12,15 @@ require('./require.php');
     <title>오류 :: <?= $board['name'] ?></title>
 </head>
 <body>
-오류: <?=$_SERVER['PATH_INFO']?>
+<p>
+    오류: <?= $_SERVER['PATH_INFO'] ?>
+</p>
+<p>
+    메세지: <?= $_GET['msg'] ?>
+</p>
+<p>
+    문의: <?= $config['site']['managerEmail'] ?>
+</p>
 <?php
 require(__DIR__ . '/template/version.php');
 ?>

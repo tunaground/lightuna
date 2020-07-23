@@ -37,7 +37,7 @@ class UriParser
         try {
             return $this->getPartByIndex(0);
         } catch (\OutOfBoundsException $e) {
-            throw new InvalidUserInputException('Invalid Board UID');
+            throw new InvalidUserInputException(MSG_INVALID_BOARD_UID);
         }
     }
 
@@ -50,7 +50,7 @@ class UriParser
         try {
             return (int)$this->getPartByIndex(1);
         } catch (\OutOfBoundsException $e) {
-            throw new InvalidUserInputException('Invalid Thread UID.');
+            throw new InvalidUserInputException(MSG_INVALID_THREAD_UID);
         }
     }
 
@@ -123,7 +123,7 @@ class UriParser
         ) {
             return $this->uri[$this->startIndex + $index];
         } else {
-            throw new \OutOfBoundsException('Index not exist.', 1);
+            throw new \OutOfBoundsException(MSG_INVALID_INDEX, 1);
         }
     }
 }

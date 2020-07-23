@@ -59,10 +59,10 @@ class ResponseService
             $arcResponseUid = $this->arcResponseDao->getNextArcResponseUid();
             $response = $this->responseDao->getResponseByResponseUid($responseUid);
             if ((int)$response->getThreadUid() !== $threadUid) {
-                throw new InvalidUserInputException('Thread UID is not matched with Response.');
+                throw new InvalidUserInputException(MSG_INVALID_THREAD_UID);
             }
             if ((int)$response->getSequence() === 0) {
-                throw new InvalidUserInputException('Cannot delete first response.');
+                throw new InvalidUserInputException(MSG_CANNOT_DELETE_FIRST_RESPONSE);
             }
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $arcResponse = new ArcResponse(
@@ -80,7 +80,7 @@ class ResponseService
                 new \DateTime()
             );
             if ($thread->getPassword() !== hash('sha256', $threadPassword)) {
-                throw new InvalidUserInputException('User password is not matched with Thread password.');
+                throw new InvalidUserInputException(MSG_INVALID_PASSWORD);
             }
             $this->arcResponseDao->createArcResponse($arcResponse);
             $this->responseDao->deleteResponse($responseUid);
@@ -111,10 +111,10 @@ class ResponseService
             $this->dataSource->beginTransaction();
             $arcResponse = $this->arcResponseDao->getArcResponseByResponseUid($responseUid);
             if ((int)$arcResponse->getThreadUid() !== $threadUid) {
-                throw new InvalidUserInputException('Thread UID is not matched with Response.');
+                throw new InvalidUserInputException(MSG_INVALID_THREAD_UID);
             }
             if ((int)$arcResponse->getSequence() === 0) {
-                throw new InvalidUserInputException('Cannot delete first response.');
+                throw new InvalidUserInputException(MSG_CANNOT_DELETE_FIRST_RESPONSE);
             }
             $thread = $this->threadDao->getThreadByThreadUid($threadUid);
             $response = new Response(
@@ -130,7 +130,7 @@ class ResponseService
                 $arcResponse->getYoutube()
             );
             if ($thread->getPassword() !== hash('sha256', $threadPassword)) {
-                throw new InvalidUserInputException('User password is not matched with Thread password.');
+                throw new InvalidUserInputException(MSG_INVALID_PASSWORD);
             }
             $this->responseDao->createResponse($response);
             $this->arcResponseDao->deleteArcResponse($arcResponse->getArcResponseUid());

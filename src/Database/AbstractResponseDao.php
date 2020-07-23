@@ -36,7 +36,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
         $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
         return array_map(function ($rawResponse) {
@@ -77,7 +77,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
         $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
         return array_map(function ($rawResponse) {
@@ -111,7 +111,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
         $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
         return array_map(function ($rawResponse) {
@@ -140,7 +140,7 @@ SQL;
             return $this->rawToObject($stmt->fetch(\PDO::FETCH_ASSOC));
         } else {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -170,7 +170,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -191,7 +191,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -213,7 +213,7 @@ SQL;
         try {
             return $this->findBy($sql, $userName, $start, $limit);
         } catch (DataAccessException $e) {
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -235,7 +235,7 @@ SQL;
         try {
             return $this->findBy($sql, $userId, $start, $limit);
         } catch (DataAccessException $e) {
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
     }
 
@@ -258,7 +258,7 @@ SQL;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             $this->logQueryError(__METHOD__, $error[2]);
-            throw new DataAccessException('Failed to query.');
+            throw new DataAccessException(MSG_QUERY_FAILED);
         }
         $rawResponses = ($stmt->rowCount() > 0) ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
         return array_map(function ($rawResponse) {

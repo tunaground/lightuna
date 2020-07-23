@@ -14,7 +14,8 @@ return [
         'imageUploadPrefix' => '/upload',
         'imageUploadPath' => __DIR__ . '/../upload',
         'allowFileType' => ['image/png', 'image/jpg', 'image/jpeg'],
-        'logFilePath' => __DIR__ . '/../logs/info.log'
+        'logFilePath' => __DIR__ . '/../logs/info.log',
+        'managerEmail' => 'admin@example.com'
     ],
     'middleware' => [
         new Location(
@@ -59,7 +60,8 @@ return [
             'maxImageSize' => 1 * 1024 * 1024,
             'maxImageNameLength' => 80,
             'style' => 'default.css',
-            'customWeek' => ['일', '월', '화', '수', '목', '금', '토']
+            'customWeek' => ['일', '월', '화', '수', '목', '금', '토'],
+            'managerEmail' => 'admin@example.com'
         ],
         'develop' => [
             'uid' => 'develop',

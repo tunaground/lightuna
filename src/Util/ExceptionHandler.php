@@ -33,7 +33,7 @@ class ExceptionHandler
             $this->printError($e);
             die();
         } else {
-            Redirection::temporary($this->config['site']['baseUrl'] . '/error.php' . $code);
+            Redirection::temporary($this->config['site']['baseUrl'] . '/error.php' . $code . "?msg=" . $e->getMessage());
         }
     }
 

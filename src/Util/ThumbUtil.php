@@ -21,11 +21,11 @@ class ThumbUtil
     {
         $fileContents = file_get_contents($fileName);
         if ($fileContents === false) {
-            throw new \InvalidArgumentException('Cannot read source file contents.');
+            throw new \InvalidArgumentException(MSG_FAIL_FILE_READ);
         }
         $sourceImage = imagecreatefromstring($fileContents);
         if ($sourceImage === false) {
-            throw new \RuntimeException('Cannot create image from string.');
+            throw new \RuntimeException(MSG_FAIL_FILE_CREATE);
         }
 
         list($width, $height) = $this->getImageSize($sourceImage);
@@ -33,15 +33,15 @@ class ThumbUtil
 
         $virtualImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
         if ($virtualImage === false) {
-            throw new \RuntimeException('Cannot create virtual image.');
+            throw new \RuntimeException(MSG_FAIL_VIRTUAL_IMAGE_CREATE);
         }
         $sampleArgs = [$virtualImage, $sourceImage, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height];
         if (imagecopyresampled(...$sampleArgs) !== true) {
-            throw new \RuntimeException('Cannot resample image.');
+            throw new \RuntimeException(MSG_FAIL_IMAGE_RESAMPLE);
         }
         $thumbName = "{$uploadPath}/{$imageName}";
         if (imagejpeg($virtualImage, $thumbName) !== true) {
-            throw new SystemException('Cannot save resampled image.');
+            throw new SystemException(MSG_FAIL_IMAGE_SAVE);
         }
     }
 
@@ -55,7 +55,7 @@ class ThumbUtil
         $width = imagesx($sourceImage);
         $height = imagesy($sourceImage);
         if ($width === false || $height === false) {
-            throw new \InvalidArgumentException('Cannot get image size.');
+            throw new \InvalidArgumentException(MSG_IMAGE_GET_SIZE_FAILED);
         }
         return [$width, $height];
     }

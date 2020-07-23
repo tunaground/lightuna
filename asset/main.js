@@ -7,12 +7,12 @@ function useConsole(root, threadUid) {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === true) {
-                    alert('Success!');
+                    alert('성공!');
                 } else {
-                    alert('Failed: ' + response.message);
+                    alert('실패: ' + response.message);
                 }
             } else {
-                alert('Failed...');
+                alert('실패...');
             }
         }
     };
@@ -98,13 +98,13 @@ function manageThread(root, boardUid, threadUid) {
                 console.log(xhr.responseText);
                 const response = JSON.parse(xhr.responseText);
                 if (response.result === true) {
-                    alert('Success!');
+                    alert('성공!');
                     window.location.href = root + '/mthread.php/' + boardUid + '/' + threadUid;
                 } else {
-                    alert('Failed: ' + response.message);
+                    alert('실패: ' + response.message);
                 }
             } else {
-                alert('Failed...');
+                alert('실패...');
             }
         }
     };
@@ -268,10 +268,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             applyAnchor(cloneRes.getElementsByClassName('content')[0]);
                             applyLink(cloneRes.getElementsByClassName('content')[0]);
                         } else {
-                            alert('Failed: ' + response.message);
+                            alert('실패: ' + response.message);
                         }
                     } else {
-                        alert('Failed...');
+                        alert('실패...');
                     }
                 }
             };

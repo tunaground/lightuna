@@ -2,6 +2,8 @@
 // Version
 $version = '0.5.1';
 
+require('./config/message.php');
+
 // Check Front Page
 if (FRONT_PAGE !== true) {
     header('HTTP/1.0 403 Forbidden');

@@ -41,21 +41,21 @@ class AttachmentService
     public function upload(array $fileRequest): string
     {
         if (!$this->checkError($fileRequest)) {
-            throw new SystemException('File upload failed.');
+            throw new SystemException(MSG_FILE_UPLOAD_FAILED);
         } elseif (!$this->checkFileExists($fileRequest)) {
-            throw new InvalidUserInputException('File not uploaded.');
+            throw new InvalidUserInputException(MSG_FILE_UPLOAD_FAILED);
         } elseif (!$this->checkType($fileRequest)) {
-            throw new InvalidUserInputException('Invalid file type.');
+            throw new InvalidUserInputException(MSG_LIMIT_FILE_TYPE);
         } elseif (!$this->checkSize($fileRequest)) {
-            throw new InvalidUserInputException('Invalid file size.');
+            throw new InvalidUserInputException(MSG_INVALID_FILE);
         } elseif (!$this->checkSizeLimit($fileRequest)) {
-            throw new InvalidUserInputException('File size too huge.');
+            throw new InvalidUserInputException(MSG_LIMIT_FILE_SIZE);
         }
         $this->createDirectory($this->config['site']['imageUploadPath']);
         $imageName = $this->makeImageName($fileRequest);
         $fileName = $this->config['site']['imageUploadPath'] . '/image/' . $imageName;
         if (move_uploaded_file($fileRequest['tmp_name'], $fileName) !== true) {
-            throw new SystemException('Cannot move uploaded file.');
+            throw new SystemException(MSG_FILE_MOVE_FAILED);
         }
         $this->thumbUtil->makeThumb(
             $this->config['site']['imageUploadPath'] . '/thumb',
@@ -101,7 +101,7 @@ class AttachmentService
         foreach ([$imagePath, $thumbPath] as $path) {
             if (file_exists($path) === false) {
                 if (mkdir($path, 0750, true) !== true) {
-                    throw new SystemException('Cannot create upload directories');
+                    throw new SystemException(MSG_DIRECTORY_CREATE_FAILED);
                 }
             }
         }
@@ -120,7 +120,7 @@ class AttachmentService
         $imageName = "{$time}-{$rand}-{$name}";
         $imageName = htmlspecialchars($imageName);
         if (mb_strlen($imageName, 'utf-8') > $this->board['maxImageNameLength']) {
-            throw new InvalidUserInputException('File name too long.');
+            throw new InvalidUserInputException(MSG_LIMIT_FILENAME_LENGTH);
         }
         return $imageName;
     }

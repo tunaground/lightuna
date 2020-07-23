@@ -33,7 +33,7 @@ class ThreadService
             throw $e;
         }
         if ($thread->getPassword() !== hash('sha256', $password)) {
-            throw new InvalidUserInputException('User password is not matched with Thread password.');
+            throw new InvalidUserInputException(MSG_INVALID_PASSWORD);
         }
     }
 

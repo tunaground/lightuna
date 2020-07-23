@@ -16,7 +16,7 @@ class Board extends \ArrayObject
     public function __construct(array $config, string $boardUid)
     {
         if (!isset($config['boards'][$boardUid])) {
-            throw new \UnexpectedValueException('Unknown Board UID.');
+            throw new \UnexpectedValueException(MSG_INVALID_BOARD_UID);
         }
         parent::__construct(
             array_merge(
