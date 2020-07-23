@@ -55,13 +55,13 @@ SQL;
     {
         $sql = <<<SQL
 select  *
-from   (select  response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, 0 as mask
+from   (select  response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, youtube, 0 as mask
         from    response
         where   thread_uid = :thread_uid
             and sequence >= :start
             and sequence <= :end
         union
-        select  response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, 1 as mask
+        select  response_uid, thread_uid, sequence, user_name, user_id, ip, create_date, content, attachment, youtube, 1 as mask
         from    arc_response
         where   thread_uid = :thread_uid
             and sequence >= :start
