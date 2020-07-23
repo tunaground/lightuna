@@ -21,11 +21,11 @@ class ThumbUtil
     {
         $fileContents = file_get_contents($fileName);
         if ($fileContents === false) {
-            throw new \InvalidArgumentException(MSG_FAIL_FILE_READ);
+            throw new \InvalidArgumentException(MSG_FILE_READ_FAILED);
         }
         $sourceImage = imagecreatefromstring($fileContents);
         if ($sourceImage === false) {
-            throw new \RuntimeException(MSG_FAIL_FILE_CREATE);
+            throw new \RuntimeException(MSG_FILE_CREATE_FAILED);
         }
 
         list($width, $height) = $this->getImageSize($sourceImage);
@@ -33,15 +33,15 @@ class ThumbUtil
 
         $virtualImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
         if ($virtualImage === false) {
-            throw new \RuntimeException(MSG_FAIL_VIRTUAL_IMAGE_CREATE);
+            throw new \RuntimeException(MSG_VIRTUAL_IMAGE_CREATE_FAILED);
         }
         $sampleArgs = [$virtualImage, $sourceImage, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height];
         if (imagecopyresampled(...$sampleArgs) !== true) {
-            throw new \RuntimeException(MSG_FAIL_IMAGE_RESAMPLE);
+            throw new \RuntimeException(MSG_IMAGE_RESAMPLE_FAILED);
         }
         $thumbName = "{$uploadPath}/{$imageName}";
         if (imagejpeg($virtualImage, $thumbName) !== true) {
-            throw new SystemException(MSG_FAIL_IMAGE_SAVE);
+            throw new SystemException(MSG_IMAGE_SAVE_FAILED);
         }
     }
 
