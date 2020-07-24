@@ -234,6 +234,7 @@ select  *
 from    thread
 where   board_uid = :board_uid
     and title like :keyword
+order by update_date desc
 limit   :start, :limit
 SQL;
         try {
@@ -258,6 +259,7 @@ select  *
 from    thread
 where   board_uid = :board_uid
     and user_name like :keyword
+order by update_date desc
 limit   :start, :limit
 SQL;
         try {
