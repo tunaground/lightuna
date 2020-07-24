@@ -271,7 +271,7 @@ class PostService
     private function makeUserName(string $userName)
     {
         $userName = preg_replace_callback("/([^\#]*)\#(.+)/", function ($matches) {
-            return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2]), -10) . '</b>';
+            return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2], 'lightuna'), -10) . '</b>';
         }, $userName);
         if (mb_strlen($userName) > $this->board['maxNameLength']) {
             throw new InvalidUserInputException(MSG_LIMIT_USER_NAME_LENGTH);
