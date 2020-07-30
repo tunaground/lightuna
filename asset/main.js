@@ -132,6 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
         el.innerHTML = el.innerHTML.replace(
             /([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/gm,
             function (match, boardUid, threadUid, responseStart, responseEnd) {
+                if (boardUid === '' && threadUid === '' && responseStart === '') {
+                    return match;
+                }
                 boardUid = (boardUid === '') ? parentElement.dataset.boardUid : boardUid;
                 threadUid = (threadUid === '') ? parentElement.dataset.threadUid : threadUid;
                 const inPageAnchor = 'response_' + threadUid + '_' + responseStart;
