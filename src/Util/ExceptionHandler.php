@@ -16,16 +16,15 @@ class ExceptionHandler
 
     public function global(\Throwable $e)
     {
-        $this->handle('/unknown', $e);
+        $this->handle($e);
     }
 
-    public function handle(string $code, \Throwable $e)
+    public function handle(\Throwable $e)
     {
         $this->logger->debug(
             '{file}: Exception occur: {code}: {msg}',
             [
                 'file' => $e->getFile(),
-                'code' => $code,
                 'msg' => $e->getMessage()
             ]
         );
@@ -33,7 +32,9 @@ class ExceptionHandler
             $this->printError($e);
             die();
         } else {
-            Redirection::temporary($this->config['site']['baseUrl'] . '/error.php' . $code . "?msg=" . $e->getMessage());
+            Redirection::temporary(
+                "{$this->config['site']['baseUrl']}/error.php?msg={$e->getMessage()}"
+            );
         }
     }
 

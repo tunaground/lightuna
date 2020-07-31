@@ -35,7 +35,7 @@ try {
     $board = new Board($config, $uriParser->getBoardUid());
 } catch (UnexpectedValueException $e) {
     $logger->debug('index.php: Invalid Board UID: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/invalid-board-uid', $e);
+    $exceptionHandler->handle($e);
 }
 
 if ($config['database']['type'] === 'mysql') {
@@ -82,10 +82,10 @@ try {
     }
 } catch (PDOException $e) {
     $logger->error('index.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/database', $e);
+    $exceptionHandler->handle($e);
 } catch (DataAccessException $e) {
     $logger->error('index.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/data-access', $e);
+    $exceptionHandler->handle($e);
 }
 
 $searchType = SearchType::NONE;

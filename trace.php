@@ -46,13 +46,13 @@ try {
     $thread = $threadDao->getThreadByThreadUid($threadUid);
 } catch (PDOException $e) {
     $logger->error('index.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/database', $e);
+    $exceptionHandler->handle($e);
 } catch (DataAccessException $e) {
     $logger->error('trace.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/data-access', $e);
+    $exceptionHandler->handle($e);
 } catch (InvalidUserInputException $e) {
     $logger->debug('trace.php: Invalid Thread UID: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/invalid-thread-uid', $e);
+    $exceptionHandler->handle($e);
 }
 
 try {
@@ -89,10 +89,10 @@ try {
     }
 } catch (PDOException $e) {
     $logger->error('index.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/database', $e);
+    $exceptionHandler->handle($e);
 } catch (DataAccessException $e) {
     $logger->error('trace.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle('/data-access', $e);
+    $exceptionHandler->handle($e);
 }
 ?>
 
