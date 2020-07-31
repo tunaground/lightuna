@@ -1,6 +1,6 @@
 <?php
 // Version
-$version = '0.5.1';
+$version = '0.6.0';
 
 require('./config/message.php');
 
