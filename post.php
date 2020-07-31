@@ -21,7 +21,7 @@ use Lightuna\Util\ExceptionHandler;
 
 const FRONT_PAGE = true;
 
-require('./require.php');
+$config = require('./require.php');
 
 $contextParser = new ContextParser();
 $logger = new Logger($config['site']['logFilePath'], $contextParser);

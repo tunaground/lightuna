@@ -13,7 +13,7 @@ use Lightuna\Util\ExceptionHandler;
 
 define('FRONT_PAGE', true);
 
-require('./require.php');
+$config = require('./require.php');
 
 $databaseType = $config['database']['type'];
 $dataSource = new DataSource(

@@ -1,7 +1,7 @@
 <?php
 define('FRONT_PAGE', true);
 
-require('./require.php');
+$config = require('./require.php');
 ?>
 
 <html>

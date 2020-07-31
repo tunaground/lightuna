@@ -19,7 +19,7 @@ use Lightuna\Object\Board;
 
 define('FRONT_PAGE', true);
 
-require('./require.php');
+$config = require('./require.php');
 
 ini_set('display_errors', false);
 

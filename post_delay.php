@@ -3,7 +3,7 @@ use Lightuna\Util\Redirection;
 
 const FRONT_PAGE = true;
 
-require('./require.php');
+$config = require('./require.php');
 ?>
 <html>
 <head>

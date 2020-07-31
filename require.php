@@ -56,3 +56,5 @@ foreach($config['middleware'] as $middleware) {
         $middleware->handle($config, $_SERVER);
     }
 }
+
+return $config;

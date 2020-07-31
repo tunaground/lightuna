@@ -15,7 +15,7 @@ use Lightuna\Util\ExceptionHandler;
 
 define('FRONT_PAGE', true);
 
-require('./require.php');
+$config = require('./require.php');
 
 $returnUrl = $_SERVER['REQUEST_URI'];
 $contextParser = new ContextParser();
