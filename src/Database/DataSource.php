@@ -1,8 +1,6 @@
 <?php
 namespace Lightuna\Database;
 
-use Lightuna\Exception\ExceptionMessage;
-use Lightuna\Exception\LightunaErrorException;
 use Lightuna\Log\Logger;
 use Lightuna\Log\SetLoggerTrait;
 
