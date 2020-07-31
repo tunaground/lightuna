@@ -13,10 +13,7 @@ $config = require('./require.php');
 </head>
 <body>
 <p>
-    오류: <?= $_SERVER['PATH_INFO'] ?>
-</p>
-<p>
-    메세지: <?= $_GET['msg'] ?>
+    오류: <?= $_GET['msg'] ?>
 </p>
 <p>
     문의: <?= $config['site']['managerEmail'] ?>

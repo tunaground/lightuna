@@ -22,7 +22,7 @@ class ExceptionHandler
     public function handle(\Throwable $e)
     {
         $this->logger->debug(
-            '{file}: Exception occur: {code}: {msg}',
+            '{file}: Exception occur: {msg}',
             [
                 'file' => $e->getFile(),
                 'msg' => $e->getMessage()
