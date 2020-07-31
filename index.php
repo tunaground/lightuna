@@ -82,7 +82,7 @@ try {
     }
 } catch (PDOException $e) {
     $logger->error('index.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle($e);
+    $exceptionHandler->handle(new PDOException(MSG_DATABASE_FAILED));
 } catch (DataAccessException $e) {
     $logger->error('index.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
     $exceptionHandler->handle($e);

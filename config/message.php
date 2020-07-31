@@ -30,3 +30,4 @@ const MSG_TOO_MANY_RESPONSE = '리스폰스 요청이 너무 많습니다.';
 const MSG_TOO_MANY_DUPLICATED_RESPONSE = '반복 리스폰스 요청이 너무 많습니다.';
 
 const MSG_QUERY_FAILED = '데이터베이스 질의에 실패했습니다.';
+const MSG_DATABASE_FAILED = '데이터베이스 통신에 실패했습니다.';

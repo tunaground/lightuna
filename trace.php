@@ -46,7 +46,7 @@ try {
     $thread = $threadDao->getThreadByThreadUid($threadUid);
 } catch (PDOException $e) {
     $logger->error('index.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle($e);
+    $exceptionHandler->handle(new PDOException(MSG_DATABASE_FAILED));
 } catch (DataAccessException $e) {
     $logger->error('trace.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
     $exceptionHandler->handle($e);
@@ -89,7 +89,7 @@ try {
     }
 } catch (PDOException $e) {
     $logger->error('index.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
-    $exceptionHandler->handle($e);
+    $exceptionHandler->handle(new PDOException(MSG_DATABASE_FAILED));
 } catch (DataAccessException $e) {
     $logger->error('trace.php: Data access exception: {msg}', ['msg' => $e->getMessage()]);
     $exceptionHandler->handle($e);
