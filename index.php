@@ -47,7 +47,7 @@ if ($config['database']['type'] === 'mysql') {
 }
 
 try {
-    $threads = $threadDao->getThreadListByBoardUid($board['id'], $board['maxThreadListView']);
+    $threads = $threadDao->getThreadListByBoardUid($board['uid'], $board['maxThreadListView']);
     for ($i = 0; $i < sizeof($threads); $i++) {
         $lastResponseSequence = $threadDao->getLastResponseSequence($threads[$i]->getThreadUid());
         $dead = ($lastResponseSequence >= $board['maxResponseSize']);
@@ -133,6 +133,11 @@ $keyword = '';
                 <p>
             </a>
         </div>
+    </div>
+</div>
+<div id="notice_container">
+    <div id="notice">
+        <?php include("./config/{$board['uid']}.html"); ?>
     </div>
 </div>
 <div id="thread_section">
