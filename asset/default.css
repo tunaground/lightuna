@@ -184,6 +184,22 @@ nav ul li a {
     font-size: 0.9em;
 }
 
+#notice_container {
+    display: flex;
+    margin: 3em 0;
+    align-items: center;
+    justify-content: center;
+}
+
+#notice {
+    width: 58em;
+    background-color: rgb(255, 255, 255);
+    border: rgb(210, 210, 210) 1px solid;
+    color: rgb(80, 80, 80);
+    box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
+    padding: 1em;
+}
+
 #thread_section {
     display: -webkit-box;
     display: -moz-box;
