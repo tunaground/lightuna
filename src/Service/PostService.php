@@ -271,7 +271,11 @@ class PostService
     private function makeUserName(string $userName)
     {
         $userName = preg_replace_callback("/([^\#]*)\#(.+)/", function ($matches) {
-            return $matches[1] . '<b>◆' . mb_substr(crypt($matches[2], 'lightuna'), -10) . '</b>';
+            $salt = substr($matches[2]."H.", 1, 2);
+            $salt = preg_replace("/[^\.-z]/", ".", $salt);
+            $salt = strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef0123456789");
+            $trip = substr(crypt($matches[2], $salt),-10);
+            return $matches[1] . '<b>◆' . $trip . '</b>';
         }, $userName);
         if (mb_strlen($userName) > $this->board['maxNameLength']) {
             throw new InvalidUserInputException(MSG_LIMIT_USER_NAME_LENGTH);
@@ -285,7 +289,10 @@ class PostService
      */
     private function makeUserId(string $ip, Datetime $currentDateTime)
     {
-        return mb_substr(crypt($currentDateTime->format('Ymd'), $ip), -10);
+        $salt = substr($ip.$currentDateTime->format('Ymd')."H.", 1, 2);
+        $salt = preg_replace("/[^\.-z]/", ".", $salt);
+        $salt = strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef0123456789");
+        return substr(crypt($ip.$currentDateTime->format('Ymd'), $salt),-10);
     }
 
     /**
