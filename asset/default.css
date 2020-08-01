@@ -192,12 +192,17 @@ nav ul li a {
 }
 
 #notice {
-    width: 58em;
+    width: 60em;
     background-color: rgb(255, 255, 255);
     border: rgb(210, 210, 210) 1px solid;
     color: rgb(80, 80, 80);
     box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
-    padding: 1em;
+    overflow: auto;
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+#notice div {
+    margin: 1em;
 }
 
 #thread_section {
