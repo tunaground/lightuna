@@ -101,6 +101,7 @@ try {
         $returnUrl .= '#relay';
     }
     $baseUrl = $config['site']['baseUrl'];
+    $returnUrl = urlencode($returnUrl);
     Redirection::temporary("{$baseUrl}/post_delay.php?return_url=$returnUrl");
 } catch (PDOException $e) {
     $logger->error('post.php: Database exception: {msg}', ['msg' => $e->getMessage()]);
