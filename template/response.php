@@ -39,7 +39,7 @@ if ($response->getYoutube() !== '') {
     src="https://www.youtube.com/embed/$matches[1]"
     frameborder="0"
     allowfullscreen>
-</iframe>
+</iframe><br/>
 HTML;
     }
 } else {
