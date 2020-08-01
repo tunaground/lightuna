@@ -30,7 +30,7 @@ body {
     font-family: 'Nanum Gothic', sans-serif;
     margin: 0;
     padding: 3em 0 0 0;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(230, 230, 230);
 }
 
 nav {
@@ -71,7 +71,7 @@ nav ul li a {
 .search_form {
     width: 60em;
     padding: 0;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(250, 250, 250);
     border: rgb(210, 210, 210) 1px solid;
     color: rgb(80, 80, 80);
     box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
@@ -123,7 +123,7 @@ nav ul li a {
 
 #thread_list {
     width: 60em;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(250, 250, 250);
     border: rgb(210, 210, 210) 1px solid;
     color: rgb(80, 80, 80);
     box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
@@ -135,7 +135,7 @@ nav ul li a {
 }
 
 .thread_list_item:hover {
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 240, 240);
     -webkit-transition: background-color 300ms linear;
     transition: background-color 300ms linear;
 }
@@ -193,7 +193,7 @@ nav ul li a {
 
 #notice {
     width: 60em;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(250, 250, 250);
     border: rgb(210, 210, 210) 1px solid;
     color: rgb(80, 80, 80);
     box-shadow: 5px 5px 20px -8px rgba(0,0,0,0.75);
@@ -218,7 +218,7 @@ nav ul li a {
 }
 
 .thread {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(250, 250, 250);
     border: rgb(210, 210, 210) 1px solid;
     color: rgb(80, 80, 80);
     width: 60em;
@@ -229,11 +229,11 @@ nav ul li a {
 .thread_head {
     padding: 1.3em 0.8em;
     border: none;
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 240, 240);
 }
 
 .dead_sign {
-    color: rgb(255, 255, 255);
+    color: rgb(250, 250, 250);
     text-align: center;
     padding: 0.3em;
     background-color: rgb(50, 50, 50);
@@ -280,7 +280,7 @@ nav ul li a {
 }
 
 .response:hover {
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 240, 240);
     -webkit-transition: background-color 300ms linear;
     transition: background-color 300ms linear;
 }
@@ -338,7 +338,7 @@ nav ul li a {
 .post_form {
     border: none;
     margin: 0;
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 240, 240);
 }
 
 .post_form form {
@@ -346,11 +346,11 @@ nav ul li a {
 }
 
 .post_form input {
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 240, 240);
  }
 
 .post_form textarea {
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 240, 240);
 }
 
 .post_form_default {
@@ -395,12 +395,12 @@ nav ul li a {
 
 .button_default {
     color: rgb(120, 120, 120);
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(250, 250, 250);
     border: rgb(150, 150, 150) 1px solid;
 }
 
 .button_default:hover {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(230, 230, 230);
     -webkit-transition: background-color 300ms linear;
     transition: background-color 300ms linear;
 }
@@ -431,7 +431,7 @@ nav ul li a {
     overflow-y: hidden;
     font-family: 'Saitamaar', serif;
     line-height: 1.1em;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgb(255, 255, 255);
 }
 
 textarea.mona {
