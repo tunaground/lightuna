@@ -1,82 +1,48 @@
 <?php
+
 namespace Lightuna\Object;
 
-use DateTime;
-
-/**
- * Class Thread
- * @package Lightuna\Object
- */
 class Thread
 {
-    /** @var string */
-    private $boardUid;
-    /** @var int */
-    private $threadUid;
-    /** @var string */
-    private $title;
-    /** @var string */
-    private $password;
-    /** @var string */
-    private $userName;
-    /** @var DateTime */
-    private $createDate;
-    /** @var DateTime */
-    private $updateDate;
-    /** @var int */
-    private $size;
-    /** @var Response[] */
-    private $responses;
-    /** @var int */
-    private $sequence;
-    /** @var bool */
-    private $end;
-
-    /**
-     * Thread constructor.
-     * @param string $boardUid
-     * @param int $threadUid
-     * @param string $title
-     * @param string $password
-     * @param string $userName
-     * @param DateTime $createDate
-     * @param DateTime $updateDate
-     * @param bool $end
-     */
     public function __construct(
-        string $boardUid,
-        int $threadUid,
-        string $title,
-        string $password,
-        string $userName,
-        DateTime $createDate,
-        DateTime $updateDate,
-        bool $end
-    ) {
-        $this->boardUid = $boardUid;
-        $this->threadUid = $threadUid;
-        $this->title = $title;
-        $this->password = $password;
-        $this->userName = $userName;
-        $this->createDate = $createDate;
-        $this->updateDate = $updateDate;
-        $this->end = $end;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBoardUid(): string
+        private ?int       $threadId = null,
+        private ?int       $boardId = null,
+        private ?string    $title = null,
+        private ?string    $password = null,
+        private ?string    $username = null,
+        private ?bool      $ended = null,
+        private ?bool      $deleted = null,
+        private ?\DateTime $createdAt = null,
+        private ?\DateTime $updatedAt = null,
+        private ?\DateTime $deletedAt = null,
+    )
     {
-        return $this->boardUid;
     }
 
     /**
      * @return int
      */
-    public function getThreadUid(): int
+    public function getThreadId(): int
     {
-        return $this->threadUid;
+        return $this->threadId;
+    }
+
+    /**
+     * @param int $threadId
+     */
+    public function setThreadId(int $threadId): void
+    {
+        $this->threadId = $threadId;
+    }
+
+    public function getBoardId(): int
+    {
+        return $this->boardId;
+    }
+
+    public function setBoardId(int $boardId): void
+    {
+        $this->boardId = $boardId;
     }
 
     /**
@@ -88,6 +54,14 @@ class Thread
     }
 
     /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
      * @return string
      */
     public function getPassword(): string
@@ -96,90 +70,101 @@ class Thread
     }
 
     /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
      * @return string
      */
-    public function getUserName(): string
+    public function getUsername(): string
     {
-        return $this->userName;
+        return $this->username;
     }
 
     /**
-     * @return DateTime
+     * @param string $username
      */
-    public function getCreateDate(): DateTime
+    public function setUsername(string $username): void
     {
-        return $this->createDate;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getUpdateDate(): DateTime
-    {
-        return $this->updateDate;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSize(): int
-    {
-        return $this->size;
-    }
-
-    /**
-     * @return Response[]
-     */
-    public function getResponses(): array
-    {
-        return $this->responses;
+        $this->username = $username;
     }
 
     /**
      * @return bool
      */
-    public function getEnd(): bool
+    public function isEnded(): bool
     {
-        return $this->end;
+        return $this->ended;
     }
 
     /**
-     * @return int
+     * @param bool $ended
      */
-    public function getSequence(): int
+    public function setEnded(bool $ended): void
     {
-        return $this->sequence;
+        $this->ended = $ended;
     }
 
     /**
-     * @param int $size
+     * @return bool
      */
-    public function setSize(int $size)
+    public function isDeleted(): bool
     {
-        $this->size = $size;
+        return $this->deleted;
     }
 
     /**
-     * @param Response[] $responses
+     * @param bool $deleted
      */
-    public function setResponses(array $responses)
+    public function setDeleted(bool $deleted): void
     {
-        $this->responses = $responses;
+        $this->deleted = $deleted;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreateAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * @param int $sequence
+     * @return \DateTime
      */
-    public function setSequence(int $sequence)
+    public function getUpdatedAt(): \DateTime
     {
-        $this->sequence = $sequence;
+        return $this->updatedAt;
     }
 
     /**
-     * @param bool $end
+     * @param \DateTime $updatedAt
      */
-    public function setEnd(bool $end)
+    public function setUpdatedAt(\DateTime $updatedAt): void
     {
-        $this->end = $end;
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt(): \DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param \DateTime $deletedAt
+     */
+    public function setDeletedAt(\DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 }
+

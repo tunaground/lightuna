@@ -1,90 +1,56 @@
 <?php
+
 namespace Lightuna\Object;
 
-use DateTime;
-
-/**
- * Class Response
- * @package Lightuna\Object
- */
 class Response
 {
-    /** @var int */
-    private $threadUid;
-    /** @var int */
-    private $responseUid;
-    /** @var int */
-    private $sequence;
-    /** @var string */
-    private $userName;
-    /** @var string */
-    private $userId;
-    /** @var string */
-    private $ip;
-    /** @var DateTime */
-    private $createDate;
-    /** @var ResponseContent */
-    private $content;
-    /** @var string */
-    private $attachment;
-    /** @var array */
-    private $attachmentInfo;
-    /** @var string */
-    private $youtube;
-    /** @var bool */
-    private $mask;
-
-    /**
-     * Response constructor.
-     * @param int $threadUid
-     * @param int $responseUid
-     * @param int $sequence
-     * @param string $userName
-     * @param string $userId
-     * @param string $ip
-     * @param DateTime $createDate
-     * @param ResponseContent $content
-     * @param string $attachment
-     * @param string $youtube
-     */
     public function __construct(
-        int $threadUid,
-        int $responseUid,
-        int $sequence,
-        string $userName,
-        string $userId,
-        string $ip,
-        DateTime $createDate,
-        ResponseContent $content,
-        string $attachment,
-        string $youtube
-    ) {
-        $this->threadUid = $threadUid;
-        $this->responseUid = $responseUid;
-        $this->sequence = $sequence;
-        $this->userName = $userName;
-        $this->userId = $userId;
-        $this->ip = $ip;
-        $this->createDate = $createDate;
-        $this->content = $content;
-        $this->attachment = $attachment;
-        $this->youtube = $youtube;
+        private ?int       $responseId = null,
+        private ?int       $threadId = null,
+        private ?int       $sequence = null,
+        private ?string    $username = null,
+        private ?string    $userId = null,
+        private ?string    $ip = null,
+        private ?string    $content = null,
+        private ?string    $attachment = null,
+        private ?string    $youtube = null,
+        private ?bool      $deleted = null,
+        private ?\DateTime $createdAt = null,
+        private ?\DateTime $deletedAt = null,
+    )
+    {
     }
 
     /**
      * @return int
      */
-    public function getThreadUid(): int
+    public function getResponseId(): int
     {
-        return $this->threadUid;
+        return $this->responseId;
+    }
+
+    /**
+     * @param int $responseId
+     */
+    public function setResponseId(int $responseId): void
+    {
+        $this->responseId = $responseId;
     }
 
     /**
      * @return int
      */
-    public function getResponseUid(): int
+    public function getThreadId(): int
     {
-        return $this->responseUid;
+        return $this->threadId;
+    }
+
+    /**
+     * @param int $threadId
+     */
+    public function setThreadId(int $threadId): void
+    {
+        $this->threadId = $threadId;
     }
 
     /**
@@ -96,11 +62,27 @@ class Response
     }
 
     /**
+     * @param int $sequence
+     */
+    public function setSequence(int $sequence): void
+    {
+        $this->sequence = $sequence;
+    }
+
+    /**
      * @return string
      */
-    public function getUserName(): string
+    public function getUsername(): string
     {
-        return $this->userName;
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
     }
 
     /**
@@ -112,6 +94,14 @@ class Response
     }
 
     /**
+     * @param string $userId
+     */
+    public function setUserId(string $userId): void
+    {
+        $this->userId = $userId;
+    }
+
+    /**
      * @return string
      */
     public function getIp(): string
@@ -120,19 +110,27 @@ class Response
     }
 
     /**
-     * @return DateTime
+     * @param string $ip
      */
-    public function getCreateDate(): DateTime
+    public function setIp(string $ip): void
     {
-        return $this->createDate;
+        $this->ip = $ip;
     }
 
     /**
-     * @return ResponseContent
+     * @return string
      */
-    public function getContent(): ResponseContent
+    public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 
     /**
@@ -144,19 +142,11 @@ class Response
     }
 
     /**
-     * @return array
+     * @param string $attachment
      */
-    public function getAttachmentInfo(): array
+    public function setAttachment(string $attachment): void
     {
-        return $this->attachmentInfo;
-    }
-
-    /**
-     * @param array $attachmentInfo
-     */
-    public function setAttachmentInfo(array $attachmentInfo)
-    {
-        $this->attachmentInfo = $attachmentInfo;
+        $this->attachment = $attachment;
     }
 
     /**
@@ -168,18 +158,60 @@ class Response
     }
 
     /**
-     * @return bool
+     * @param string $youtube
      */
-    public function getMask(): bool
+    public function setYoutube(string $youtube): void
     {
-        return $this->mask;
+        $this->youtube = $youtube;
     }
 
     /**
-     * @param bool $mask
+     * @return bool
      */
-    public function setMask(bool $mask)
+    public function getDeleted(): bool
     {
-        $this->mask = $mask;
+        return $this->deleted;
     }
+
+    /**
+     * @param bool $deleted
+     */
+    public function setDeleted(bool $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt(): \DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param \DateTime $deletedAt
+     */
+    public function setDeletedAt(\DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
+    }
+
+
 }

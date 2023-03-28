@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  web:
+    image: lightuna:1.0.0-apache
+    ports:
+    - 8080:80
+    volumes:
+    - ./:/var/www/html/
+    networks:
+    - lightuna
+  db:
+    image: mariadb:10.10.2
+    ports:
+    - 3306:3306
+    volumes:
+    - ./sample/db/conf.d/:/etc/mysql/conf.d/
+    - lightuna-db:/var/lib/mysql
+    environment:
+      TZ: Asia/Seoul
+      MYSQL_HOST: 0.0.0.0
+      MYSQL_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lightuna
+      MYSQL_USER: lightuna
+      MYSQL_PASSWORD: lightuna
+    networks:
+    - lightuna
+    restart: always
+
+volumes:
+  lightuna-db:
+
+networks:
+  lightuna:

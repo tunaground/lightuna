@@ -1,48 +1,78 @@
 <?php
+
 namespace Lightuna\Service;
 
-use Lightuna\Database\ThreadDaoInterface;
-use Lightuna\Exception\DataAccessException;
-use Lightuna\Exception\InvalidUserInputException;
+use Lightuna\Dao\MariadbResponseDao;
+use Lightuna\Dao\MariadbThreadDao;
+use Lightuna\Exception\QueryException;
+use Lightuna\Exception\ResourceNotFoundException;
+use Lightuna\Object\Board;
+use Lightuna\Object\Response;
+use Lightuna\Object\Thread;
 
-/**
- * Class ThreadService
- * @package Lightuna\Service
- */
 class ThreadService
 {
-    /** @var ThreadDaoInterface */
-    private $threadDao;
+    private MariadbThreadDao $threadDao;
+    private MariadbResponseDao $responseDao;
 
-    public function __construct(ThreadDaoInterface $threadDao)
+    public function __construct(MariadbThreadDao $threadDao, MariadbResponseDao $responseDao)
     {
         $this->threadDao = $threadDao;
+        $this->responseDao = $responseDao;
     }
 
     /**
-     * @param int $threadUid
-     * @param string $password
-     * @throws DataAccessException
-     * @throws InvalidUserInputException
+     * @throws QueryException
      */
-    public function checkThreadPassword(int $threadUid, string $password)
+    public function createThread(\PDO $pdo, Thread $thread, Response $response): int
     {
         try {
-            $thread = $this->threadDao->getThreadByThreadUid($threadUid);
-        } catch (DataAccessException $e) {
+            $pdo->beginTransaction();
+            $threadId = $this->threadDao->getNextThreadId();
+            $thread->setThreadId($threadId);
+            $this->threadDao->createThread($thread);
+            $response->setResponseId($this->responseDao->getNextResponseId());
+            $response->setThreadId($threadId);
+            $response->setSequence(0);
+            // TODO:
+            $response->setUserId('TESTER');
+            $this->responseDao->createResponse($response);
+            $pdo->commit();
+            return $threadId;
+        } catch (QueryException $e) {
+            $pdo->rollBack();
             throw $e;
-        }
-        if ($thread->getPassword() !== hash('sha256', $password)) {
-            throw new InvalidUserInputException(MSG_INVALID_PASSWORD);
         }
     }
 
-    public function endThread(int $threadUid)
+    public function createReponse(Response $response): int
     {
-        try {
-            $this->threadDao->setThreadEnd($threadUid, true);
-        } catch (DataAccessException $e) {
-            throw $e;
-        }
+        $responseId = $this->responseDao->getNextResponseId();
+        $response->setResponseId($responseId);
+        $response->setSequence($this->responseDao->getResponsesCountByThreadId($response->getThreadId()));
+        // TODO:
+        $response->setUserId('TESTER');
+        $this->responseDao->createResponse($response);
+        return $responseId;
+    }
+
+    /**
+     * @throws QueryException
+     * @return Thread[]
+     */
+    public function getThreadsByBoardId(int $boardId, int $limit, int $offset = 0): array
+    {
+        return $this->threadDao->getThreadByBoardId($boardId, $limit, $offset);
+    }
+
+    /**
+     * @param int $threadId
+     * @return array
+     * @throws QueryException
+     * @throws ResourceNotFoundException
+     */
+    public function getResponses(int $threadId): array
+    {
+        return $this->responseDao->getReponsesByThreadId($threadId);
     }
 }

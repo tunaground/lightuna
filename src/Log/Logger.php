@@ -1,78 +1,53 @@
 <?php
+
 namespace Lightuna\Log;
 
-use Lightuna\Util\ContextParser;
+use Lightuna\Stream\StreamInterface;
+<<<<<<< HEAD
+use Lightuna\Util\MessageMaker;
 
-/**
- * Class Logger
- * @package Lightuna\Log
- */
 class Logger
 {
-    /** @var string */
-    private $filePath;
-    /** @var ContextParser */
-    private $contextParser;
+    private MessageMaker $messageMaker;
+    private StreamInterface $stream;
 
-    /**
-     * Logger constructor.
-     * @param string $filePath
-     * @param ContextParser $contextParser
-     */
-    public function __construct(string $filePath, ContextParser $contextParser)
+    public function __construct(MessageMaker $messageMaker)
+=======
+use Lightuna\Util\TemplateResolver;
+
+class Logger
+{
+    private TemplateResolver $messageMaker;
+    private StreamInterface $stream;
+
+    public function __construct(TemplateResolver $messageMaker)
+>>>>>>> develop2
     {
-        $this->filePath = $filePath;
-        $this->contextParser = $contextParser;
+        $this->messageMaker = $messageMaker;
     }
 
-    /**
-     * @param $message
-     * @param array $context
-     */
-    public function notice($message, array $context = [])
+    public function setStream(StreamInterface $stream): void
     {
-        $this->put(LogLevel::NOTICE, $message, $context);
+        $this->stream = $stream;
     }
 
-    /**
-     * @param $message
-     * @param array $context
-     */
-    public function warning($message, array $context = [])
+    public function info($message, array $context = [])
     {
-        $this->put(LogLevel::WARNING, $message, $context);
-    }
-
-    /**
-     * @param $message
-     * @param array $context
-     */
-    public function error($message, array $context = [])
-    {
-        $this->put(LogLevel::ERROR, $message, $context);
+        $this->put(LogLevel::Info, $this->messageMaker->make($message, $context));
     }
 
     public function debug($message, array $context = [])
     {
-        $this->put(LogLevel::DEBUG, $message, $context);
+        $this->put(LogLevel::Debug, $this->messageMaker->make($message, $context));
     }
 
-    /**
-     * @param string $severity
-     * @param $message
-     * @param array $context
-     */
-    private function put(string $severity, $message, array $context = [])
+    private function put(string $logLevel, string $message)
     {
-        try {
-            $dateTime = new \DateTime();
-            $message = $this->contextParser->parse($message, $context);
-            $log = sprintf('[%s](%s) %s%s', $dateTime->format('Y-m-d H:i:s'), $severity, $message, PHP_EOL);
-            $fp = fopen($this->filePath, 'a+');
-            fwrite($fp, $log);
-            fclose($fp);
-        } catch (\Exception $e) {
-            return;
-        }
+        $log = new Log(new \DateTime(), $logLevel, $message);
+        $this->stream->write($log->toJsonString());
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop2
