@@ -20,7 +20,3 @@ class File implements StreamInterface
         fclose($fp);
     }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> develop2

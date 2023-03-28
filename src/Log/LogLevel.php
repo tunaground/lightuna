@@ -8,10 +8,4 @@ class LogLevel
     const Warning = 'warning';
     const Info = 'info';
     const Debug = 'debug';
-
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> develop2

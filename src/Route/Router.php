@@ -12,10 +12,7 @@ class Router
     public function __construct(array $routeConfig)
     {
         $this->routeConfig = $routeConfig;
-<<<<<<< HEAD
-=======
         $this->arguments = [];
->>>>>>> develop2
     }
 
     /**
@@ -24,25 +21,18 @@ class Router
     public function getRoute(string $requestUri): array
     {
         foreach ($this->routeConfig as $route) {
-<<<<<<< HEAD
-            if ($this->match($route['path'], $_SERVER['REQUEST_URI'])) {
-=======
             if ($this->match($route['path'], $requestUri)) {
->>>>>>> develop2
                 return $route;
             }
         }
         throw new NoRouteException();
     }
 
-<<<<<<< HEAD
-=======
     public function getArguments(): array
     {
         return $this->arguments;
     }
 
->>>>>>> develop2
     private function compare(array $matchFactor, array $requestUriSeg): bool
     {
         if (sizeof($matchFactor) > sizeof($requestUriSeg)) {
@@ -66,11 +56,7 @@ class Router
         array_shift($requestUriSeg);
         array_shift($matchFactor);
         if ($this->compare($matchFactor, $requestUriSeg)) {
-<<<<<<< HEAD
-            preg_match_all('/[\/\?]?:?([a-zA-Z0-9]+)/', $routeUri, $matches);
-=======
             preg_match_all('/[\/\?]?:?([a-zA-Z0-9\.]+)/', $routeUri, $matches);
->>>>>>> develop2
             for ($i = 0; $i < sizeof($matches[0]); $i++) {
                 if (!str_contains($matches[0][$i], ':')) {
                     continue;
@@ -83,9 +69,4 @@ class Router
             return false;
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> develop2

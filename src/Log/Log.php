@@ -18,17 +18,9 @@ class Log
     public function toJsonString(): string
     {
         return json_encode([
-<<<<<<< HEAD
-            'datetime' => $this->dateTime->format('Y-m-d H:i:s O'),
-=======
             'datetime' => $this->dateTime->format(DATETIME_FORMAT),
->>>>>>> develop2
             'loglevel' => $this->logLevel,
             'message' => $this->message,
         ]);
     }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> develop2

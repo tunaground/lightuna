@@ -9,7 +9,3 @@ class Redirect
         return "Location: {$uri}";
     }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> develop2

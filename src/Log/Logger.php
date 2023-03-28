@@ -3,16 +3,6 @@
 namespace Lightuna\Log;
 
 use Lightuna\Stream\StreamInterface;
-<<<<<<< HEAD
-use Lightuna\Util\MessageMaker;
-
-class Logger
-{
-    private MessageMaker $messageMaker;
-    private StreamInterface $stream;
-
-    public function __construct(MessageMaker $messageMaker)
-=======
 use Lightuna\Util\TemplateResolver;
 
 class Logger
@@ -21,7 +11,6 @@ class Logger
     private StreamInterface $stream;
 
     public function __construct(TemplateResolver $messageMaker)
->>>>>>> develop2
     {
         $this->messageMaker = $messageMaker;
     }
@@ -47,7 +36,3 @@ class Logger
         $this->stream->write($log->toJsonString());
     }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> develop2
