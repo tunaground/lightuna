@@ -1,25 +1,16 @@
 <?php
 
-<<<<<<< HEAD
-return [
-    'site' => [
-        'debug' => true
-=======
 const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
 return [
     'site' => [
         'debug' => true,
         'rootDir' => __DIR__ . '/..',
->>>>>>> develop2
     ],
     'log' => [
         'type' => 'file',
         'file' => __DIR__ . '/../logs/lightuna.log',
     ],
-<<<<<<< HEAD
-];
-=======
     'database' => [
         'type' => 'mariadb',
         'host' => 'db',
@@ -32,5 +23,3 @@ return [
         ]
     ]
 ];
-
->>>>>>> develop2

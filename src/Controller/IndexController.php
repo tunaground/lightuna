@@ -2,24 +2,6 @@
 
 namespace Lightuna\Controller;
 
-<<<<<<< HEAD
-use Lightuna\Http\Response;
-
-class IndexController
-{
-    private Response $response;
-
-    public function __construct(Response $response)
-    {
-        $this->response = $response;
-    }
-
-    public function run()
-    {
-        $this->response->setBody("Hello, World!");
-        return $this->response;
-    }
-=======
 use Lightuna\Core\Context;
 use Lightuna\Dao\MariadbBoardDao;
 use Lightuna\Dao\MariadbResponseDao;
@@ -86,7 +68,4 @@ class IndexController extends AbstractController
         $httpResponse->setBody($body);
         return $httpResponse;
     }
-
-
->>>>>>> develop2
 }

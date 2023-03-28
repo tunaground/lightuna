@@ -5,14 +5,6 @@ use Lightuna\Controller;
 return [
     [
         'path' => '/',
-<<<<<<< HEAD
-        'redirect' => '/index/tuna',
-    ],
-    [
-        'path' => '/index/:bbsId',
-        'controller' => Controller\IndexController::class,
-    ],
-=======
         'redirect' => '/admin.php',
     ],
     [
@@ -43,5 +35,4 @@ return [
         'path' => '/response.php',
         'controller' => Controller\ResponseController::class,
     ],
->>>>>>> develop2
 ];

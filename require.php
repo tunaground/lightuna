@@ -1,6 +1,6 @@
 <?php
 
-const LIGHTUNA_VERSION = "1.0.0";
+const LIGHTUNA_VERSION = "0.7.0";
 
 session_start();
 
