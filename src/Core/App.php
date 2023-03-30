@@ -23,16 +23,24 @@ class App
         $this->config = $config;
         $this->logger = $logger;
         $this->router = $router;
-        if ($this->config['site']['debug']) {
-            $this->logger->debug("app running");
-        }
     }
 
     public function run(HttpRequest $request)
     {
-        $context = new Context();
+        $this->logger->info('{ip} - {protocol} {method} {uri} - {user_agent}', [
+            'ip' => $request->getIp(),
+            'uri' => $request->getRequestUri(),
+            'method' => $request->getMethod(),
+            'protocol' => $request->getProtocol(),
+            'user_agent' => $request->getUserAgent(),
+        ]);
+
         $dataSource = $this->getDataSource();
+
+        $context = new Context();
+        $context->setConfig($this->config);
         $context->setPdo($dataSource->getConnection());
+
         $httpResponse = $this->route($request, $context);
         $httpResponse->send();
     }

@@ -13,7 +13,7 @@ $router = new \Lightuna\Route\Router($route);
 
 try {
     $app = new \Lightuna\Core\App($config, $logger, $router);
-    $httpRequest = new \Lightuna\Http\HttpRequest($_SERVER, $_POST, $_GET);
+    $httpRequest = new \Lightuna\Http\HttpRequest($_SERVER, $_POST, $_GET, $_FILES);
     $app->run($httpRequest);
 } catch (Throwable $e) {
     echo $e->getMessage();

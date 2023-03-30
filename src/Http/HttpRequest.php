@@ -8,6 +8,7 @@ class HttpRequest
         private readonly array $server,
         private readonly array $post,
         private readonly array $get,
+        private readonly array $file,
     )
     {
     }
@@ -22,6 +23,11 @@ class HttpRequest
         return $this->get[$key];
     }
 
+    public function getFile(string $key)
+    {
+        return $this->file[$key];
+    }
+
     public function getIp(): string
     {
         return (in_array("X-Forwarded-For", $this->server, true))
@@ -32,5 +38,20 @@ class HttpRequest
     public function getRequestUri(): string
     {
         return $this->server["REQUEST_URI"];
+    }
+
+    public function getProtocol(): string
+    {
+        return $this->server['SERVER_PROTOCOL'];
+    }
+
+    public function getUserAgent(): string
+    {
+        return $this->server['HTTP_USER_AGENT'];
+    }
+
+    public function getMethod(): string
+    {
+        return $this->server['REQUEST_METHOD'];
     }
 }

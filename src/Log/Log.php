@@ -21,6 +21,6 @@ class Log
             'datetime' => $this->dateTime->format(DATETIME_FORMAT),
             'loglevel' => $this->logLevel,
             'message' => $this->message,
-        ]);
+        ], JSON_UNESCAPED_SLASHES);
     }
 }

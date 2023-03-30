@@ -1,5 +1,11 @@
 create sequence seq_board_id start with 1 increment by 1;
 --
+create sequence seq_board_config_id start with 1 increment by 1;
+--
+create sequence seq_board_admin_id start with 1 increment by 1;
+--
+create sequence seq_user_id start with 1 increment by 1;
+--
 create sequence seq_thread_id start with 1 increment by 1;
 --
 create sequence seq_response_id start with 1 increment by 1;
@@ -8,15 +14,65 @@ create sequence seq_ban_id start with 1 increment by 1;
 --
 create table board
 (
-    board_id     int(0) unsigned not null,
-    name         varchar(50)     not null,
-    deleted      tinyint(1)      not null,
-    created_at   datetime        not null,
-    updated_at   datetime        not null,
-    deleted_at   datetime            null,
-    thread_limit int(0)          not null,
+    board_id          int(0) unsigned not null,
+    name              varchar(50)     not null,
+    deleted           tinyint(1)      not null,
+    created_at        datetime        not null,
+    updated_at        datetime        not null,
+    deleted_at        datetime            null,
     primary key (board_id),
     index idx_board_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+--
+create table board_config
+(
+    board_config_id             int(0) unsigned not null,
+    board_id                    int(0) unsigned not null,
+    created_at                  datetime        not null,
+    display_thread              int(0) unsigned not null,
+    display_thread_list         int(0) unsigned not null,
+    display_response            int(0) unsigned not null,
+    display_response_line       int(0) unsigned not null,
+    limit_title                 int(0) unsigned not null,
+    limit_name                  int(0) unsigned not null,
+    limit_content               int(0) unsigned not null,
+    limit_response              int(0) unsigned not null,
+    limit_attachment_type       varchar(1024)   not null,
+    limit_attachment_size       int(0) unsigned not null,
+    limit_attachment_name       int(0) unsinged not null,
+    interval_response           int(0) unsigned not null,
+    interval_duplicate_response int(0) unsigned not null,
+    primary key (config_id),
+    constraint fk_board_id
+        foreign key (board_id) references board (board_id)
+            on delete cascade
+            on update restrict,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+--
+create table board_admin
+(
+    board_admin_id  int(0) unsigned not null,
+    board_id        int(0) unsigned not null,
+    user_id         int(0) unsigned not null,
+    primary key (config_id),
+    constraint fk_board_id
+        foreign key (board_id) references board (board_id)
+            on delete cascade
+            on update restrict,
+    constraint fk_board_id
+        foreign key (user_id) references board (user_id)
+            on delete cascade
+            on update restrict,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+--
+create table user
+(
+    user_id     int(0) unsigned not null,
+    username    varchar(60)     not null,
+    password    varchar(256)    not null,
+    email       varchar(256)    not null,
+    admin       tinyint(1)      not null,
+    primary key (user_id),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
 create table thread

@@ -9,6 +9,7 @@ use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Object\Board;
 use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
+use Lightuna\Util\IdGenerator;
 
 class ThreadService
 {
@@ -47,18 +48,22 @@ class ThreadService
 
     public function createReponse(Response $response): int
     {
+        $idGenerator = new IdGenerator();
         $responseId = $this->responseDao->getNextResponseId();
         $response->setResponseId($responseId);
         $response->setSequence($this->responseDao->getResponsesCountByThreadId($response->getThreadId()));
         // TODO:
-        $response->setUserId('TESTER');
+        $response->setUserId(
+            $idGenerator->gen(str_replace('.', '0', $response->getIp())
+                . $response->getCreatedAt()->format('Ymd'))
+        );
         $this->responseDao->createResponse($response);
         return $responseId;
     }
 
     /**
-     * @throws QueryException
      * @return Thread[]
+     * @throws QueryException
      */
     public function getThreadsByBoardId(int $boardId, int $limit, int $offset = 0): array
     {

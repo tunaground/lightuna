@@ -46,6 +46,7 @@ class TemplateHelper
     {
         return $this->templateRenderer->render('response.html', [
             'username' => $response->getUsername(),
+            'id' => $response->getUserId(),
             'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
             'content' => $response->getContent(),
         ]);

@@ -11,6 +11,11 @@ class Context
     private array $argument;
     private HttpResponse $response;
 
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+    }
+
     public function setPdo(\PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -24,6 +29,11 @@ class Context
     public function setResponse(HttpResponse $response): void
     {
         $this->response = $response;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
     }
 
     public function getPdo(): \PDO

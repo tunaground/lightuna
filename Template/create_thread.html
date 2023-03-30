@@ -1,10 +1,10 @@
 <form action="/thread.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="board_id" value="{{board_id}}"/>
     <input type="hidden" name="return_uri" value="{{return_uri}}"/>
-    <input type="text" name="title"/>
-    <input type="text" name="password"/>
-    <input type="text" name="username"/>
-    <textarea name="content"></textarea>
-    <input type="text" name="youtube"/>
+    <input type="text" name="title" placeholder="Title"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <input type="text" name="username" placeholder="Username"/>
+    <textarea name="content" placeholder="Content"></textarea>
+    <input type="text" name="youtube" placeholder="Youtube Link"/>
     <button>Submit</button>
 </form>

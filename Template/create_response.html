@@ -1,8 +1,9 @@
 <form action="/response.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="thread_id" value="{{thread_id}}"/>
     <input type="hidden" name="return_uri" value="{{return_uri}}"/>
-    <input type="text" name="username"/>
-    <textarea name="content"></textarea>
-    <input type="text" name="youtube"/>
+    <input type="text" name="username" placeholder="Username"/>
+    <textarea name="content" placeholder="Content"></textarea>
+    <input type="text" name="youtube" placeholder="Youtube Link"/>
+    <input type="file" name="attachment"/>
     <button>Submit</button>
 </form>
