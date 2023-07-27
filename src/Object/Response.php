@@ -5,7 +5,7 @@ namespace Lightuna\Object;
 class Response
 {
     public function __construct(
-        private ?int       $responseId = null,
+        private ?int       $id = null,
         private ?int       $threadId = null,
         private ?int       $sequence = null,
         private ?string    $username = null,
@@ -24,17 +24,17 @@ class Response
     /**
      * @return int
      */
-    public function getResponseId(): int
+    public function getId(): int
     {
-        return $this->responseId;
+        return $this->id;
     }
 
     /**
-     * @param int $responseId
+     * @param int $id
      */
-    public function setResponseId(int $responseId): void
+    public function setId(int $id): void
     {
-        $this->responseId = $responseId;
+        $this->id = $id;
     }
 
     /**

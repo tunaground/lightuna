@@ -11,7 +11,7 @@ use Lightuna\Object\Board;
 use Lightuna\Service\BoardService;
 use Lightuna\Util\TemplateRenderer;
 
-class BoardController extends AbstractController
+class AdminBoardController extends AbstractController
 {
     private BoardService $boardService;
 
@@ -26,7 +26,7 @@ class BoardController extends AbstractController
         $boards = $this->boardService->getBoards();
         $boardList = array_reduce($boards, function (string $acc, Board $board) {
             return $acc . $this->templateRenderer->render('board_list_item.html', [
-                'id' => $board->getBoardId(),
+                'id' => $board->getId(),
                 'name' => $board->getName(),
                 'deleted' => ($board->isDeleted())? 'Deleted' : 'Active',
                 'created_at' => $board->getCreatedAt()->format(DATETIME_FORMAT),
@@ -37,7 +37,7 @@ class BoardController extends AbstractController
             ]);
         }, "");
         $createBoard = $this->templateRenderer->render('create_board.html');
-        $body = $this->templateRenderer->render('page/admin/board.html', [
+        $body = $this->templateRenderer->render('page/admin/boards.html', [
             'create_board' => $createBoard,
             'board_list' => $boardList,
         ]);

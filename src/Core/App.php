@@ -72,7 +72,7 @@ class App
             $httpResponse->addHeader(Redirect::temporary($route['redirect']));
             return $httpResponse;
         } else {
-            $templateRenderer = new TemplateRenderer($this->config['site']['rootDir'] . '/template/');
+            $templateRenderer = new TemplateRenderer($this->config['site']['rootDir'] . '/template');
             $controller = new $route['controller']($templateRenderer, $context);
             return $controller->run($httpRequest, $httpResponse);
         }

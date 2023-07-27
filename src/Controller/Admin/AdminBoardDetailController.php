@@ -17,7 +17,7 @@ use Lightuna\Service\ThreadService;
 use Lightuna\Util\TemplateHelper;
 use Lightuna\Util\TemplateRenderer;
 
-class ThreadController extends AbstractController
+class AdminBoardDetailController extends AbstractController
 {
     private BoardService $boardService;
     private ThreadService $threadService;
@@ -38,10 +38,12 @@ class ThreadController extends AbstractController
     {
         try {
             $arguments = $this->context->getArgument();
-            $board = $this->boardService->getBoardByName($arguments['boardName']);
-            $threads = $this->threadService->getThreadsByBoardId($board->getBoardId(), $board->getThreadLimit());
-            $body = $this->templateRenderer->render('page/admin/thread.html', [
+            $board = $this->boardService->getBoardById($arguments['boardId']);
+            $threads = $this->threadService->getThreadsByBoardId($board->getId());
+            $body = $this->templateRenderer->render('page/admin/board.html', [
+                'board_id' => $board->getId(),
                 'board_name' => $board->getName(),
+                'board_config' => $this->templateHelper->drawUpdateBoard($board),
                 'thread_list' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
                     return $acc . $this->templateHelper->drawThread(
@@ -52,11 +54,11 @@ class ThreadController extends AbstractController
                 }),
             ]);
         } catch (QueryException $e) {
-            $body = $this->templateRenderer->render('error.html', [
+            $body = $this->templateRenderer->render('page/error.html', [
                 'message' => 'database query error'
             ]);
         } catch (ResourceNotFoundException $e) {
-            $body = $this->templateRenderer->render('error.html', [
+            $body = $this->templateRenderer->render('page/error.html', [
                 'message' => $e->getMessage()
             ]);
         }

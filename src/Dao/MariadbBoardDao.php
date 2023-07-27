@@ -11,36 +11,18 @@ class MariadbBoardDao extends AbstractDao implements BoardDaoInterface
     /**
      * @throws QueryException
      */
-    public function getNextBoardId(): int
-    {
-        $sql = <<<SQL
-select nextval(seq_board_id);
-SQL;
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        $error = $stmt->errorInfo();
-        if ($error[0] !== '00000') {
-            throw new QueryException($error[1]);
-        }
-        return $stmt->fetchColumn();
-    }
-
-    /**
-     * @throws QueryException
-     */
     public function createBoard(Board $board)
     {
         $sql = <<<SQL
-insert into board (board_id, name, deleted, created_at, updated_at, thread_limit)
-values (:board_id, :name, :deleted, :created_at, :updated_at, :thread_limit)
+insert into board (id, name, deleted, created_at, updated_at)
+values (:id, :name, :deleted, :created_at, :updated_at)
 SQL;
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':board_id', $board->getBoardId());
+        $stmt->bindValue(':id', $board->getId());
         $stmt->bindValue(':name', $board->getName());
         $stmt->bindValue(':deleted', $board->isDeleted(), \PDO::PARAM_BOOL);
         $stmt->bindValue(':created_at', $board->getCreatedAt()->format(DATETIME_FORMAT));
         $stmt->bindValue(':updated_at', $board->getUpdatedAt()->format(DATETIME_FORMAT));
-        $stmt->bindValue(':thread_limit', $board->getThreadLimit());
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
@@ -55,7 +37,7 @@ SQL;
     public function getBoards(): array
     {
         $sql = <<<SQL
-select board_id, name, deleted, created_at, updated_at, deleted_at, thread_limit from board;
+select * from board;
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
@@ -78,7 +60,7 @@ SQL;
     public function getBoardByName(string $name): Board
     {
         $sql = <<<SQL
-select board_id, name, deleted, created_at, updated_at, deleted_at, thread_limit from board where name = :name; 
+select * from board where name = :name; 
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':name', $name);
@@ -97,22 +79,22 @@ SQL;
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getBoardById(int $boardId): Board
+    public function getBoardById(string $id): Board
     {
         $sql = <<<SQL
-select board_id, name, deleted, created_at, updated_at, deleted_at, thread_limit
+select *
 from board
-where board_id = :board_id; 
+where id = :id; 
 SQL;
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':board_id', $boardId);
+        $stmt->bindValue(':id', $id);
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             throw new QueryException($error[1]);
         }
         if ($stmt->rowCount() === 0) {
-            throw new ResourceNotFoundException("board($boardId) not exists");
+            throw new ResourceNotFoundException("board($id) not exists");
         }
         return $this->makeObject($stmt->fetch(\PDO::FETCH_ASSOC));
     }
@@ -120,13 +102,25 @@ SQL;
     private function makeObject(array $result): Board
     {
         return new Board(
-            $result['board_id'],
+            $result['id'],
             $result['name'],
             $result['deleted'],
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['created_at']),
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['updated_at']),
             ($result['deleted_at'] === null) ? null : \DateTime::createFromFormat(DATETIME_FORMAT, $result['deleted_at']),
-            $result['thread_limit'],
+            $result['display_thread'],
+            $result['display_thread_list'],
+            $result['display_response'],
+            $result['display_response_line'],
+            $result['limit_title'],
+            $result['limit_name'],
+            $result['limit_content'],
+            $result['limit_response'],
+            $result['limit_attachment_type'],
+            $result['limit_attachment_size'],
+            $result['limit_attachment_name'],
+            $result['interval_response'],
+            $result['interval_duplicate_response'],
         );
     }
 }

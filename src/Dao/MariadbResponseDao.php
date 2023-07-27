@@ -31,11 +31,11 @@ SQL;
     public function createResponse(Response $response)
     {
         $sql = <<<SQL
-insert into response(response_id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at)
-values (:response_id, :thread_id, :sequence, :username, :user_id, :ip, :content, :attachment, :youtube, :deleted, :created_at)
+insert into response(id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at)
+values (:id, :thread_id, :sequence, :username, :user_id, :ip, :content, :attachment, :youtube, :deleted, :created_at)
 SQL;
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':response_id', $response->getResponseId());
+        $stmt->bindValue(':id', $response->getId());
         $stmt->bindValue(':thread_id', $response->getThreadId());
         $stmt->bindValue(':sequence', $response->getSequence());
         $stmt->bindValue(':username', $response->getUsername());
@@ -62,7 +62,7 @@ SQL;
     public function getReponsesByThreadId(int $threadId): array
     {
         $sql = <<<SQL
-select response_id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
+select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
 from response
 where thread_id = :thread_id
 SQL;
@@ -112,7 +112,7 @@ SQL;
     private function makeObject(array $result): Response
     {
         return new Response(
-            $result['response_id'],
+            $result['id'],
             $result['thread_id'],
             $result['sequence'],
             $result['username'],

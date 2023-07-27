@@ -37,19 +37,19 @@ class IndexController extends AbstractController
     {
         try {
             $arguments = $this->context->getArgument();
-            $board = $this->boardService->getBoardByName($arguments['boardName']);
+            $board = $this->boardService->getBoardById($arguments['boardId']);
 
-            $threads = $this->threadService->getThreadsByBoardId($board->getBoardId(), $board->getThreadLimit());
+            $threads = $this->threadService->getThreadsByBoardId($board->getId(), $board->getDisplayThreadList());
 
             $body = $this->templateRenderer->render('page/index.html', [
                 'board_name' => $board->getName(),
                 'threads' => array_reduce($threads, function ($acc, $thread) use ($board){
                     /** @var Thread $thread */
-                    $responses = $this->threadService->getResponses($thread->getThreadId());
+                    $responses = $this->threadService->getResponses($thread->getId());
                     return $acc . $this->templateHelper->drawThread(
                         $this->templateHelper->drawThreadHeader($thread),
-                        array_reduce($responses, function ($acc, $response) {
-                            return $acc . $this->templateHelper->drawResponse($response);
+                        array_reduce($responses, function ($acc, $response) use ($board) {
+                            return $acc . $this->templateHelper->drawResponse($this->context->getConfig(), $board, $response);
                         }),
                         $this->templateHelper->drawCreateResponse($board, $thread),
                     );
@@ -57,11 +57,11 @@ class IndexController extends AbstractController
                 'create_thread' => $this->templateHelper->drawCreateThread($board),
             ]);
         } catch (QueryException $e) {
-            $body = $this->templateRenderer->render('error.html', [
+            $body = $this->templateRenderer->render('page/error.html', [
                 'message' => 'database query error'
             ]);
         } catch (ResourceNotFoundException $e) {
-            $body = $this->templateRenderer->render('error.html', [
+            $body = $this->templateRenderer->render('page/error.html', [
                 'message' => $e->getMessage()
             ]);
         }

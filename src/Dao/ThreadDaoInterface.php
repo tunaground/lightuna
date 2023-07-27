@@ -21,5 +21,5 @@ interface ThreadDaoInterface
      * @return Thread[]
      * @throws QueryException
      */
-    public function getThreadByBoardId(int $boardId, int $limit, int $offset = 0): array;
+    public function getThreadByBoardId(string $boardId, int $limit, int $offset = 0): array;
 }

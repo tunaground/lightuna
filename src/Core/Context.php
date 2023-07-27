@@ -7,6 +7,7 @@ use Lightuna\Http\HttpResponse;
 
 class Context
 {
+    private array $config;
     private \PDO $pdo;
     private array $argument;
     private HttpResponse $response;

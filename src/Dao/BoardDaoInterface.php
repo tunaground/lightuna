@@ -11,11 +11,6 @@ interface BoardDaoInterface
     /**
      * @throws QueryException
      */
-    public function getNextBoardId(): int;
-
-    /**
-     * @throws QueryException
-     */
     public function createBoard(Board $board);
 
     /**
@@ -34,5 +29,5 @@ interface BoardDaoInterface
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getBoardById(int $boardId): Board;
+    public function getBoardById(string $id): Board;
 }

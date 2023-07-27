@@ -163,3 +163,4 @@ fabric.properties
 logs/*
 upload/*
 profile.php
+public/userdata/*

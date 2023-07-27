@@ -1,28 +1,41 @@
 <?php
 
-namespace Lightuna\Controller;
+namespace Lightuna\Controller\Action;
 
+use Lightuna\Controller\AbstractController;
 use Lightuna\Core\Context;
+use Lightuna\Dao\MariadbBoardDao;
 use Lightuna\Dao\MariadbResponseDao;
 use Lightuna\Dao\MariadbThreadDao;
 use Lightuna\Exception\QueryException;
 use Lightuna\Http\HttpRequest;
+use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Response;
-use Lightuna\Object\Thread;
+use Lightuna\Service\AttachmentService;
+use Lightuna\Service\BoardService;
 use Lightuna\Service\ThreadService;
 use Lightuna\Util\TemplateRenderer;
-use Lightuna\Http\HttpResponse;
+use Lightuna\Util\ThumbUtil;
 
-class ThreadController extends AbstractController
+class CreateResponseController extends AbstractController
 {
+    private BoardService $boardService;
     private ThreadService $threadService;
+    private AttachmentService $attachmentService;
 
     public function __construct(TemplateRenderer $templateRenderer, Context $context)
     {
         parent::__construct($templateRenderer, $context);
+        $this->boardService = new BoardService(
+            new MariadbBoardDao($context->getPdo()),
+        );
         $this->threadService = new ThreadService(
             new MariadbThreadDao($context->getPdo()),
             new MariadbResponseDao($context->getPdo()),
+        );
+        $this->attachmentService = new AttachmentService(
+            $context->getConfig(),
+            new ThumbUtil(),
         );
     }
 
@@ -30,36 +43,38 @@ class ThreadController extends AbstractController
     {
         $dateTime = new \DateTime();
 
-        $thread = new Thread(
-            null,
-            $httpRequest->getPost('board_id'),
-            $httpRequest->getPost('title'),
-            $httpRequest->getPost('password'),
-            $httpRequest->getPost('username'),
-            false,
-            false,
-            $dateTime,
-            $dateTime,
-        );
+        $thread = $this->threadService->getThreadById($httpRequest->getPost('thread_id'));
+        $board = $this->boardService->getBoardById($thread->getBoardId());
+        $responseId = $this->threadService->getNextResponseId();
+
+        $attachment = ($httpRequest->getFile('attachment')['error'] !== UPLOAD_ERR_NO_FILE)
+            ? $this->attachmentService->uploadAttachment(
+                $board,
+                $thread->getId(),
+                $responseId,
+                $httpRequest->getFile('attachment')
+            )
+            : "";
+
         $response = new Response(
-            null,
-            null,
+            $responseId,
+            $httpRequest->getPost('thread_id'),
             null,
             $httpRequest->getPost('username'),
             null,
             $httpRequest->getIp(),
             $httpRequest->getPost('content'),
-            "", // $request->getPost('attachment'),
+            $attachment,
             $httpRequest->getPost('youtube'),
             false,
             $dateTime,
             null,
         );
         try {
-            $this->threadService->createThread($this->context->getPdo(), $thread, $response);
+            $this->threadService->createResponse($response);
             $body = "BAAAAAAAAAAAA";
         } catch (QueryException $e) {
-            $body = $this->templateRenderer->render('error.html', [
+            $body = $this->templateRenderer->render('page/admin/error.html', [
                 'message' => 'database query error'
             ]);
         }

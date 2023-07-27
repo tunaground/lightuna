@@ -5,8 +5,8 @@ namespace Lightuna\Object;
 class Thread
 {
     public function __construct(
-        private ?int       $threadId = null,
-        private ?int       $boardId = null,
+        private ?int       $id = null,
+        private ?string    $boardId = null,
         private ?string    $title = null,
         private ?string    $password = null,
         private ?string    $username = null,
@@ -22,25 +22,25 @@ class Thread
     /**
      * @return int
      */
-    public function getThreadId(): int
+    public function getId(): int
     {
-        return $this->threadId;
+        return $this->id;
     }
 
     /**
-     * @param int $threadId
+     * @param int $id
      */
-    public function setThreadId(int $threadId): void
+    public function setId(int $id): void
     {
-        $this->threadId = $threadId;
+        $this->id = $id;
     }
 
-    public function getBoardId(): int
+    public function getBoardId(): string
     {
         return $this->boardId;
     }
 
-    public function setBoardId(int $boardId): void
+    public function setBoardId(string $boardId): void
     {
         $this->boardId = $boardId;
     }

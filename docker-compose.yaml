@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   web:
-    image: lightuna:1.0.0-apache
+    build: .
     ports:
     - 8080:80
     volumes:
@@ -27,9 +25,7 @@ services:
     networks:
     - lightuna
     restart: always
-
 volumes:
   lightuna-db:
-
 networks:
   lightuna:

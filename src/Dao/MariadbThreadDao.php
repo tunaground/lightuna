@@ -3,6 +3,7 @@
 namespace Lightuna\Dao;
 
 use Lightuna\Exception\QueryException;
+use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Object\Thread;
 
 class MariadbThreadDao extends AbstractDao implements ThreadDaoInterface
@@ -30,11 +31,11 @@ SQL;
     public function createThread(Thread $thread)
     {
         $sql = <<<SQL
-insert into thread (thread_id, board_id, title, password, username, ended, deleted, created_at, updated_at)
+insert into thread (id, board_id, title, password, username, ended, deleted, created_at, updated_at)
 values (:thread_id, :board_id, :title, :password, :username, :ended, :deleted, :created_at, :updated_at)
 SQL;
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':thread_id', $thread->getThreadId());
+        $stmt->bindValue(':thread_id', $thread->getId());
         $stmt->bindValue(':board_id', $thread->getBoardId());
         $stmt->bindValue(':title', $thread->getTitle());
         $stmt->bindValue(':password', $thread->getTitle());
@@ -54,10 +55,10 @@ SQL;
      * @return Thread[]
      * @throws QueryException
      */
-    public function getThreadByBoardId(int $boardId, int $limit, int $offset = 0): array
+    public function getThreadByBoardId(string $boardId, int $limit = 0, int $offset = 0): array
     {
         $sql = <<<SQL
-select thread_id, board_id, title, password, username, ended, deleted, created_at, updated_at, deleted_at
+select id, board_id, title, password, username, ended, deleted, created_at, updated_at, deleted_at
 from thread
 where board_id = :board_id
 order by updated_at asc
@@ -80,10 +81,28 @@ SQL;
         }, []);
     }
 
+    public function getThreadById(int $id): Thread
+    {
+        $sql = <<<SQL
+select * from thread where id = :id
+SQL;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            throw new QueryException($error[1]);
+        }
+        if ($stmt->rowCount() === 0) {
+            throw new ResourceNotFoundException("thread($id) not exists");
+        }
+        return $this->makeObject($stmt->fetch(\PDO::FETCH_ASSOC));
+    }
+
     private function makeObject(array $result): Thread
     {
         return new Thread(
-            $result['thread_id'],
+            $result['id'],
             $result['board_id'],
             $result['title'],
             $result['password'],

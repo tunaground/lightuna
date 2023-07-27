@@ -21,7 +21,6 @@ class BoardService
      */
     public function createBoard(Board $board)
     {
-        $board->setBoardId($this->boardDao->getNextBoardId());
         $this->boardDao->createBoard($board);
     }
 
@@ -43,7 +42,7 @@ class BoardService
         return $this->boardDao->getBoardByName($name);
     }
 
-    public function getBoardById(int $boardId): Board
+    public function getBoardById(string $boardId): Board
     {
         return $this->boardDao->getBoardById($boardId);
     }

@@ -4,29 +4,47 @@ namespace Lightuna\Service;
 
 use Lightuna\Exception\InvalidUserInputException;
 use Lightuna\Exception\SystemException;
+use Lightuna\Object\Board;
 use Lightuna\Object\Response;
+use Lightuna\Object\Thread;
+use Lightuna\Util\ThumbUtil;
 
 class AttachmentService
 {
+    public function __construct(
+        private array $config,
+        private ThumbUtil $thumbUtil,
+    )
+    {
+    }
+
     /**
      * @throws SystemException
      * @throws InvalidUserInputException
      */
-    public function uploadAttachment(Response $response, array $file)
+    public function uploadAttachment(Board $board, int $threadId, int $responseId, array $file): string
     {
         if (!$this->checkError($file)) {
             throw new SystemException;
-        } elseif (
-            !$this->checkFileExists($file)
-            || !$this->checkType($file)
-            || !$this->checkSize($file)
-            || !$this->checkSizeLimit($file)
-            || !$this->CheckNameSize($file)
-        ) {
-            throw new InvalidUserInputException;
+        } elseif (!$this->checkFileExists($file)) {
+            throw new InvalidUserInputException('invalid file(not exists');
+        } elseif (!$this->checkSize($file)) {
+            throw new InvalidUserInputException('invalid file(size zero)');
+        } elseif (!$this->checkType($file, explode(',', $board->getLimitAttachmentType()))) {
+            throw new InvalidUserInputException('invalid file(file type)');
+        } elseif (!$this->checkSizeLimit($file, $board->getLimitAttachmentSize())) {
+            throw new InvalidUserInputException('invalid file(file size)');
+        } elseif (!$this->CheckNameSize($file, $board->getLimitAttachmentName())) {
+            throw new InvalidUserInputException('invalid file(file name)');
         }
-        $this->createDirectory();
-        $this->makeImageName($response, $file);
+
+        $basePath = $this->createDirectory($board->getId(), $threadId);
+        $imageName = htmlspecialchars("{$responseId}-{$file['name']}");
+        $imageDest = "{$basePath}/images/$imageName";
+        $this->moveFile($file['tmp_name'], $imageDest);
+        $this->thumbUtil->makeThumb("{$basePath}/thumbnails/", $imageName, $imageDest);
+
+        return $imageName;
     }
 
     private function checkError(array $file): bool
@@ -39,9 +57,9 @@ class AttachmentService
         return (file_exists($file['tmp_name']) === true);
     }
 
-    private function checkType(array $file): bool
+    private function checkType(array $file, array $allowedTypes): bool
     {
-        return (in_array($file['type'], $this->config['site']['allowFileType'], true) === true);
+        return (in_array($file['type'], $allowedTypes, true) === true);
     }
 
     private function checkSize(array $file): bool
@@ -49,23 +67,25 @@ class AttachmentService
         return ($file['size'] !== 0);
     }
 
-    private function checkSizeLimit(array $file): bool
+    private function checkSizeLimit(array $file, int $limit): bool
     {
-        return ($file['size'] < $this->board['maxImageSize']);
+        return ($file['size'] < $limit);
     }
 
-    private function CheckNameSize(array $file): bool
+    private function CheckNameSize(array $file, int $limit): bool
     {
-        return (mb_strlen($file['name'], 'utf-8') < $this->config['maxImageNameLength']);
+        return (mb_strlen($file['name'], 'utf-8') <= $limit);
     }
 
     /**
      * @throws SystemException
      */
-    private function createDirectory(string $uploadPath)
+    private function createDirectory(string $boardId, int $threadId): string
     {
-        $imagePath = "{$uploadPath}/image";
-        $thumbPath = "{$uploadPath}/thumb";
+        $basePath = "{$this->config['attachment']['path']}/{$boardId}/{$threadId}";
+        $imagePath = "{$basePath}/images";
+        $thumbPath = "{$basePath}/thumbnails";
+
         foreach ([$imagePath, $thumbPath] as $path) {
             if (file_exists($path) === false) {
                 if (mkdir($path, 0750, true) !== true) {
@@ -73,16 +93,14 @@ class AttachmentService
                 }
             }
         }
+
+        return $basePath;
     }
 
-    /**
-     * @throws InvalidUserInputException
-     */
-    private function makeImageName(Response $response, array $file): string
+    private function moveFile(string $src, string $dest)
     {
-        $createdAt = $response->getCreatedAt()->format('Uv');
-        $responseId = $response->getResponseId();
-        $name = $file['name'];
-        return htmlspecialchars("{$createdAt}-{$responseId}-{$name}");
+        if (move_uploaded_file($src, $dest) !== true) {
+            throw new SystemException();
+        }
     }
 }

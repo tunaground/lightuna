@@ -5,34 +5,34 @@ use Lightuna\Controller;
 return [
     [
         'path' => '/',
-        'redirect' => '/admin.php',
+        'redirect' => '/admin',
     ],
     [
-        'path' => '/index.php/:boardName',
+        'path' => '/index/:boardId',
         'controller' => Controller\IndexController::class,
     ],
     [
-        'path' => '/thread.php',
-        'controller' => Controller\ThreadController::class,
+        'path' => '/action/create/thread',
+        'controller' => Controller\Action\CreateThreadController::class,
     ],
     [
-        'path' => '/admin.php/board',
-        'controller' => Controller\Admin\BoardController::class,
+        'path' => '/admin/boards',
+        'controller' => Controller\Admin\AdminBoardController::class,
     ],
     [
-        'path' => '/admin.php/thread/:boardName',
-        'controller' => Controller\Admin\ThreadController::class,
+        'path' => '/admin/board/:boardId',
+        'controller' => Controller\Admin\AdminBoardDetailController::class,
     ],
     [
-        'path' => '/admin.php',
-        'redirect' => '/admin.php/board',
+        'path' => '/admin',
+        'redirect' => '/admin/boards',
     ],
     [
-        'path' => '/board.php',
-        'controller' => Controller\BoardController::class,
+        'path' => '/action/create/board',
+        'controller' => Controller\Action\CreateBoardController::class,
     ],
     [
-        'path' => '/response.php',
-        'controller' => Controller\ResponseController::class,
+        'path' => '/action/create/response',
+        'controller' => Controller\Action\CreateResponseController::class,
     ],
 ];

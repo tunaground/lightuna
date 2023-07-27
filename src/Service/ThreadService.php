@@ -22,52 +22,61 @@ class ThreadService
         $this->responseDao = $responseDao;
     }
 
+    public function getNextThreadId(): int
+    {
+        return $this->threadDao->getNextThreadId();
+    }
+
+    public function getNextResponseId(): int
+    {
+        return $this->responseDao->getNextResponseId();
+    }
+
     /**
      * @throws QueryException
      */
-    public function createThread(\PDO $pdo, Thread $thread, Response $response): int
+    public function createThread(\PDO $pdo, Thread $thread, Response $response): void
     {
+        $idGenerator = new IdGenerator();
         try {
             $pdo->beginTransaction();
-            $threadId = $this->threadDao->getNextThreadId();
-            $thread->setThreadId($threadId);
             $this->threadDao->createThread($thread);
-            $response->setResponseId($this->responseDao->getNextResponseId());
-            $response->setThreadId($threadId);
             $response->setSequence(0);
-            // TODO:
-            $response->setUserId('TESTER');
+            $response->setUserId(
+                $idGenerator->gen(str_replace('.', '0', $response->getIp())
+                    . $response->getCreatedAt()->format('Ymd'))
+            );
             $this->responseDao->createResponse($response);
             $pdo->commit();
-            return $threadId;
         } catch (QueryException $e) {
             $pdo->rollBack();
             throw $e;
         }
     }
 
-    public function createReponse(Response $response): int
+    public function createResponse(Response $response): void
     {
         $idGenerator = new IdGenerator();
-        $responseId = $this->responseDao->getNextResponseId();
-        $response->setResponseId($responseId);
         $response->setSequence($this->responseDao->getResponsesCountByThreadId($response->getThreadId()));
-        // TODO:
         $response->setUserId(
             $idGenerator->gen(str_replace('.', '0', $response->getIp())
                 . $response->getCreatedAt()->format('Ymd'))
         );
         $this->responseDao->createResponse($response);
-        return $responseId;
     }
 
     /**
      * @return Thread[]
      * @throws QueryException
      */
-    public function getThreadsByBoardId(int $boardId, int $limit, int $offset = 0): array
+    public function getThreadsByBoardId(string $boardId, int $limit = 0, int $offset = 0): array
     {
         return $this->threadDao->getThreadByBoardId($boardId, $limit, $offset);
+    }
+
+    public function getThreadById(int $id): Thread
+    {
+        return $this->threadDao->getThreadById($id);
     }
 
     /**
