@@ -2,7 +2,6 @@
 
 namespace Lightuna\Controller;
 
-use Lightuna\Core\Context;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 

@@ -4,33 +4,32 @@ namespace Lightuna\Controller\Admin;
 
 use Lightuna\Controller\AbstractController;
 use Lightuna\Core\Context;
-use Lightuna\Dao\MariadbBoardDao;
-use Lightuna\Dao\MariadbResponseDao;
-use Lightuna\Dao\MariadbThreadDao;
 use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Thread;
-use Lightuna\Service\BoardService;
-use Lightuna\Service\ThreadService;
+use Lightuna\Service\BoardServiceInterface;
+use Lightuna\Service\ThreadServiceInterface;
 use Lightuna\Util\TemplateHelper;
 use Lightuna\Util\TemplateRenderer;
 
 class AdminBoardDetailController extends AbstractController
 {
-    private BoardService $boardService;
-    private ThreadService $threadService;
+    private BoardServiceInterface $boardService;
+    private ThreadServiceInterface $threadService;
     private TemplateHelper $templateHelper;
 
-    public function __construct(TemplateRenderer $templateRenderer, Context $context)
+    public function __construct(
+        Context $context,
+        TemplateRenderer $templateRenderer,
+        BoardServiceInterface $boardService,
+        ThreadServiceInterface $threadService,
+    )
     {
-        parent::__construct($templateRenderer, $context);
-        $this->boardService = new BoardService(new MariadbBoardDao($this->context->getPdo()));
-        $this->threadService = new ThreadService(
-            new MariadbThreadDao($this->context->getPdo()),
-            new MariadbResponseDao($this->context->getPdo()),
-        );
+        parent::__construct($context, $templateRenderer);
+        $this->boardService = $boardService;
+        $this->threadService = $threadService;
         $this->templateHelper = new TemplateHelper($this->templateRenderer);
     }
 

@@ -9,13 +9,16 @@ use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 use Lightuna\Util\ThumbUtil;
 
-class AttachmentService
+class AttachmentService implements AttachmentServiceInterface
 {
-    public function __construct(
-        private array $config,
-        private ThumbUtil $thumbUtil,
-    )
+
+    private array $config;
+    private ThumbUtil $thumbUtil;
+
+    public function __construct(array $config)
     {
+        $this->config = $config;
+        $this->thumbUtil = new ThumbUtil();
     }
 
     /**

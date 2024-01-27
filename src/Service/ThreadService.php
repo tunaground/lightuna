@@ -2,8 +2,10 @@
 
 namespace Lightuna\Service;
 
+use Lightuna\Dao\BoardDaoInterface;
 use Lightuna\Dao\MariadbResponseDao;
-use Lightuna\Dao\MariadbThreadDao;
+use Lightuna\Dao\ResponseDaoInterface;
+use Lightuna\Dao\ThreadDaoInterface;
 use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Object\Board;
@@ -11,12 +13,12 @@ use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 use Lightuna\Util\IdGenerator;
 
-class ThreadService
+class ThreadService implements ThreadServiceInterface
 {
-    private MariadbThreadDao $threadDao;
-    private MariadbResponseDao $responseDao;
+    private ThreadDaoInterface $threadDao;
+    private ResponseDaoInterface $responseDao;
 
-    public function __construct(MariadbThreadDao $threadDao, MariadbResponseDao $responseDao)
+    public function __construct(ThreadDaoInterface $threadDao, ResponseDaoInterface $responseDao)
     {
         $this->threadDao = $threadDao;
         $this->responseDao = $responseDao;
@@ -35,10 +37,11 @@ class ThreadService
     /**
      * @throws QueryException
      */
-    public function createThread(\PDO $pdo, Thread $thread, Response $response): void
+    public function createThread(Thread $thread, Response $response): void
     {
         $idGenerator = new IdGenerator();
         try {
+            $pdo = $this->threadDao->getPdo();
             $pdo->beginTransaction();
             $this->threadDao->createThread($thread);
             $response->setSequence(0);
@@ -46,6 +49,7 @@ class ThreadService
                 $idGenerator->gen(str_replace('.', '0', $response->getIp())
                     . $response->getCreatedAt()->format('Ymd'))
             );
+            $this->responseDao->setPdo($pdo);
             $this->responseDao->createResponse($response);
             $pdo->commit();
         } catch (QueryException $e) {

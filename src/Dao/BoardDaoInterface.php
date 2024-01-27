@@ -6,7 +6,7 @@ use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Object\Board;
 
-interface BoardDaoInterface
+interface BoardDaoInterface extends DaoInterface
 {
     /**
      * @throws QueryException

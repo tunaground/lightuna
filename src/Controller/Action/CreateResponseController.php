@@ -4,39 +4,33 @@ namespace Lightuna\Controller\Action;
 
 use Lightuna\Controller\AbstractController;
 use Lightuna\Core\Context;
-use Lightuna\Dao\MariadbBoardDao;
-use Lightuna\Dao\MariadbResponseDao;
-use Lightuna\Dao\MariadbThreadDao;
 use Lightuna\Exception\QueryException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Response;
-use Lightuna\Service\AttachmentService;
-use Lightuna\Service\BoardService;
-use Lightuna\Service\ThreadService;
+use Lightuna\Service\AttachmentServiceInterface;
+use Lightuna\Service\BoardServiceInterface;
+use Lightuna\Service\ThreadServiceInterface;
 use Lightuna\Util\TemplateRenderer;
-use Lightuna\Util\ThumbUtil;
 
 class CreateResponseController extends AbstractController
 {
-    private BoardService $boardService;
-    private ThreadService $threadService;
-    private AttachmentService $attachmentService;
+    private BoardServiceInterface $boardService;
+    private ThreadServiceInterface $threadService;
+    private AttachmentServiceInterface $attachmentService;
 
-    public function __construct(TemplateRenderer $templateRenderer, Context $context)
+    public function __construct(
+        Context                    $context,
+        TemplateRenderer           $templateRenderer,
+        BoardServiceInterface      $boardService,
+        ThreadServiceInterface     $threadService,
+        AttachmentServiceInterface $attachmentService,
+    )
     {
-        parent::__construct($templateRenderer, $context);
-        $this->boardService = new BoardService(
-            new MariadbBoardDao($context->getPdo()),
-        );
-        $this->threadService = new ThreadService(
-            new MariadbThreadDao($context->getPdo()),
-            new MariadbResponseDao($context->getPdo()),
-        );
-        $this->attachmentService = new AttachmentService(
-            $context->getConfig(),
-            new ThumbUtil(),
-        );
+        parent::__construct($context, $templateRenderer);
+        $this->boardService = $boardService;
+        $this->threadService = $threadService;
+        $this->attachmentService = $attachmentService;
     }
 
     public function run(HttpRequest $httpRequest, HttpResponse $httpResponse): HttpResponse

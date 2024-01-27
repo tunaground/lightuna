@@ -5,7 +5,7 @@ namespace Lightuna\Dao;
 use Lightuna\Exception\QueryException;
 use Lightuna\Object\Thread;
 
-interface ThreadDaoInterface
+interface ThreadDaoInterface extends DaoInterface
 {
     /**
      * @throws QueryException

@@ -6,7 +6,7 @@ use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Object\Response;
 
-interface ResponseDaoInterface
+interface ResponseDaoInterface extends DaoInterface
 {
     /**
      * @throws QueryException

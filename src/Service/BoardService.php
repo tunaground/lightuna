@@ -2,16 +2,16 @@
 
 namespace Lightuna\Service;
 
-use Lightuna\Dao\MariadbBoardDao;
+use Lightuna\Dao\BoardDaoInterface;
 use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Object\Board;
 
-class BoardService
+class BoardService implements BoardServiceInterface
 {
-    private MariadbBoardDao $boardDao;
+    private BoardDaoInterface $boardDao;
 
-    public function __construct(MariadbBoardDao $boardDao)
+    public function __construct(BoardDaoInterface $boardDao)
     {
         $this->boardDao = $boardDao;
     }
@@ -19,7 +19,7 @@ class BoardService
     /**
      * @throws QueryException
      */
-    public function createBoard(Board $board)
+    public function createBoard(Board $board): void
     {
         $this->boardDao->createBoard($board);
     }

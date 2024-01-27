@@ -4,22 +4,21 @@ namespace Lightuna\Controller\Action;
 
 use Lightuna\Controller\AbstractController;
 use Lightuna\Core\Context;
-use Lightuna\Dao\MariadbBoardDao;
 use Lightuna\Exception\QueryException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Board;
-use Lightuna\Service\BoardService;
+use Lightuna\Service\BoardServiceInterface;
 use Lightuna\Util\TemplateRenderer;
 
 class CreateBoardController extends AbstractController
 {
-    private BoardService $boardService;
+    private BoardServiceInterface $boardService;
 
-    public function __construct(TemplateRenderer $templateRenderer, Context $context)
+    public function __construct(Context $context, TemplateRenderer $templateRenderer, BoardServiceInterface $boardService)
     {
-        parent::__construct($templateRenderer, $context);
-        $this->boardService = new BoardService(new MariadbBoardDao($context->getPdo()));
+        parent::__construct($context, $templateRenderer);
+        $this->boardService = $boardService;
     }
 
     /**

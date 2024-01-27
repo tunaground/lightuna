@@ -1,6 +1,8 @@
 <?php
 
-use Lightuna\Controller;
+use Lightuna\Core\Context;
+use Lightuna\Controller\ControllerFactory;
+use Lightuna\Controller\ControllerInterface;
 
 return [
     [
@@ -9,19 +11,27 @@ return [
     ],
     [
         'path' => '/index/:boardId',
-        'controller' => Controller\IndexController::class,
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getIndexController($context);
+        }
     ],
     [
         'path' => '/action/create/thread',
-        'controller' => Controller\Action\CreateThreadController::class,
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getCreateThreadController($context);
+        }
     ],
     [
         'path' => '/admin/boards',
-        'controller' => Controller\Admin\AdminBoardController::class,
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getAdminBoardController($context);
+        },
     ],
     [
         'path' => '/admin/board/:boardId',
-        'controller' => Controller\Admin\AdminBoardDetailController::class,
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getAdminBoardDetailController($context);
+        }
     ],
     [
         'path' => '/admin',
@@ -29,10 +39,14 @@ return [
     ],
     [
         'path' => '/action/create/board',
-        'controller' => Controller\Action\CreateBoardController::class,
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getCreateBoardController($context);
+        },
     ],
     [
         'path' => '/action/create/response',
-        'controller' => Controller\Action\CreateResponseController::class,
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getCreateResponseController($context);
+        }
     ],
 ];

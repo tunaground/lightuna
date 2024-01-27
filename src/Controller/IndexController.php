@@ -3,33 +3,32 @@
 namespace Lightuna\Controller;
 
 use Lightuna\Core\Context;
-use Lightuna\Dao\MariadbBoardDao;
-use Lightuna\Dao\MariadbResponseDao;
-use Lightuna\Dao\MariadbThreadDao;
 use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Thread;
-use Lightuna\Service\BoardService;
-use Lightuna\Service\ThreadService;
+use Lightuna\Service\BoardServiceInterface;
+use Lightuna\Service\ThreadServiceInterface;
 use Lightuna\Util\TemplateHelper;
 use Lightuna\Util\TemplateRenderer;
 
 class IndexController extends AbstractController
 {
-    private BoardService $boardService;
-    private ThreadService $threadService;
+    private BoardServiceInterface $boardService;
+    private ThreadServiceInterface $threadService;
     private TemplateHelper $templateHelper;
 
-    public function __construct(TemplateRenderer $templateRenderer, Context $context)
+    public function __construct(
+        Context                $context,
+        TemplateRenderer       $templateRenderer,
+        BoardServiceInterface  $boardService,
+        ThreadServiceInterface $threadService,
+    )
     {
-        parent::__construct($templateRenderer, $context);
-        $this->boardService = new BoardService(new MariadbBoardDao($this->context->getPdo()));
-        $this->threadService = new ThreadService(
-            new MariadbThreadDao($this->context->getPdo()),
-            new MariadbResponseDao($this->context->getPdo()),
-        );
+        parent::__construct($context, $templateRenderer);
+        $this->boardService = $boardService;
+        $this->threadService = $threadService;
         $this->templateHelper = new TemplateHelper($this->templateRenderer);
     }
 
@@ -43,16 +42,16 @@ class IndexController extends AbstractController
 
             $body = $this->templateRenderer->render('page/index.html', [
                 'board_name' => $board->getName(),
-                'threads' => array_reduce($threads, function ($acc, $thread) use ($board){
+                'threads' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
                     $responses = $this->threadService->getResponses($thread->getId());
                     return $acc . $this->templateHelper->drawThread(
-                        $this->templateHelper->drawThreadHeader($thread),
-                        array_reduce($responses, function ($acc, $response) use ($board) {
-                            return $acc . $this->templateHelper->drawResponse($this->context->getConfig(), $board, $response);
-                        }),
-                        $this->templateHelper->drawCreateResponse($board, $thread),
-                    );
+                            $this->templateHelper->drawThreadHeader($thread),
+                            array_reduce($responses, function ($acc, $response) use ($board) {
+                                return $acc . $this->templateHelper->drawResponse($this->context->getConfig(), $board, $response);
+                            }),
+                            $this->templateHelper->drawCreateResponse($board, $thread),
+                        );
                 }, ""),
                 'create_thread' => $this->templateHelper->drawCreateThread($board),
             ]);
