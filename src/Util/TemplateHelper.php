@@ -45,7 +45,7 @@ class TemplateHelper
         ]);
     }
 
-    public function drawResponse(array $config, Board $board, Response $response): string
+    public function drawResponse(array $config, Board $board, Response $response, bool $shrink = false): string
     {
         if ($response->getAttachment() !== '') {
             $attachment_base = "{$config['attachment']['expose_path']}/{$board->getId()}/{$response->getThreadId()}";
@@ -59,6 +59,7 @@ class TemplateHelper
         } else {
             $attachment = '';
         }
+
         $youtube = '';
         if ($response->getYoutube() !== '') {
             $youtubeLink = $response->getYoutube();
@@ -69,12 +70,27 @@ class TemplateHelper
                 ]);
             }
         }
+
+        $responseContent = $response->getContent();
+        if ($shrink === true) {
+            $lineCount = preg_match_all('/<br ?\/?>/', $responseContent);
+            if ($lineCount > $board->getDisplayResponseLine()) {
+                $responseContents = preg_split('/<br ?\/?>/', $responseContent, $board->getDisplayResponseLine());
+                array_pop($responseContents);
+                $responseContents[] = <<<HTML
+<a href="/trace/{$response->getThreadId()}/{$response->getSequence()}">
+More
+</a>
+HTML;
+                $responseContent = join('<br/>', $responseContents);
+            }
+        }
         return $this->templateRenderer->render('response.html', [
             'sequence' => $response->getSequence(),
             'username' => $response->getUsername(),
             'id' => $response->getUserId(),
             'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
-            'content' => $response->getContent(),
+            'content' => $responseContent,
             'youtube' => $youtube,
             'attachment' => $attachment,
         ]);

@@ -51,7 +51,7 @@ class IndexController extends AbstractController
                             $thread->getId(),
                             $this->templateHelper->drawThreadHeader($thread),
                             array_reduce($responses, function ($acc, $response) use ($board) {
-                                return $acc . $this->templateHelper->drawResponse($this->context->getConfig(), $board, $response);
+                                return $acc . $this->templateHelper->drawResponse($this->context->getConfig(), $board, $response, true);
                             }),
                             $this->templateHelper->drawCreateResponse($board, $thread),
                         );

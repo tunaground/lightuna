@@ -12,6 +12,7 @@ use Lightuna\Object\Board;
 use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 use Lightuna\Util\IdGenerator;
+use Lightuna\Util\RichContent;
 
 class ThreadService implements ThreadServiceInterface
 {
@@ -39,8 +40,8 @@ class ThreadService implements ThreadServiceInterface
      */
     public function createThread(Thread $thread, Response $response): void
     {
-        $idGenerator = new IdGenerator();
         try {
+            $idGenerator = new IdGenerator();
             $pdo = $this->threadDao->getPdo();
             $pdo->beginTransaction();
             $this->threadDao->createThread($thread);
@@ -49,6 +50,7 @@ class ThreadService implements ThreadServiceInterface
                 $idGenerator->gen(str_replace('.', '0', $response->getIp())
                     . $response->getCreatedAt()->format('Ymd'))
             );
+            $response->setContent(RichContent::applyAll($response->getContent()));
             $this->responseDao->setPdo($pdo);
             $this->responseDao->createResponse($response);
             $pdo->commit();
@@ -61,6 +63,7 @@ class ThreadService implements ThreadServiceInterface
     public function createResponse(Response $response): void
     {
         $idGenerator = new IdGenerator();
+        $response->setContent(RichContent::applyAll($response->getContent()));
         $response->setSequence($this->responseDao->getResponsesCountByThreadId($response->getThreadId()));
         $response->setUserId(
             $idGenerator->gen(str_replace('.', '0', $response->getIp())
