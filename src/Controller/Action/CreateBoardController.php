@@ -31,7 +31,6 @@ class CreateBoardController extends AbstractController
         $board = new Board();
         $board->setId($httpRequest->getPost("id"));
         $board->setName($httpRequest->getPost("name"));
-        $board->setDeleted(false);
         $board->setCreatedAt($dateTime);
         $board->setUpdatedAt($dateTime);
 

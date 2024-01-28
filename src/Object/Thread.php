@@ -11,7 +11,6 @@ class Thread
         private ?string    $password = null,
         private ?string    $username = null,
         private ?bool      $ended = null,
-        private ?bool      $deleted = null,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
         private ?\DateTime $deletedAt = null,
@@ -107,22 +106,6 @@ class Thread
     public function setEnded(bool $ended): void
     {
         $this->ended = $ended;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDeleted(): bool
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * @param bool $deleted
-     */
-    public function setDeleted(bool $deleted): void
-    {
-        $this->deleted = $deleted;
     }
 
     public function getCreatedAt(): \DateTime

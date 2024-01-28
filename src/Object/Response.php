@@ -14,7 +14,6 @@ class Response
         private ?string    $content = null,
         private ?string    $attachment = null,
         private ?string    $youtube = null,
-        private ?bool      $deleted = null,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $deletedAt = null,
     )
@@ -163,22 +162,6 @@ class Response
     public function setYoutube(string $youtube): void
     {
         $this->youtube = $youtube;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDeleted(): bool
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * @param bool $deleted
-     */
-    public function setDeleted(bool $deleted): void
-    {
-        $this->deleted = $deleted;
     }
 
     /**

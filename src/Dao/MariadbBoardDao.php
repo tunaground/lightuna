@@ -14,13 +14,12 @@ class MariadbBoardDao extends AbstractDao implements BoardDaoInterface
     public function createBoard(Board $board)
     {
         $sql = <<<SQL
-insert into board (id, name, deleted, created_at, updated_at)
-values (:id, :name, :deleted, :created_at, :updated_at)
+insert into board (id, name, created_at, updated_at)
+values (:id, :name, :created_at, :updated_at)
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $board->getId());
         $stmt->bindValue(':name', $board->getName());
-        $stmt->bindValue(':deleted', $board->isDeleted(), \PDO::PARAM_BOOL);
         $stmt->bindValue(':created_at', $board->getCreatedAt()->format(DATETIME_FORMAT));
         $stmt->bindValue(':updated_at', $board->getUpdatedAt()->format(DATETIME_FORMAT));
         $stmt->execute();
@@ -36,6 +35,7 @@ SQL;
 update board
 set
 name = :name,
+default_username = :default_username,
 display_thread = :display_thread,
 display_thread_list = :display_thread_list,
 display_response = :display_response,
@@ -55,6 +55,7 @@ SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $board->getId());
         $stmt->bindValue(':name', $board->getName());
+        $stmt->bindValue(':default_username', $board->getDefaultUsername());
         $stmt->bindValue(':display_thread', $board->getDisplayThread());
         $stmt->bindValue(':display_thread_list', $board->getDisplayThreadList());
         $stmt->bindValue(':display_response', $board->getDisplayResponse());
@@ -150,10 +151,10 @@ SQL;
         return new Board(
             $result['id'],
             $result['name'],
-            $result['deleted'],
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['created_at']),
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['updated_at']),
             ($result['deleted_at'] === null) ? null : \DateTime::createFromFormat(DATETIME_FORMAT, $result['deleted_at']),
+            $result['default_username'],
             $result['display_thread'],
             $result['display_thread_list'],
             $result['display_response'],

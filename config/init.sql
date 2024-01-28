@@ -14,7 +14,7 @@ create table board
 (
     id                          varchar(10)     not null,
     name                        varchar(50)     not null,
-    deleted                     tinyint(1)      not null,
+    default_username            varchar(60)     not null default 'anon',
     display_thread              int(0) unsigned not null default 10,
     display_thread_list         int(0) unsigned not null default 30,
     display_response            int(0) unsigned not null default 30,
@@ -23,7 +23,7 @@ create table board
     limit_name                  int(0) unsigned not null default 50,
     limit_content               int(0) unsigned not null default 4096,
     limit_response              int(0) unsigned not null default 1000,
-    limit_attachment_type       varchar(1024)   not null default 'jpg,png,gif',
+    limit_attachment_type       varchar(1024)   not null default 'image/jpeg,image/png,image/gif',
     limit_attachment_size       int(0) unsigned not null default 1073741824,
     limit_attachment_name       int(0) unsigned not null default 100,
     interval_response           int(0) unsigned not null default 1,
@@ -37,13 +37,11 @@ create table board
   DEFAULT CHARSET = utf8mb4
   DEFAULT COLLATE = utf8mb4_unicode_ci;
 --
-create table user
+create table admin
 (
     id       int(0) unsigned not null,
     username varchar(60)     not null,
     password varchar(256)    not null,
-    email    varchar(256)    not null,
-    admin    tinyint(1)      not null,
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -60,7 +58,7 @@ create table board_admin
             on delete cascade
             on update restrict,
     constraint fk_board_admin_user_id
-        foreign key (user_id) references user (id)
+        foreign key (user_id) references admin (id)
             on delete cascade
             on update restrict
 ) ENGINE = InnoDB
@@ -75,7 +73,6 @@ create table thread
     password   varchar(256)    not null,
     username   varchar(60)     not null,
     ended      tinyint(1)      not null,
-    deleted    tinyint(1)      not null,
     created_at datetime        not null,
     updated_at datetime        not null,
     deleted_at datetime        null,
@@ -101,7 +98,6 @@ create table response
     content    TEXT(20000)     not null,
     attachment varchar(256)    not null,
     youtube    varchar(100)    not null,
-    deleted    tinyint(1)      not null,
     created_at datetime        not null,
     deleted_at datetime        null,
     primary key (id),

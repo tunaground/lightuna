@@ -119,6 +119,7 @@ HTML;
             'created_at' => $board->getCreatedAt()->format(DATETIME_FORMAT),
             'updated_at' => $board->getUpdatedAt()->format(DATETIME_FORMAT),
             'deleted_at' => (is_null($board->getDeletedAt())) ? "No" : $board->getDeletedAt()->format(DATETIME_FORMAT),
+            'default_username' => $board->getDefaultUsername(),
             'display_thread' => $board->getDisplayThread(),
             'display_thread_list' => $board->getDisplayThreadList(),
             'display_response' => $board->getDisplayResponse(),

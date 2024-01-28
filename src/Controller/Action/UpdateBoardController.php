@@ -38,6 +38,7 @@ class UpdateBoardController extends AbstractController
             $dateTime = new \DateTime();
             $board = $this->boardService->getBoardById($httpRequest->getPost('id'));
             $board->setName($httpRequest->getPost('name'));
+            $board->setDefaultUsername($httpRequest->getPost('default_username'));
             $board->setDisplayThread($httpRequest->getPost('display_thread'));
             $board->setDisplayThreadList($httpRequest->getPost('display_thread_list'));
             $board->setDisplayResponse($httpRequest->getPost('display_response'));

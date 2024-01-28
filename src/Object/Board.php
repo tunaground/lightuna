@@ -7,10 +7,10 @@ class Board
     public function __construct(
         private ?string    $id = null,
         private ?string    $name = null,
-        private ?bool      $deleted = null,
         private ?\DateTime $createdAt = null,
         private ?\DateTime $updatedAt = null,
         private ?\DateTime $deletedAt = null,
+        private ?string    $defaultUsername = null,
         private ?int       $displayThread = null,
         private ?int       $displayThreadList = null,
         private ?int       $displayResponse = null,
@@ -249,12 +249,6 @@ class Board
     }
 
     public
-    function isDeleted(): bool
-    {
-        return $this->deleted;
-    }
-
-    public
     function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
@@ -285,12 +279,6 @@ class Board
     }
 
     public
-    function setDeleted(bool $deleted)
-    {
-        $this->deleted = $deleted;
-    }
-
-    public
     function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
@@ -306,6 +294,22 @@ class Board
     function setDeletedAt(\DateTime $deletedAt)
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDefaultUsername(): ?string
+    {
+        return $this->defaultUsername;
+    }
+
+    /**
+     * @param string|null $defaultUsername
+     */
+    public function setDefaultUsername(?string $defaultUsername): void
+    {
+        $this->defaultUsername = $defaultUsername;
     }
 }
 

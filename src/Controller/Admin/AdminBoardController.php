@@ -28,10 +28,13 @@ class AdminBoardController extends AbstractController
     {
         $boards = $this->boardService->getBoards();
         $boardList = array_reduce($boards, function (string $acc, Board $board) {
+            $status = ($board->getDeletedAt() === null)
+                ? "Active"
+                : "Deleted";
             return $acc . $this->templateRenderer->render('board_list_item.html', [
                     'id' => $board->getId(),
                     'name' => $board->getName(),
-                    'deleted' => ($board->isDeleted()) ? 'Deleted' : 'Active',
+                    'deleted' => $status,
                     'created_at' => $board->getCreatedAt()->format(DATETIME_FORMAT),
                     'updated_at' => $board->getUpdatedAt()->format(DATETIME_FORMAT),
                     'deleted_at' => ($board->getDeletedAt() === null)

@@ -31,8 +31,8 @@ SQL;
     public function createThread(Thread $thread)
     {
         $sql = <<<SQL
-insert into thread (id, board_id, title, password, username, ended, deleted, created_at, updated_at)
-values (:thread_id, :board_id, :title, :password, :username, :ended, :deleted, :created_at, :updated_at)
+insert into thread (id, board_id, title, password, username, ended, created_at, updated_at)
+values (:thread_id, :board_id, :title, :password, :username, :ended, :created_at, :updated_at)
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':thread_id', $thread->getId());
@@ -41,7 +41,6 @@ SQL;
         $stmt->bindValue(':password', $thread->getTitle());
         $stmt->bindValue(':username', $thread->getUsername());
         $stmt->bindValue(':ended', $thread->isEnded(), \PDO::PARAM_BOOL);
-        $stmt->bindValue(':deleted', $thread->isDeleted(), \PDO::PARAM_BOOL);
         $stmt->bindValue(':created_at', $thread->getCreatedAt()->format(DATETIME_FORMAT));
         $stmt->bindValue(':updated_at', $thread->getUpdatedAt()->format(DATETIME_FORMAT));
         $stmt->execute();
@@ -58,7 +57,7 @@ SQL;
     public function getThreadByBoardId(string $boardId, int $limit = 0, int $offset = 0): array
     {
         $sql = <<<SQL
-select id, board_id, title, password, username, ended, deleted, created_at, updated_at, deleted_at
+select id, board_id, title, password, username, ended, created_at, updated_at, deleted_at
 from thread
 where board_id = :board_id
 order by updated_at desc
@@ -108,7 +107,6 @@ SQL;
             $result['password'],
             $result['username'],
             $result['ended'],
-            $result['deleted'],
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['created_at']),
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['updated_at']),
             ($result['deleted_at'] === null)

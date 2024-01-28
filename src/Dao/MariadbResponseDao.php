@@ -31,8 +31,8 @@ SQL;
     public function createResponse(Response $response)
     {
         $sql = <<<SQL
-insert into response(id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at)
-values (:id, :thread_id, :sequence, :username, :user_id, :ip, :content, :attachment, :youtube, :deleted, :created_at)
+insert into response(id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, created_at)
+values (:id, :thread_id, :sequence, :username, :user_id, :ip, :content, :attachment, :youtube, :created_at)
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $response->getId());
@@ -62,7 +62,7 @@ SQL;
     public function getResponsesByThreadId(int $threadId, int $limit = 0, int $offset = 0): array
     {
         $sql = <<<SQL
-select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
+select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, created_at, deleted_at
 from response
 where thread_id = :thread_id
 order by sequence asc
@@ -114,7 +114,7 @@ SQL;
     public function getResponseById(int $id): Response
     {
         $sql = <<<SQL
-select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
+select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, created_at, deleted_at
 from response
 where id = :id
 SQL;
@@ -160,7 +160,6 @@ SQL;
             $result['content'],
             $result['attachment'],
             $result['youtube'],
-            $result['deleted'],
             \DateTime::createFromFormat(DATETIME_FORMAT, $result['created_at']),
             ($result['deleted_at'] === null)
                 ? null
