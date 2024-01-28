@@ -59,22 +59,24 @@ SQL;
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getReponsesByThreadId(int $threadId): array
+    public function getReponsesByThreadId(int $threadId, int $limit = 0, int $offset = 0): array
     {
         $sql = <<<SQL
 select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
 from response
 where thread_id = :thread_id
+order by sequence asc
+limit :limit
+offset :offset
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':thread_id', $threadId);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
             throw new QueryException($error[1]);
-        }
-        if ($stmt->rowCount() === 0) {
-            throw new ResourceNotFoundException("thread($threadId) not exists");
         }
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return array_reduce($results, function ($acc, $result) {

@@ -46,7 +46,19 @@ class IndexController extends AbstractController
                 'board_name' => $board->getName(),
                 'threads' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
-                    $responses = $this->threadService->getResponses($thread->getId());
+                    $responseCount = $this->threadService->getResponseCountByThreadId($thread->getId());
+                    $limit = $board->getDisplayResponse();
+                    if ($responseCount > $limit) {
+                        $offset = $responseCount - $limit;
+                        $added = $this->threadService->getResponses($thread->getId(), $limit, $offset);
+                    } else {
+                        $offset = 1;
+                        $added = [];
+                    }
+                    $responses = array_merge(
+                        $this->threadService->getResponses($thread->getId(), 1, 0),
+                        $added,
+                    );
                     return $acc . $this->templateHelper->drawThread(
                             $thread->getId(),
                             $this->templateHelper->drawThreadHeader($thread),

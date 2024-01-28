@@ -100,4 +100,15 @@ class ControllerFactory
             ServiceFactory::getBoardService($config),
         );
     }
+
+    public static function getTraceController(Context $context): TraceController
+    {
+        $config = $context->getConfig();
+        return new TraceController(
+            $context,
+            new TemplateRenderer($config['site']['rootDir'] . '/template'),
+            ServiceFactory::getBoardService($config),
+            ServiceFactory::getThreadService($config),
+        );
+    }
 }

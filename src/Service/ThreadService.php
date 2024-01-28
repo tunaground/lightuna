@@ -2,13 +2,10 @@
 
 namespace Lightuna\Service;
 
-use Lightuna\Dao\BoardDaoInterface;
-use Lightuna\Dao\MariadbResponseDao;
 use Lightuna\Dao\ResponseDaoInterface;
 use Lightuna\Dao\ThreadDaoInterface;
 use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
-use Lightuna\Object\Board;
 use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 use Lightuna\Util\IdGenerator;
@@ -92,8 +89,13 @@ class ThreadService implements ThreadServiceInterface
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getResponses(int $threadId): array
+    public function getResponses(int $threadId, int $limit = 0, int $offset = 0): array
     {
-        return $this->responseDao->getReponsesByThreadId($threadId);
+        return $this->responseDao->getReponsesByThreadId($threadId, $limit, $offset);
+    }
+
+    public function getResponseCountByThreadId(int $threadId): int
+    {
+        return $this->responseDao->getResponsesCountByThreadId($threadId);
     }
 }

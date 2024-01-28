@@ -16,6 +16,12 @@ return [
         }
     ],
     [
+        'path' => '/trace/:threadId?:start/:end',
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getTraceController($context);
+        }
+    ],
+    [
         'path' => '/action/create/thread',
         'controller' => function (Context $context): ControllerInterface {
             return ControllerFactory::getCreateThreadController($context);

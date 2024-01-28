@@ -61,7 +61,9 @@ class Router
                 if (!str_contains($matches[0][$i], ':')) {
                     continue;
                 } else {
-                    $this->arguments[$matches[1][$i]] = $requestUriSeg[$i];
+                    if (isset($requestUriSeg[$i])) {
+                        $this->arguments[$matches[1][$i]] = $requestUriSeg[$i];
+                    }
                 }
             }
             return true;

@@ -19,5 +19,7 @@ interface ThreadServiceInterface
 
     public function getThreadById(int $id): Thread;
 
-    public function getResponses(int $threadId): array;
+    public function getResponses(int $threadId, int $limit = 0, int $offset = 0): array;
+
+    public function getResponseCountByThreadId(int $threadId): int;
 }
