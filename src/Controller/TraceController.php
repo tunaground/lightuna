@@ -66,9 +66,7 @@ class TraceController extends AbstractController
                 $this->threadService->getResponses($thread->getId(), $limit, $offset),
             );
 
-            echo "offset: $offset, limit: $limit";
-
-            $first_sequence = $responses[1]->getSequence();;
+            $first_sequence = (isset($responses[1])) ? $responses[1]->getSequence() : 0;
             $last_sequence = $responses[array_key_last($responses)]->getSequence();;
 
             $prev_start = ($first_sequence - $board->getDisplayResponse() < 1) ? 1 : $first_sequence - $board->getDisplayResponse();
@@ -76,13 +74,10 @@ class TraceController extends AbstractController
 
             $next_start = $last_sequence + 1;
             $next_end = $next_start + $board->getDisplayResponse();
-            echo "next_start: $next_start, next_end: $next_end";
             if ($next_end > $responseCount) {
                 $next_start = 'recent';
                 $next_end = '';
             }
-
-            echo "next_start: $next_start, next_end: $next_end";
 
             $prev_start = ($offset - $board->getDisplayResponse() < 1) ? 1 : $offset - $board->getDisplayResponse();
             $prev_end = $board->getDisplayResponse();
@@ -90,15 +85,15 @@ class TraceController extends AbstractController
             $boards = $this->boardService->getBoards();
             $nav_list = array_reduce($boards, function ($acc, $board) {
                 /* @var Board $board */
-                return array_merge($acc, [['link' => "/index/{$board->getId()}", 'text' => "{$board->getName()}"]]);
+                return array_merge($acc, [['link' => "/index/{$board->getId()}", 'text' => "{$board->getName()}", 'icon' => 'shuffle']]);
             }, [
-                ['link' => '#top', 'text' => 'Top'],
-                ['link' => '#bottom', 'text' => 'bottom'],
-                ['link' => "/index/{$board->getId()}", 'text' => "{$board->getName()}"],
-                ['link' => "/trace/{$thread->getId()}", 'text' => "All"],
-                ['link' => "/trace/{$thread->getId()}/recent", 'text' => "Recent"],
-                ['link' => "/trace/{$thread->getId()}/{$prev_start}/{$prev_end}", 'text' => "Previous"],
-                ['link' => "/trace/{$thread->getId()}/{$next_start}/{$next_end}", 'text' => "Next"],
+                ['link' => '#top', 'text' => '', 'icon' => 'arrow-up'],
+                ['link' => '#bottom', 'text' => '', 'icon' => 'arrow-down'],
+                ['link' => "/index/{$board->getId()}", 'text' => "", 'icon' => 'home'],
+                ['link' => "/trace/{$thread->getId()}", 'text' => "", 'icon' => 'playlist-play'],
+                ['link' => "/trace/{$thread->getId()}/recent", 'text' => "", 'icon' => 'repeat'],
+                ['link' => "/trace/{$thread->getId()}/{$prev_start}/{$prev_end}", 'text' => "", 'icon' => 'skip-prev'],
+                ['link' => "/trace/{$thread->getId()}/{$next_start}/{$next_end}", 'text' => "", 'icon' => 'skip-next'],
             ]);
 
             $body = $this->templateRenderer->render('page/trace.html', [
@@ -107,6 +102,7 @@ class TraceController extends AbstractController
                         return $acc . $this->templateRenderer->render('nav_item.html', [
                                 'link' => $nav['link'],
                                 'text' => $nav['text'],
+                                'icon' => $nav['icon'],
                             ]);
                     }, "")
                 ]),

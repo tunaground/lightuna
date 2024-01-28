@@ -45,19 +45,20 @@ class IndexController extends AbstractController
             $boards = $this->boardService->getBoards();
             $nav_list = array_reduce($boards, function ($acc, $board) {
                 /* @var Board $board */
-                return array_merge($acc, [['link' => "/index/{$board->getId()}", 'text' => "{$board->getName()}"]]);
+                return array_merge($acc, [['link' => "/index/{$board->getId()}", 'text' => "{$board->getName()}", 'icon' => 'shuffle']]);
             }, [
-                ['link' => '#top', 'text' => 'Top'],
-                ['link' => '#bottom', 'text' => 'bottom'],
+                ['link' => '#top', 'text' => '', 'icon' => 'arrow-up'],
+                ['link' => '#bottom', 'text' => '', 'icon' => 'arrow-down'],
             ]);
 
             $body = $this->templateRenderer->render('page/index.html', [
                 'nav' => $this->templateRenderer->render('nav.html', [
                     'nav_items' => array_reduce($nav_list, function ($acc, $nav) {
                         return $acc . $this->templateRenderer->render('nav_item.html', [
-                            'link' => $nav['link'],
-                            'text' => $nav['text'],
-                        ]);
+                                'link' => $nav['link'],
+                                'text' => $nav['text'],
+                                'icon' => $nav['icon'],
+                            ]);
                     }, "")
                 ]),
                 'notice' => $notice->getContent(),
