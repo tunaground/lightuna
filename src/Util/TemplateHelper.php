@@ -95,9 +95,10 @@ HTML;
             }
         }
         return $this->templateRenderer->render('response.html', [
+            'id' => $response->getId(),
             'sequence' => $response->getSequence(),
             'username' => $response->getUsername(),
-            'id' => $response->getUserId(),
+            'user_id' => $response->getUserId(),
             'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
             'content' => $responseContent,
             'youtube' => $youtube,

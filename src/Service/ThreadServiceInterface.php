@@ -24,4 +24,6 @@ interface ThreadServiceInterface
     public function getResponseCountByThreadId(int $threadId): int;
 
     public function deleteResponseById(int $id): void;
+
+    public function getResponseById(int $id): Response;
 }

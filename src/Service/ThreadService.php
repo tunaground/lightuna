@@ -106,4 +106,9 @@ class ThreadService implements ThreadServiceInterface
         $response->setDeletedAt($dateTime);
         $this->responseDao->updateResponse($response);
     }
+
+    public function getResponseById(int $id): Response
+    {
+        return $this->responseDao->getResponseById($id);
+    }
 }
