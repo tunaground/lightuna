@@ -67,8 +67,13 @@ class IndexController extends AbstractController
                     /** @var Thread $thread */
                     $responseCount = $this->threadService->getResponseCountByThreadId($thread->getId());
                     $limit = $board->getDisplayResponse();
-                    if ($responseCount > $limit) {
+                    print_r("responseCount: $responseCount, limit: $limit");
+                    if ($responseCount > 1) {
                         $offset = $responseCount - $limit;
+                        if ($offset < 1) {
+                            $offset = 1;
+                        }
+                        print_r("offset: $offset, limit: $limit");
                         $added = $this->threadService->getResponses($thread->getId(), $limit, $offset);
                     } else {
                         $added = [];

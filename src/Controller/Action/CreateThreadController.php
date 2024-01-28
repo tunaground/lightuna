@@ -36,10 +36,15 @@ class CreateThreadController extends AbstractController
 
     public function run(HttpRequest $httpRequest, HttpResponse $httpResponse): HttpResponse
     {
+        if ($httpRequest->getPost('content') === '') {
+            $httpResponse->setBody($this->templateRenderer->render('page/error.html', [
+                'message' => 'empty content'
+            ]));
+            return $httpResponse;
+        }
+
         $dateTime = new \DateTime();
-
         $board = $this->boardService->getBoardById($httpRequest->getPost('board_id'));
-
         $threadId = $this->threadService->getNextThreadId();
         $thread = new Thread(
             $threadId,
@@ -48,12 +53,13 @@ class CreateThreadController extends AbstractController
             $httpRequest->getPost('password'),
             $httpRequest->getPost('username'),
             false,
-            false,
             $dateTime,
             $dateTime,
+            null,
         );
 
         $responseId = $this->threadService->getNextResponseId();
+        $username = (trim($httpRequest->getPost('username') == ''))? $board->getDefaultUsername() : $httpRequest->getPost('username');
         if ($httpRequest->getFile('attachment')['error'] !== UPLOAD_ERR_NO_FILE) {
             $attachment = $this->attachmentService->uploadAttachment(
                 $board,
@@ -69,25 +75,24 @@ class CreateThreadController extends AbstractController
             $responseId,
             $threadId,
             null,
-            $httpRequest->getPost('username'),
+            $username,
             null,
             $httpRequest->getIp(),
             $httpRequest->getPost('content'),
             $attachment,
             $httpRequest->getPost('youtube'),
-            false,
             $dateTime,
             null,
         );
         try {
             $this->threadService->createThread($thread, $response);
+            $httpResponse->addHeader("Refresh:2; url={$httpRequest->getPost("return_uri")}");
             $body = "BAAAAAAAAAAAA";
         } catch (QueryException $e) {
-            $body = $this->templateRenderer->render('error.html', [
+            $body = $this->templateRenderer->render('page/error.html', [
                 'message' => 'database query error'
             ]);
         }
-        $httpResponse->addHeader("Refresh:2; url={$httpRequest->getPost("return_uri")}");
         $httpResponse->setBody($body);
         return $httpResponse;
     }

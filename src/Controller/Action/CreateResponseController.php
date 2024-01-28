@@ -35,11 +35,19 @@ class CreateResponseController extends AbstractController
 
     public function run(HttpRequest $httpRequest, HttpResponse $httpResponse): HttpResponse
     {
+        if ($httpRequest->getPost('content') === '') {
+            $httpResponse->setBody($this->templateRenderer->render('page/error.html', [
+                'message' => 'empty content'
+            ]));
+            return $httpResponse;
+        }
+
         $dateTime = new \DateTime();
 
         $thread = $this->threadService->getThreadById($httpRequest->getPost('thread_id'));
         $board = $this->boardService->getBoardById($thread->getBoardId());
         $responseId = $this->threadService->getNextResponseId();
+        $username = (trim($httpRequest->getPost('username')) == '')? $board->getDefaultUsername() : $httpRequest->getPost('username');
 
         $attachment = ($httpRequest->getFile('attachment')['error'] !== UPLOAD_ERR_NO_FILE)
             ? $this->attachmentService->uploadAttachment(
@@ -54,13 +62,12 @@ class CreateResponseController extends AbstractController
             $responseId,
             $httpRequest->getPost('thread_id'),
             null,
-            $httpRequest->getPost('username'),
+            $username,
             null,
             $httpRequest->getIp(),
             $httpRequest->getPost('content'),
             $attachment,
             $httpRequest->getPost('youtube'),
-            false,
             $dateTime,
             null,
         );
@@ -68,7 +75,7 @@ class CreateResponseController extends AbstractController
             $this->threadService->createResponse($response);
             $body = "BAAAAAAAAAAAA";
         } catch (QueryException $e) {
-            $body = $this->templateRenderer->render('page/admin/error.html', [
+            $body = $this->templateRenderer->render('page/error.html', [
                 'message' => 'database query error'
             ]);
         }

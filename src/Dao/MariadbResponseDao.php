@@ -44,7 +44,6 @@ SQL;
         $stmt->bindValue(':content', $response->getContent());
         $stmt->bindValue(':attachment', $response->getAttachment());
         $stmt->bindValue(':youtube', $response->getYoutube());
-        $stmt->bindValue(':deleted', $response->getDeleted(), \PDO::PARAM_BOOL);
         $stmt->bindValue(':created_at', $response->getCreatedAt()->format(DATETIME_FORMAT));
         $stmt->execute();
         $error = $stmt->errorInfo();
