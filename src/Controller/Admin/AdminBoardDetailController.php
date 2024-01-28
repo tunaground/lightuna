@@ -50,6 +50,7 @@ class AdminBoardDetailController extends AbstractController
                     $deletedAt = ($thread->getDeletedAt() === null)? null : $thread->getDeletedAt()->format(DATETIME_FORMAT);
                     return $acc . $this->templateRenderer->render('admin_thread.html', [
                             'id' => $thread->getId(),
+                            'board_id' => $thread->getBoardId(),
                             'title' => $thread->getTitle(),
                             'username' => $thread->getUsername(),
                             'created_at' => $thread->getCreatedAt()->format(DATETIME_FORMAT),

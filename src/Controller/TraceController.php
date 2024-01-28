@@ -90,10 +90,10 @@ class TraceController extends AbstractController
                 ['link' => '#top', 'text' => '', 'icon' => 'arrow-up'],
                 ['link' => '#bottom', 'text' => '', 'icon' => 'arrow-down'],
                 ['link' => "/index/{$board->getId()}", 'text' => "", 'icon' => 'home'],
-                ['link' => "/trace/{$thread->getId()}", 'text' => "", 'icon' => 'playlist-play'],
-                ['link' => "/trace/{$thread->getId()}/recent", 'text' => "", 'icon' => 'repeat'],
-                ['link' => "/trace/{$thread->getId()}/{$prev_start}/{$prev_end}", 'text' => "", 'icon' => 'skip-prev'],
-                ['link' => "/trace/{$thread->getId()}/{$next_start}/{$next_end}", 'text' => "", 'icon' => 'skip-next'],
+                ['link' => "/trace/{$thread->getBoardId()}/{$thread->getId()}", 'text' => "", 'icon' => 'playlist-play'],
+                ['link' => "/trace/{$thread->getBoardId()}/{$thread->getId()}/recent", 'text' => "", 'icon' => 'repeat'],
+                ['link' => "/trace/{$thread->getBoardId()}/{$thread->getId()}/{$prev_start}/{$prev_end}", 'text' => "", 'icon' => 'skip-prev'],
+                ['link' => "/trace/{$thread->getBoardId()}/{$thread->getId()}/{$next_start}/{$next_end}", 'text' => "", 'icon' => 'skip-next'],
             ]);
 
             $body = $this->templateRenderer->render('page/trace.html', [

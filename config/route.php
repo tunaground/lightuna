@@ -16,7 +16,7 @@ return [
         }
     ],
     [
-        'path' => '/trace/:threadId?:start/:end',
+        'path' => '/trace/:boardId/:threadId?:start/:end',
         'controller' => function (Context $context): ControllerInterface {
             return ControllerFactory::getTraceController($context);
         }

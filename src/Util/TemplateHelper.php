@@ -36,6 +36,7 @@ class TemplateHelper
     public function drawThreadHeader(Thread $thread): string
     {
         return $this->templateRenderer->render('thread_head.html', [
+            'board_id' => $thread->getBoardId(),
             'thread_id' => $thread->getId(),
             'title' => $thread->getTitle(),
             'size' => 0,
@@ -85,7 +86,7 @@ class TemplateHelper
                 $responseContents = preg_split('/<br ?\/?>/', $responseContent, $board->getDisplayResponseLine());
                 array_pop($responseContents);
                 $responseContents[] = <<<HTML
-<a href="/trace/{$response->getThreadId()}/{$response->getSequence()}">
+<a href="/trace/{$board->getId()}/{$response->getThreadId()}/{$response->getSequence()}">
 More
 </a>
 HTML;
