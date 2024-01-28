@@ -52,7 +52,6 @@ class IndexController extends AbstractController
                         $offset = $responseCount - $limit;
                         $added = $this->threadService->getResponses($thread->getId(), $limit, $offset);
                     } else {
-                        $offset = 1;
                         $added = [];
                     }
                     $responses = array_merge(

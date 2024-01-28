@@ -50,22 +50,20 @@ class TraceController extends AbstractController
             } else {
                 if (isset($arguments['start']) && $arguments['start'] > 0) {
                     $offset = $arguments['start'];
-                }
-                if (isset($arguments['end'])) {
-                    $limit = $arguments['end'] - $offset + 1;
-                    if ($limit < 0) {
+                    if (isset($arguments['end'])) {
+                        $limit = $arguments['end'] - $offset + 1;
+                        if ($limit < 0) {
+                            $limit = 1;
+                        }
+                    } else {
                         $limit = 1;
                     }
-                } else {
-                    $limit = 1;
                 }
             }
-            echo "limit: $limit offset: $offset";
             $responses = array_merge(
                 $this->threadService->getResponses($thread->getId(), 1, 0),
                 $this->threadService->getResponses($thread->getId(), $limit, $offset),
             );
-
             $body = $this->templateRenderer->render('page/trace.html', [
                 'thread' => $this->templateHelper->drawThread(
                     $thread->getId(),
