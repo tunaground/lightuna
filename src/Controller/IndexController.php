@@ -7,6 +7,7 @@ use Lightuna\Exception\QueryException;
 use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
+use Lightuna\Object\Board;
 use Lightuna\Object\Thread;
 use Lightuna\Service\BoardServiceInterface;
 use Lightuna\Service\ThreadServiceInterface;
@@ -41,7 +42,24 @@ class IndexController extends AbstractController
 
             $threads = $this->threadService->getThreadsByBoardId($board->getId(), $board->getDisplayThreadList());
 
+            $boards = $this->boardService->getBoards();
+            $nav_list = array_reduce($boards, function ($acc, $board) {
+                /* @var Board $board */
+                return array_merge($acc, [['link' => "/index/{$board->getId()}", 'text' => "{$board->getName()}"]]);
+            }, [
+                ['link' => '#top', 'text' => 'Top'],
+                ['link' => '#bottom', 'text' => 'bottom'],
+            ]);
+
             $body = $this->templateRenderer->render('page/index.html', [
+                'nav' => $this->templateRenderer->render('nav.html', [
+                    'nav_items' => array_reduce($nav_list, function ($acc, $nav) {
+                        return $acc . $this->templateRenderer->render('nav_item.html', [
+                            'link' => $nav['link'],
+                            'text' => $nav['text'],
+                        ]);
+                    }, "")
+                ]),
                 'notice' => $notice->getContent(),
                 'board_name' => $board->getName(),
                 'threads' => array_reduce($threads, function ($acc, $thread) use ($board) {
