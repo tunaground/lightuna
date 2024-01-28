@@ -23,7 +23,7 @@ class RichContent
 
     public static function newLineToBreak(string $content): string
     {
-        return str_replace(['\r\n', '\r', '\n'], '<br />', $content);
+        return str_replace(["\r\n", "\r", "\n"], '<br/>', $content);
     }
 
     public static function applyAsciiArtTag(string $content): string

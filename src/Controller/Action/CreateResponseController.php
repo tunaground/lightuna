@@ -47,7 +47,7 @@ class CreateResponseController extends AbstractController
         $thread = $this->threadService->getThreadById($httpRequest->getPost('thread_id'));
         $board = $this->boardService->getBoardById($thread->getBoardId());
         $responseId = $this->threadService->getNextResponseId();
-        $username = (trim($httpRequest->getPost('username')) == '')? $board->getDefaultUsername() : $httpRequest->getPost('username');
+        $username = ($httpRequest->getPost('username') == '')? $board->getDefaultUsername() : $httpRequest->getPost('username');
 
         $attachment = ($httpRequest->getFile('attachment')['error'] !== UPLOAD_ERR_NO_FILE)
             ? $this->attachmentService->uploadAttachment(

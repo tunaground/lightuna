@@ -59,7 +59,7 @@ class CreateThreadController extends AbstractController
         );
 
         $responseId = $this->threadService->getNextResponseId();
-        $username = (trim($httpRequest->getPost('username') == ''))? $board->getDefaultUsername() : $httpRequest->getPost('username');
+        $username = ($httpRequest->getPost('username') == '')? $board->getDefaultUsername() : $httpRequest->getPost('username');
         if ($httpRequest->getFile('attachment')['error'] !== UPLOAD_ERR_NO_FILE) {
             $attachment = $this->attachmentService->uploadAttachment(
                 $board,
