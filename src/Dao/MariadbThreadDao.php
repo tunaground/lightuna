@@ -61,7 +61,7 @@ SQL;
 select id, board_id, title, password, username, ended, deleted, created_at, updated_at, deleted_at
 from thread
 where board_id = :board_id
-order by updated_at asc
+order by updated_at desc
 limit :limit
 offset :offset
 SQL;

@@ -22,6 +22,18 @@ return [
         }
     ],
     [
+        'path' => '/action/update/notice',
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getUpdateNoticeController($context);
+        },
+    ],
+    [
+        'path' => '/action/update/board',
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getUpdateBoardController($context);
+        },
+    ],
+    [
         'path' => '/admin/boards',
         'controller' => function (Context $context): ControllerInterface {
             return ControllerFactory::getAdminBoardController($context);

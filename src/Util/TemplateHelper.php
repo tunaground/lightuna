@@ -3,6 +3,7 @@
 namespace Lightuna\Util;
 
 use Lightuna\Object\Board;
+use Lightuna\Object\Notice;
 use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 
@@ -21,9 +22,10 @@ class TemplateHelper
         ]);
     }
 
-    public function drawThread(string $threadHeader, string $responses, string $createResponse): string
+    public function drawThread(string $threadId, string $threadHeader, string $responses, string $createResponse): string
     {
         return $this->templateRenderer->render('thread.html', [
+            'thread_id' => $threadId,
             'thread_head' => $threadHeader,
             'responses' => $responses,
             'create_response' => $createResponse,
@@ -57,6 +59,7 @@ class TemplateHelper
             $attachment = '';
         }
         return $this->templateRenderer->render('response.html', [
+            'sequence' => $response->getSequence(),
             'username' => $response->getUsername(),
             'id' => $response->getUserId(),
             'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
@@ -94,6 +97,15 @@ class TemplateHelper
             'limit_attachment_name' => $board->getLimitAttachmentName(),
             'interval_response' => $board->getIntervalResponse(),
             'interval_duplicate_response' => $board->getIntervalDuplicateResponse(),
+        ]);
+    }
+
+    public function drawUpdateNotice(Notice $notice): string
+    {
+        return $this->templateRenderer->render('update_notice.html', [
+            'id' => $notice->getId(),
+            'board_id' => $notice->getBoardId(),
+            'content' => $notice->getContent(),
         ]);
     }
 }

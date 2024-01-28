@@ -8,6 +8,8 @@ create sequence seq_response_id start with 1 increment by 1;
 --
 create sequence seq_ban_id start with 1 increment by 1;
 --
+create sequence seq_notice_id start with 1 increment by 1;
+--
 create table board
 (
     id                          varchar(10)     not null,
@@ -118,16 +120,30 @@ create table response
 --
 create table ban
 (
-    ban_id    int(0) unsigned not null,
+    id        int(0) unsigned not null,
     thread_id int(0) unsigned not null,
     user_id   varchar(10)     not null,
     ip        varchar(15)     not null,
     issued_at datetime        not null,
-    primary key (ban_id),
+    primary key (id),
     index idx_ban_status (thread_id, user_id, issued_at),
     index idx_user_id (user_id),
     index idx_ip (ip)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   DEFAULT COLLATE = utf8mb4_unicode_ci;
-
+--
+create table notice
+(
+    id       int(0) unsigned not null,
+    board_id varchar(10)     not null,
+    content  text(10000)     not null default '',
+    primary key (id),
+    constraint fk_notice_board_id
+        foreign key (board_id) references board (id)
+            on delete cascade
+            on update restrict,
+    index idx_board_id (board_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  DEFAULT COLLATE = utf8mb4_unicode_ci;

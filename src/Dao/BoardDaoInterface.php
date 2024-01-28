@@ -13,6 +13,8 @@ interface BoardDaoInterface extends DaoInterface
      */
     public function createBoard(Board $board);
 
+    public function updateBoard(Board $board): void;
+
     /**
      * @return Board[]
      * @throws QueryException

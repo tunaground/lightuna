@@ -16,6 +16,7 @@ class ServiceFactory
 
         return new BoardService(
             DaoFactory::getBoardDao($databaseType, $pdo),
+            DaoFactory::getNoticeDao($databaseType, $pdo),
         );
     }
 

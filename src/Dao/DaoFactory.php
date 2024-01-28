@@ -35,4 +35,14 @@ class DaoFactory
                 throw new InvalidConfigException();
         }
     }
+
+    public static function getNoticeDao(string $type, \PDO $pdo): NoticeDaoInterface
+    {
+        switch ($type) {
+            case 'mariadb':
+                return new MariadbNoticeDao($pdo);
+            default:
+                throw new InvalidConfigException();
+        }
+    }
 }

@@ -40,28 +40,6 @@ class App
         $this->route($request, $context);
     }
 
-    private function getPDO(): \PDO
-    {
-        switch ($this->config['database']['type']) {
-            case 'mariadb':
-                $pdo = new \PDO(
-                    sprintf(
-                        'mysql:host=%s;port=%s;dbname=%s',
-                        $this->config['database']['host'],
-                        $this->config['database']['port'],
-                        $this->config['database']['schema'],
-                    ),
-                    $this->config['database']['user'],
-                    $this->config['database']['password'],
-                    $this->config['database']['options'],
-                );
-                break;
-            default:
-                throw new InvalidConfigException();
-        }
-        return $pdo;
-    }
-
     /**
      * @throws NoRouteException
      */
@@ -73,7 +51,6 @@ class App
         if (array_key_exists('redirect', $route)) {
             $httpResponse->addHeader(Redirect::temporary($route['redirect']));
         } else {
-            $templateRenderer = new TemplateRenderer($this->config['site']['rootDir'] . '/template');
             $controller = $route['controller']($context);
             $controller->run($httpRequest, $httpResponse);
         }

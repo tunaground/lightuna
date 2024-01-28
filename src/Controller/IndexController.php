@@ -37,15 +37,18 @@ class IndexController extends AbstractController
         try {
             $arguments = $this->context->getArgument();
             $board = $this->boardService->getBoardById($arguments['boardId']);
+            $notice = $this->boardService->getNotice($board);
 
             $threads = $this->threadService->getThreadsByBoardId($board->getId(), $board->getDisplayThreadList());
 
             $body = $this->templateRenderer->render('page/index.html', [
+                'notice' => $notice->getContent(),
                 'board_name' => $board->getName(),
                 'threads' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
                     $responses = $this->threadService->getResponses($thread->getId());
                     return $acc . $this->templateHelper->drawThread(
+                            $thread->getId(),
                             $this->templateHelper->drawThreadHeader($thread),
                             array_reduce($responses, function ($acc, $response) use ($board) {
                                 return $acc . $this->templateHelper->drawResponse($this->context->getConfig(), $board, $response);

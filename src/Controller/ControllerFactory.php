@@ -5,6 +5,8 @@ namespace Lightuna\Controller;
 use Lightuna\Controller\Action\CreateBoardController;
 use Lightuna\Controller\Action\CreateResponseController;
 use Lightuna\Controller\Action\CreateThreadController;
+use Lightuna\Controller\Action\UpdateBoardController;
+use Lightuna\Controller\Action\UpdateNoticeController;
 use Lightuna\Controller\Admin\AdminBoardController;
 use Lightuna\Controller\Admin\AdminBoardDetailController;
 use Lightuna\Core\Context;
@@ -79,4 +81,23 @@ class ControllerFactory
         );
     }
 
+    public static function getUpdateNoticeController(Context $context): UpdateNoticeController
+    {
+        $config = $context->getConfig();
+        return new UpdateNoticeController(
+            $context,
+            new TemplateRenderer($config['site']['rootDir'] . '/template'),
+            ServiceFactory::getBoardService($config),
+        );
+    }
+
+    public static function getUpdateBoardController(Context $context): UpdateBoardController
+    {
+        $config = $context->getConfig();
+        return new UpdateBoardController(
+            $context,
+            new TemplateRenderer($config['site']['rootDir'] . '/template'),
+            ServiceFactory::getBoardService($config),
+        );
+    }
 }

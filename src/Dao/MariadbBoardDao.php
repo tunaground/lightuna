@@ -30,6 +30,52 @@ SQL;
         }
     }
 
+    public function updateBoard(Board $board): void
+    {
+        $sql = <<<SQL
+update board
+set
+name = :name,
+display_thread = :display_thread,
+display_thread_list = :display_thread_list,
+display_response = :display_response,
+display_response_line = :display_response_line,
+limit_title = :limit_title,
+limit_name = :limit_name,
+limit_content = :limit_content,
+limit_response = :limit_response,
+limit_attachment_type = :limit_attachment_type,
+limit_attachment_size = :limit_attachment_size,
+limit_attachment_name = :limit_attachment_name,
+interval_response = :interval_response,
+interval_duplicate_response = :interval_duplicate_response,
+updated_at = :updated_at
+where id = :id
+SQL;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $board->getId());
+        $stmt->bindValue(':name', $board->getName());
+        $stmt->bindValue(':display_thread', $board->getDisplayThread());
+        $stmt->bindValue(':display_thread_list', $board->getDisplayThreadList());
+        $stmt->bindValue(':display_response', $board->getDisplayResponse());
+        $stmt->bindValue(':display_response_line', $board->getDisplayResponseLine());
+        $stmt->bindValue(':limit_title', $board->getLimitTitle());
+        $stmt->bindValue(':limit_name', $board->getLimitName());
+        $stmt->bindValue(':limit_content', $board->getLimitContent());
+        $stmt->bindValue(':limit_response', $board->getLimitResponse());
+        $stmt->bindValue(':limit_attachment_type', $board->getLimitAttachmentType());
+        $stmt->bindValue(':limit_attachment_size', $board->getLimitAttachmentSize());
+        $stmt->bindValue(':limit_attachment_name', $board->getLimitAttachmentName());
+        $stmt->bindValue(':interval_response', $board->getIntervalResponse());
+        $stmt->bindValue(':interval_duplicate_response', $board->getIntervalDuplicateResponse());
+        $stmt->bindValue(':updated_at', $board->getUpdatedAt()->format(DATETIME_FORMAT));
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            throw new QueryException($error[1]);
+        }
+    }
+
     /**
      * @return Board[]
      * @throws QueryException

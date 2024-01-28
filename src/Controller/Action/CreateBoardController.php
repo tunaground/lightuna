@@ -8,6 +8,7 @@ use Lightuna\Exception\QueryException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Board;
+use Lightuna\Object\Notice;
 use Lightuna\Service\BoardServiceInterface;
 use Lightuna\Util\TemplateRenderer;
 
@@ -33,7 +34,11 @@ class CreateBoardController extends AbstractController
         $board->setDeleted(false);
         $board->setCreatedAt($dateTime);
         $board->setUpdatedAt($dateTime);
-        $this->boardService->createBoard($board);
+
+        $notice = new Notice();
+        $notice->setBoardId($board->getId());
+        $notice->setContent("");
+        $this->boardService->createBoard($board, $notice);
         $httpResponse->addHeader("Refresh:0; url=/admin/boards");
         return $httpResponse;
     }

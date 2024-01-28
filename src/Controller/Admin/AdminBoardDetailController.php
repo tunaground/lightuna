@@ -21,9 +21,9 @@ class AdminBoardDetailController extends AbstractController
     private TemplateHelper $templateHelper;
 
     public function __construct(
-        Context $context,
-        TemplateRenderer $templateRenderer,
-        BoardServiceInterface $boardService,
+        Context                $context,
+        TemplateRenderer       $templateRenderer,
+        BoardServiceInterface  $boardService,
         ThreadServiceInterface $threadService,
     )
     {
@@ -38,14 +38,17 @@ class AdminBoardDetailController extends AbstractController
         try {
             $arguments = $this->context->getArgument();
             $board = $this->boardService->getBoardById($arguments['boardId']);
+            $notice = $this->boardService->getNotice($board);
             $threads = $this->threadService->getThreadsByBoardId($board->getId());
             $body = $this->templateRenderer->render('page/admin/board.html', [
                 'board_id' => $board->getId(),
                 'board_name' => $board->getName(),
                 'board_config' => $this->templateHelper->drawUpdateBoard($board),
+                'notice_config' => $this->templateHelper->drawUpdateNotice($notice),
                 'thread_list' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
                     return $acc . $this->templateHelper->drawThread(
+                            $thread->getId(),
                             $this->templateHelper->drawThreadHeader($thread),
                             "",
                             ""

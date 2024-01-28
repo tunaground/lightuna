@@ -1,9 +1,13 @@
-<form action="/action/create/response" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="thread_id" value="{{thread_id}}"/>
-    <input type="hidden" name="return_uri" value="{{return_uri}}"/>
-    <input type="text" name="username" placeholder="Username"/>
-    <textarea name="content" placeholder="Content"></textarea>
-    <input type="text" name="youtube" placeholder="Youtube Link"/>
-    <input type="file" name="attachment"/>
-    <button>Submit</button>
-</form>
+<fieldset class="post_form">
+    <form action="/action/create/response" method="post" enctype="multipart/form-data">
+        <input class="post_form_default" type="hidden" name="thread_id" value="{{thread_id}}"/>
+        <input class="post_form_default" type="hidden" name="return_uri" value="{{return_uri}}"/>
+        <input class="post_form_default" type="text" name="username" placeholder="Username"/>
+        <textarea class="post_form_default post_form_content" name="content" placeholder="Content"></textarea>
+        <input class="post_form_default" type="text" name="youtube" placeholder="Youtube Link"/>
+        <input class="post_form_default post_form_attachment" type="file" name="attachment"/>
+        <section class="post_form_button_group">
+            <button class="post_form_submit post_form_button_default">Submit</button>
+        </section>
+    </form>
+</fieldset>
