@@ -24,6 +24,12 @@ function setAnchor(el) {
     )
 }
 
+function ncrToChar(text) {
+    return text.replace(/&#([^;]+);/gm, function (_, match) {
+        return String.fromCharCode(match);
+    });
+}
+
 $(document).ready(function () {
     $(".response_content").each(function (i) {
         pBoardId = $(this).parents('.thread').data('board-id')
@@ -32,6 +38,13 @@ $(document).ready(function () {
 
         $(this).html(setLink($(this)))
         $(this).html(setAnchor($(this)))
+    })
+
+    $('.post_form_content').on('input', function () {
+        $(this).css('height',
+            ($(this).prop('scrollHeight') < $(this).prop('offsetHeight'))
+                ? $(this).prop('offsetHeight')
+                : $(this).prop('scrollHeight') + 'px')
     })
 
     $('body').on('click', 'button.anchor', function (e) {
@@ -56,7 +69,9 @@ $(document).ready(function () {
                 result.responses.reverse().forEach(function (response) {
                     clone = curResponse.clone()
                     clone.find('.anchor_response').remove()
-                    clone.find('.response_sequence').html(response.sequence)
+                    clone.find('.response_sequence').html(
+                        `<a href="/trace/${boardId}/${threadId}/${response.sequence}">${response.sequence}</a>`
+                    )
                     clone.find('.response_user_name').html(response.username)
                     clone.find('.response_user_id').html(`(${response.userId})`)
                     clone.find('.response_date').html(response.createdAt.date)
