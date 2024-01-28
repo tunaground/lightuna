@@ -61,9 +61,14 @@ class BoardService implements BoardServiceInterface
         return $this->boardDao->getBoardById($boardId);
     }
 
-    public function getNotice(Board $board): Notice
+    public function getNoticeByBoardId(string $boardId): Notice
     {
-        return $this->noticeDao->getNotice($board->getId());
+        return $this->noticeDao->getNoticeByBoardId($boardId);
+    }
+
+    public function getNoticeByNoticeId(int $id): Notice
+    {
+        return $this->noticeDao->getNoticeByNoticeId($id);
     }
 
     public function updateNotice(Notice $notice): void

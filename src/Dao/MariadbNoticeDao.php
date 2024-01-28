@@ -22,7 +22,7 @@ SQL;
         return $stmt->fetchColumn();
     }
 
-    public function getNotice(string $boardId): Notice
+    public function getNoticeByBoardId(string $boardId): Notice
     {
         $sql = <<<SQL
 select id, board_id, content
@@ -38,6 +38,26 @@ SQL;
         }
         if ($stmt->rowCount() === 0) {
             throw new ResourceNotFoundException("notice for board($boardId) not exists");
+        }
+        return $this->makeObject($stmt->fetch(\PDO::FETCH_ASSOC));
+    }
+
+    public function getNoticeByNoticeId(int $id): Notice
+    {
+        $sql = <<<SQL
+select id, board_id, content
+from notice
+where id = :id
+SQL;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            throw new QueryException($error[1]);
+        }
+        if ($stmt->rowCount() === 0) {
+            throw new ResourceNotFoundException("notice($id) not exists");
         }
         return $this->makeObject($stmt->fetch(\PDO::FETCH_ASSOC));
     }

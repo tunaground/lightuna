@@ -33,6 +33,8 @@ class UpdateBoardController extends AbstractController
     public function run(HttpRequest $httpRequest, HttpResponse $httpResponse): HttpResponse
     {
         try {
+            $logger = $this->context->getLogger();
+
             $dateTime = new \DateTime();
             $board = $this->boardService->getBoardById($httpRequest->getPost('id'));
             $board->setName($httpRequest->getPost('name'));
@@ -51,7 +53,11 @@ class UpdateBoardController extends AbstractController
             $board->setIntervalDuplicateResponse($httpRequest->getPost('interval_duplicate_response'));
             $board->setUpdatedAt($dateTime);
             $this->boardService->updateBoard($board);
+
             $boardId = $board->getId();
+
+            $logger->info("board({$boardId}) updated");
+
             $httpResponse->addHeader("Refresh:0; url=/admin/board/{$boardId}");
         } catch (QueryException $e) {
             $body = $this->templateRenderer->render('page/error.html', [

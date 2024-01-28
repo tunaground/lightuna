@@ -17,7 +17,10 @@ interface BoardServiceInterface
 
     public function getBoardById(string $boardId): Board;
 
-    public function getNotice(Board $board): Notice;
+    public function getNoticeByBoardId(string $boardId): Notice;
+
+
+    public function getNoticeByNoticeId(int $id): Notice;
 
     public function updateNotice(Notice $notice): void;
 }

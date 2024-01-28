@@ -32,13 +32,14 @@ class UpdateNoticeController extends AbstractController
     public function run(HttpRequest $httpRequest, HttpResponse $httpResponse): HttpResponse
     {
         try {
-            $notice = new Notice(
-                $httpRequest->getPost('id'),
-                $httpRequest->getPost('board_id'),
-                $httpRequest->getPost('content'),
-            );
+            $logger = $this->context->getLogger();
+
+            $notice = $this->boardService->getNoticeByNoticeId($httpRequest->getPost('id'));
+            $notice->setContent($httpRequest->getPost('content'));
             $this->boardService->updateNotice($notice);
+
             $boardId = $notice->getBoardId();
+            $logger->info("board({$boardId}) notice({$notice->getId()}) updated");
             $httpResponse->addHeader("Refresh:0; url=/admin/board/{$boardId}");
         } catch (QueryException $e) {
             $body = $this->templateRenderer->render('page/error.html', [

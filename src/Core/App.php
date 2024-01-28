@@ -26,16 +26,9 @@ class App
 
     public function run(HttpRequest $request)
     {
-        $this->logger->info('{ip} - {protocol} {method} {uri} - {user_agent}', [
-            'ip' => $request->getIp(),
-            'uri' => $request->getRequestUri(),
-            'method' => $request->getMethod(),
-            'protocol' => $request->getProtocol(),
-            'user_agent' => $request->getUserAgent(),
-        ]);
-
         $context = new Context();
         $context->setConfig($this->config);
+        $context->setLogger($this->logger);
 
         $this->route($request, $context);
     }

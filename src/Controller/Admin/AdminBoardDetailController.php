@@ -38,7 +38,7 @@ class AdminBoardDetailController extends AbstractController
         try {
             $arguments = $this->context->getArgument();
             $board = $this->boardService->getBoardById($arguments['boardId']);
-            $notice = $this->boardService->getNotice($board);
+            $notice = $this->boardService->getNoticeByBoardId($board->getId());
             $threads = $this->threadService->getThreadsByBoardId($board->getId());
             $body = $this->templateRenderer->render('page/admin/board.html', [
                 'board_id' => $board->getId(),

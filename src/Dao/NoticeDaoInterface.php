@@ -8,7 +8,9 @@ interface NoticeDaoInterface
 {
     public function getNextNoticeId(): int;
 
-    public function getNotice(string $boardId): Notice;
+    public function getNoticeByBoardId(string $boardId): Notice;
+
+    public function getNoticeByNoticeId(int $id): Notice;
 
     public function createNotice(Notice $notice): void;
 
