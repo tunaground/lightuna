@@ -61,19 +61,17 @@ class IndexController extends AbstractController
                             ]);
                     }, "")
                 ]),
-                'notice' => $notice->getContent(),
+                'notice' => htmlspecialchars_decode($notice->getContent()),
                 'board_name' => $board->getName(),
                 'threads' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
                     $responseCount = $this->threadService->getResponseCountByThreadId($thread->getId());
                     $limit = $board->getDisplayResponse();
-                    print_r("responseCount: $responseCount, limit: $limit");
                     if ($responseCount > 1) {
                         $offset = $responseCount - $limit;
                         if ($offset < 1) {
                             $offset = 1;
                         }
-                        print_r("offset: $offset, limit: $limit");
                         $added = $this->threadService->getResponses($thread->getId(), $limit, $offset);
                     } else {
                         $added = [];
