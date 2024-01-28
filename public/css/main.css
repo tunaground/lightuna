@@ -13,6 +13,10 @@ body {
     font-family: sans-serif;
 }
 
+iframe {
+    border: none;
+}
+
 .container_default {
     display: -webkit-box;
     display: -moz-box;
@@ -22,6 +26,28 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.board_header {
+    width: 60em;
+}
+
+.board_header h1 {
+    margin: 0.5em;
+}
+
+.notice {
+    width: 60em;
+    background-color: rgb(230, 250, 255);
+    color: rgb(80, 80, 80);
+    box-shadow: 5px 5px 20px -8px rgba(0, 0, 0, 0.75);
+    overflow: auto;
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    margin: 1em;
+}
+
+.notice p {
+    padding: 0.5em 1em;
 }
 
 .thread {
@@ -202,6 +228,18 @@ input:not([type="image"]), textarea {
 }
 
 @media (max-width: 60em) {
+    iframe {
+        width: 100%;
+    }
+
+    .board_header {
+        width: 100%;
+    }
+
+    .notice {
+        width: 100%;
+    }
+
     .post_form_button_group {
         display: block;
     }

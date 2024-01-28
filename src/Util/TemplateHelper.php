@@ -12,7 +12,8 @@ class TemplateHelper
     public function __construct(
         private readonly TemplateRenderer $templateRenderer
     )
-    {}
+    {
+    }
 
     public function drawCreateThread(Board $board): string
     {
@@ -58,12 +59,23 @@ class TemplateHelper
         } else {
             $attachment = '';
         }
+        $youtube = '';
+        if ($response->getYoutube() !== '') {
+            $youtubeLink = $response->getYoutube();
+            preg_match('/https:\/\/www\.youtube.com\/watch\?v=([^&]+)/', $youtubeLink, $matches);
+            if (isset($matches[1])) {
+                $youtube = $this->templateRenderer->render('youtube.html', [
+                    'id' => $matches[1]
+                ]);
+            }
+        }
         return $this->templateRenderer->render('response.html', [
             'sequence' => $response->getSequence(),
             'username' => $response->getUsername(),
             'id' => $response->getUserId(),
             'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
             'content' => $response->getContent(),
+            'youtube' => $youtube,
             'attachment' => $attachment,
         ]);
     }

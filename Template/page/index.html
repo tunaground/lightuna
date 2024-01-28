@@ -6,9 +6,17 @@
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<h1>{{board_name}}</h1>
+<header class="container_default">
+    <section class="board_header">
+        <h1>{{board_name}}</h1>
+    </section>
+</header>
 <section class="container_default">
-    {{notice}}
+    <section class="notice">
+        <p>
+            {{notice}}
+        </p>
+    </section>
 </section>
 <section class="container_default">
     {{threads}}

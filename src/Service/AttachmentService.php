@@ -34,11 +34,11 @@ class AttachmentService implements AttachmentServiceInterface
         } elseif (!$this->checkSize($file)) {
             throw new InvalidUserInputException('invalid file(size zero)');
         } elseif (!$this->checkType($file, explode(',', $board->getLimitAttachmentType()))) {
-            throw new InvalidUserInputException('invalid file(file type)');
+            throw new InvalidUserInputException("invalid file type({$file['type']})");
         } elseif (!$this->checkSizeLimit($file, $board->getLimitAttachmentSize())) {
-            throw new InvalidUserInputException('invalid file(file size)');
+            throw new InvalidUserInputException("invalid file size({$file['size']})");
         } elseif (!$this->CheckNameSize($file, $board->getLimitAttachmentName())) {
-            throw new InvalidUserInputException('invalid file(file name)');
+            throw new InvalidUserInputException("invalid file name({$file['name']})");
         }
 
         $basePath = $this->createDirectory($board->getId(), $threadId);
