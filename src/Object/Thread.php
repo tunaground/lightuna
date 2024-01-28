@@ -152,9 +152,9 @@ class Thread
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime | null
      */
-    public function getDeletedAt(): \DateTime
+    public function getDeletedAt(): ?\DateTime
     {
         return $this->deletedAt;
     }

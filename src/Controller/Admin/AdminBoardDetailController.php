@@ -39,20 +39,22 @@ class AdminBoardDetailController extends AbstractController
             $arguments = $this->context->getArgument();
             $board = $this->boardService->getBoardById($arguments['boardId']);
             $notice = $this->boardService->getNoticeByBoardId($board->getId());
-            $threads = $this->threadService->getThreadsByBoardId($board->getId());
+            $threads = $this->threadService->getThreadsByBoardId($board->getId(), $board->getDisplayThreadList());
             $body = $this->templateRenderer->render('page/admin/board.html', [
                 'board_id' => $board->getId(),
                 'board_name' => $board->getName(),
                 'board_config' => $this->templateHelper->drawUpdateBoard($board),
                 'notice_config' => $this->templateHelper->drawUpdateNotice($notice),
-                'thread_list' => array_reduce($threads, function ($acc, $thread) use ($board) {
+                'thread_list' => array_reduce($threads, function ($acc, $thread) {
                     /** @var Thread $thread */
-                    return $acc . $this->templateHelper->drawThread(
-                            $thread->getId(),
-                            $this->templateHelper->drawThreadHeader($thread),
-                            "",
-                            ""
-                        );
+                    $deletedAt = ($thread->getDeletedAt() === null)? null : $thread->getDeletedAt()->format(DATETIME_FORMAT);
+                    return $acc . $this->templateRenderer->render('admin_thread.html', [
+                            'id' => $thread->getId(),
+                            'title' => $thread->getTitle(),
+                            'username' => $thread->getUsername(),
+                            'created_at' => $thread->getCreatedAt()->format(DATETIME_FORMAT),
+                            'deleted_at' => $deletedAt,
+                        ]);
                 }),
             ]);
         } catch (QueryException $e) {

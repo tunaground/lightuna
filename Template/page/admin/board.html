@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
-  </head>
-  <body>
-    <h1>Admin</h1>
+</head>
+<body>
+<h1>Admin</h1>
+<div>
+    <h2><a href="/admin/board">Board</a>: <a href="/index/{{board_id}}">{{board_name}}</a></h2>
     <div>
-      <h2><a href="/admin/board">Board</a>: <a href="/index/{{board_id}}">{{board_name}}</a></h2>
-      <div>
         <h3>Config</h3>
         {{board_config}}
-      </div>
-      <div>
+    </div>
+    <div>
         <h3>Notice</h3>
         {{notice_config}}
-      </div>
-      <div>
-        <h3>Threads</h3>
-        {{thread_list}}
-      </div>
     </div>
-  </body>
+    <div>
+        <h3>Threads</h3>
+        <table>
+            <tbody>
+            {{thread_list}}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
 </html>
