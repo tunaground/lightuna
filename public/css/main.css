@@ -77,10 +77,10 @@ nav a {
     box-shadow: 5px 5px 20px -8px rgba(0, 0, 0, 0.75);
     overflow: auto;
     word-wrap: break-word; /* Internet Explorer 5.5+ */
-    margin: 1em;
+    margin: 0 0 3em 0;
 }
 
-.notice p {
+.notice section {
     padding: 0.5em 1em;
 }
 
@@ -133,7 +133,7 @@ nav a {
 }
 
 .response:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 145, 255, 0.1);
     -webkit-transition: background-color 150ms linear;
     transition: background-color 150ms linear;
 }
@@ -276,6 +276,7 @@ input:not([type="image"]), textarea {
 
     .notice {
         width: 100%;
+        padding-
     }
 
     .post_form_button_group {
