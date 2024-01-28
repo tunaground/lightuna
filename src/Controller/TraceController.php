@@ -62,8 +62,8 @@ class TraceController extends AbstractController
                 }
             }
             $responses = array_merge(
-                $this->threadService->getResponses($thread->getId(), 1, 0),
-                $this->threadService->getResponses($thread->getId(), $limit, $offset),
+                $this->threadService->getResponsesByThreadId($thread->getId(), 1, 0),
+                $this->threadService->getResponsesByThreadId($thread->getId(), $limit, $offset),
             );
 
             $first_sequence = (isset($responses[1])) ? $responses[1]->getSequence() : 0;
@@ -107,6 +107,7 @@ class TraceController extends AbstractController
                     }, "")
                 ]),
                 'thread' => $this->templateHelper->drawThread(
+                    $thread->getBoardId(),
                     $thread->getId(),
                     $this->templateHelper->drawThreadHeader($thread),
                     array_reduce($responses, function ($acc, $response) use ($board) {

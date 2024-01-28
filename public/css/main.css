@@ -132,6 +132,12 @@ nav a {
     padding: 0.3em 0.5em;
 }
 
+.anchor_response {
+    background-color: rgba(0, 145, 255, 0.1);
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
 .response:hover {
     background-color: rgba(0, 145, 255, 0.1);
     -webkit-transition: background-color 150ms linear;

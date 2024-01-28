@@ -89,7 +89,7 @@ class ThreadService implements ThreadServiceInterface
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getResponses(int $threadId, int $limit = 0, int $offset = 0): array
+    public function getResponsesByThreadId(int $threadId, int $limit = 0, int $offset = 0): array
     {
         return $this->responseDao->getResponsesByThreadId($threadId, $limit, $offset);
     }

@@ -72,15 +72,16 @@ class IndexController extends AbstractController
                         if ($offset < 1) {
                             $offset = 1;
                         }
-                        $added = $this->threadService->getResponses($thread->getId(), $limit, $offset);
+                        $added = $this->threadService->getResponsesByThreadId($thread->getId(), $limit, $offset);
                     } else {
                         $added = [];
                     }
                     $responses = array_merge(
-                        $this->threadService->getResponses($thread->getId(), 1, 0),
+                        $this->threadService->getResponsesByThreadId($thread->getId(), 1, 0),
                         $added,
                     );
                     return $acc . $this->templateHelper->drawThread(
+                            $thread->getBoardId(),
                             $thread->getId(),
                             $this->templateHelper->drawThreadHeader($thread),
                             array_reduce($responses, function ($acc, $response) use ($board) {

@@ -10,7 +10,7 @@ use Lightuna\Http\HttpResponse;
 use Lightuna\Service\ThreadServiceInterface;
 use Lightuna\Util\TemplateRenderer;
 
-class DeleteResponse extends AbstractApiController
+class DeleteResponseController extends AbstractApiController
 {
     private ThreadServiceInterface $threadService;
 
@@ -34,14 +34,16 @@ class DeleteResponse extends AbstractApiController
                 [
                     'status' => 'ok',
                     'message' => "response({$this->input->id}) has been deleted",
-                ]
+                ],
+                JSON_UNESCAPED_UNICODE
             ));
         } catch (\Throwable $e) {
             $httpResponse->setBody(json_encode(
                 [
                     'status' => 'error',
                     'message' => $e->getMessage(),
-                ]
+                ],
+                JSON_UNESCAPED_UNICODE
             ));
         }
         return $httpResponse;

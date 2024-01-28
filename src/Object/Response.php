@@ -195,4 +195,21 @@ class Response
     {
         $this->deletedAt = $deletedAt;
     }
+
+    public function toArray(): array
+    {
+        return [
+            "id" => $this->id,
+            "threadId" => $this->threadId,
+            "sequence" => $this->sequence,
+            "username" => $this->username,
+            "userId" => $this->userId,
+            "ip" => $this->ip,
+            "content" => $this->content,
+            "attachment" => $this->attachment,
+            "youtube" => $this->youtube,
+            "createdAt" => $this->createdAt,
+            "deletedAt" => $this->deletedAt,
+        ];
+    }
 }

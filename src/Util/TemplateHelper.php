@@ -23,9 +23,10 @@ class TemplateHelper
         ]);
     }
 
-    public function drawThread(string $threadId, string $threadHeader, string $responses, string $createResponse): string
+    public function drawThread(string $boardId, string $threadId, string $threadHeader, string $responses, string $createResponse): string
     {
         return $this->templateRenderer->render('thread.html', [
+            'board_id' => $boardId,
             'thread_id' => $threadId,
             'thread_head' => $threadHeader,
             'responses' => $responses,
