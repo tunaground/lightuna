@@ -24,7 +24,7 @@ interface ResponseDaoInterface extends DaoInterface
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getReponsesByThreadId(int $threadId): array;
+    public function getResponsesByThreadId(int $threadId, int $limit, int $offset): array;
 
     /**
      * @param int $threadId
@@ -33,4 +33,8 @@ interface ResponseDaoInterface extends DaoInterface
      * @throws ResourceNotFoundException
      */
     public function getResponsesCountByThreadId(int $threadId): int;
+
+    public function getResponseById(int $id): Response;
+
+    public function updateResponse(Response $response): void;
 }

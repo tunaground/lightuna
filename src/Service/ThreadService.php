@@ -91,11 +91,19 @@ class ThreadService implements ThreadServiceInterface
      */
     public function getResponses(int $threadId, int $limit = 0, int $offset = 0): array
     {
-        return $this->responseDao->getReponsesByThreadId($threadId, $limit, $offset);
+        return $this->responseDao->getResponsesByThreadId($threadId, $limit, $offset);
     }
 
     public function getResponseCountByThreadId(int $threadId): int
     {
         return $this->responseDao->getResponsesCountByThreadId($threadId);
+    }
+
+    public function deleteResponseById(int $id): void
+    {
+        $response = $this->responseDao->getResponseById($id);
+        $dateTime = new \DateTime();
+        $response->setDeletedAt($dateTime);
+        $this->responseDao->updateResponse($response);
     }
 }

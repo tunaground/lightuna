@@ -172,6 +172,11 @@ nav a {
     word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
+.response_deleted {
+    color: red;
+    font-weight: bold;
+}
+
 .post_form {
     border: none;
     margin: 0;
@@ -276,7 +281,6 @@ input:not([type="image"]), textarea {
 
     .notice {
         width: 100%;
-        padding-
     }
 
     .post_form_button_group {

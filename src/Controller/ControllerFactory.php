@@ -9,6 +9,7 @@ use Lightuna\Controller\Action\UpdateBoardController;
 use Lightuna\Controller\Action\UpdateNoticeController;
 use Lightuna\Controller\Admin\AdminBoardController;
 use Lightuna\Controller\Admin\AdminBoardDetailController;
+use Lightuna\Controller\API\V1\DeleteResponse;
 use Lightuna\Core\Context;
 use Lightuna\Service\ServiceFactory;
 use Lightuna\Util\TemplateRenderer;
@@ -108,6 +109,16 @@ class ControllerFactory
             $context,
             new TemplateRenderer($config['site']['rootDir'] . '/template'),
             ServiceFactory::getBoardService($config),
+            ServiceFactory::getThreadService($config),
+        );
+    }
+
+    public static function getDeleteResponseController(Context $context): DeleteResponse
+    {
+        $config = $context->getConfig();
+        return new DeleteResponse(
+            $context,
+            new TemplateRenderer($config['site']['rootDir'] . '/template'),
             ServiceFactory::getThreadService($config),
         );
     }

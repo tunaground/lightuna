@@ -59,7 +59,7 @@ SQL;
      * @throws QueryException
      * @throws ResourceNotFoundException
      */
-    public function getReponsesByThreadId(int $threadId, int $limit = 0, int $offset = 0): array
+    public function getResponsesByThreadId(int $threadId, int $limit = 0, int $offset = 0): array
     {
         $sql = <<<SQL
 select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
@@ -109,6 +109,43 @@ SQL;
             throw new ResourceNotFoundException("thread($threadId) not exists");
         }
         return $stmt->fetchColumn();
+    }
+
+    public function getResponseById(int $id): Response
+    {
+        $sql = <<<SQL
+select id, thread_id, sequence, username, user_id, ip, content, attachment, youtube, deleted, created_at, deleted_at
+from response
+where id = :id
+SQL;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            throw new QueryException($error[1]);
+        }
+        if ($stmt->rowCount() === 0) {
+            throw new ResourceNotFoundException("response($id) not exists");
+        }
+        return $this->makeObject($stmt->fetch(\PDO::FETCH_ASSOC));
+    }
+
+    public function updateResponse(Response $response): void
+    {
+        $sql = <<<SQL
+update response
+set deleted_at = :deleted_at
+where id = :id
+SQL;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $response->getId());
+        $stmt->bindValue(':deleted_at', $response->getDeletedAt()->format(DATETIME_FORMAT));
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            throw new QueryException($error[1]);
+        }
     }
 
     private function makeObject(array $result): Response

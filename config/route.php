@@ -67,4 +67,10 @@ return [
             return ControllerFactory::getCreateResponseController($context);
         }
     ],
+    [
+        'path' => '/api/v1/delete/response',
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getDeleteResponseController($context);
+        }
+    ]
 ];

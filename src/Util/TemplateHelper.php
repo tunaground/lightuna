@@ -47,6 +47,13 @@ class TemplateHelper
 
     public function drawResponse(array $config, Board $board, Response $response, bool $shrink = false): string
     {
+        if ($response->getDeletedAt() !== null) {
+            return $this->templateRenderer->render('deleted_response.html', [
+                'sequence' => $response->getSequence(),
+                'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
+                'deleted_at' => $response->getDeletedAt()->format(DATETIME_FORMAT),
+            ]);
+        }
         if ($response->getAttachment() !== '') {
             $attachment_base = "{$config['attachment']['expose_path']}/{$board->getId()}/{$response->getThreadId()}";
             $attachment_filename = pathinfo($response->getAttachment(), PATHINFO_FILENAME);
