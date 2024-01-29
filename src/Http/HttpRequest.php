@@ -20,7 +20,7 @@ class HttpRequest
         if (array_key_exists($key, $this->post)) {
             return trim(htmlspecialchars($this->post[$key]));
         } else {
-            throw new InvalidUserInputException("key({$key}) not exists in post parameter");
+            return null;
         }
     }
 

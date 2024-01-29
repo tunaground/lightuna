@@ -139,7 +139,11 @@ where id = :id
 SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $response->getId());
-        $stmt->bindValue(':deleted_at', $response->getDeletedAt()->format(DATETIME_FORMAT));
+        if ($response->getDeletedAt() === null) {
+            $stmt->bindValue(':deleted_at', null);
+        } else {
+            $stmt->bindValue(':deleted_at', $response->getDeletedAt()->format(DATETIME_FORMAT));
+        }
         $stmt->execute();
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {

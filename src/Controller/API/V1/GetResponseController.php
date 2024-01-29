@@ -39,6 +39,7 @@ class GetResponseController extends AbstractApiController
             $responses = $this->threadService->getResponsesByThreadId($threadId, $limit, $offset);
             $responses = array_reduce($responses, function ($acc, $response) {
                 /* @var \Lightuna\Object\Response $response */
+                $arr['id'] = $response->getId();
                 $arr['sequence'] = $response->getSequence();
                 if ($response->getDeletedAt() === null) {
                     $arr['username'] = $response->getUsername();

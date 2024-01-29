@@ -43,27 +43,32 @@ class TraceController extends AbstractController
             $responseCount = $this->threadService->getResponseCountByThreadId($thread->getId());
             $limit = $responseCount;
             $offset = 1;
-            if (isset($arguments['start']) && $arguments['start'] === 'recent') {
-                $limit = $board->getDisplayResponse();
-                if ($responseCount > $limit) {
-                    $offset = $responseCount - $limit;
-                }
-            } else {
-                if (isset($arguments['start']) && $arguments['start'] > 0) {
-                    $offset = $arguments['start'];
-                    if (isset($arguments['end'])) {
-                        $limit = $arguments['end'] - $offset + 1;
-                        if ($limit < 0) {
+            $only_zero = (isset($arguments['start']) && $arguments['start'] == 0 && (!isset($arguments['end']) || $arguments['end'] < 0));
+
+            if (isset($arguments['start'])) {
+                if ($arguments['start'] === 'recent') {
+                    $limit = $board->getDisplayResponse();
+                    if ($responseCount > $limit) {
+                        $offset = $responseCount - $limit;
+                    }
+                } else {
+                    if ($arguments['start'] > 0) {
+                        $offset = $arguments['start'];
+                        if (isset($arguments['end'])) {
+                            $limit = $arguments['end'] - $offset + 1;
+                            if ($limit < 0) {
+                                $limit = 1;
+                            }
+                        } else {
                             $limit = 1;
                         }
-                    } else {
-                        $limit = 1;
                     }
                 }
             }
+
             $responses = array_merge(
                 $this->threadService->getResponsesByThreadId($thread->getId(), 1, 0),
-                $this->threadService->getResponsesByThreadId($thread->getId(), $limit, $offset),
+                ($only_zero) ? [] : $this->threadService->getResponsesByThreadId($thread->getId(), $limit, $offset),
             );
 
             $first_sequence = (isset($responses[1])) ? $responses[1]->getSequence() : 0;
@@ -97,6 +102,8 @@ class TraceController extends AbstractController
             ]);
 
             $body = $this->templateRenderer->render('page/trace.html', [
+                'board_id' => $board->getName(),
+                'thread_id' => $thread->getId(),
                 'nav' => $this->templateRenderer->render('nav.html', [
                     'nav_items' => array_reduce($nav_list, function ($acc, $nav) {
                         return $acc . $this->templateRenderer->render('nav_item.html', [
@@ -120,7 +127,8 @@ class TraceController extends AbstractController
             $body = $this->templateRenderer->render('page/error.html', [
                 'message' => 'database query error'
             ]);
-        } catch (ResourceNotFoundException $e) {
+        } catch
+        (ResourceNotFoundException $e) {
             $body = $this->templateRenderer->render('page/error.html', [
                 'message' => $e->getMessage()
             ]);

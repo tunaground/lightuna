@@ -189,9 +189,9 @@ class Response
     }
 
     /**
-     * @param \DateTime $deletedAt
+     * @param \DateTime | null $deletedAt
      */
-    public function setDeletedAt(\DateTime $deletedAt): void
+    public function setDeletedAt(?\DateTime $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }

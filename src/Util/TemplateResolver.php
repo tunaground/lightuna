@@ -22,10 +22,17 @@ class TemplateResolver
 
     public function make(string $message, array $replace): string
     {
-        return preg_replace_callback($this->format, function ($matches) use ($replace) {
-            $match = substr($matches[0], $this->prefixSize, $this->subfixSize);
-            return $replace[$match];
-        }, $message);
+        try {
+            return preg_replace_callback($this->format, function ($matches) use ($replace) {
+                $match = substr($matches[0], $this->prefixSize, $this->subfixSize);
+                if (array_key_exists($match, $replace) !== true) {
+                    throw new \Exception();
+                }
+                return $replace[$match];
+            }, $message);
+        } catch (\Throwable $e) {
+            echo $e->getTraceAsString();
+        }
     }
 }
 

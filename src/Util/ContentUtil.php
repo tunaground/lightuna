@@ -2,22 +2,16 @@
 
 namespace Lightuna\Util;
 
-class RichContent
+class ContentUtil
 {
-    public static function applyAll(string $content, bool $rich = true, bool $coverAA = false): string
+    public static function applyRichContent(string $content): string
     {
-        $content = self::newLineToBreak($content);
-        if ($rich === true) {
-            $content = self::applyAsciiArtTag($content);
-            $content = self::applyHorizonTag($content);
-            $content = self::applySpoilerTag($content);
-            $content = self::applyColorTag($content);
-            $content = self::applyRubyTag($content);
-            $content = self::applyDiceTag($content);
-        }
-        if ($coverAA === true) {
-            $content = self::applyAsciiArtTagAll($content);
-        }
+        $content = self::applyAsciiArtTag($content);
+        $content = self::applyHorizonTag($content);
+        $content = self::applySpoilerTag($content);
+        $content = self::applyColorTag($content);
+        $content = self::applyRubyTag($content);
+        $content = self::applyDiceTag($content);
         return $content;
     }
 

@@ -7,6 +7,7 @@ use Lightuna\Core\Context;
 use Lightuna\Exception\QueryException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
+use Lightuna\Object\PostOption;
 use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 use Lightuna\Service\AttachmentServiceInterface;
@@ -42,6 +43,13 @@ class CreateThreadController extends AbstractController
             ]));
             return $httpResponse;
         }
+
+        $options = new PostOption(
+            (!is_null($httpRequest->getPost('relay'))),
+            (!is_null($httpRequest->getPost('rich'))),
+            (!is_null($httpRequest->getPost('noup'))),
+            (!is_null($httpRequest->getPost('aa'))),
+        );
 
         $dateTime = new \DateTime();
         $board = $this->boardService->getBoardById($httpRequest->getPost('board_id'));
@@ -85,7 +93,7 @@ class CreateThreadController extends AbstractController
             null,
         );
         try {
-            $this->threadService->createThread($thread, $response);
+            $this->threadService->createThread($thread, $response, $options);
             $httpResponse->addHeader("Refresh:2; url={$httpRequest->getPost("return_uri")}");
             $body = "BAAAAAAAAAAAA";
         } catch (QueryException $e) {

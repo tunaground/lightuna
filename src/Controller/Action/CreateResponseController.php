@@ -7,6 +7,7 @@ use Lightuna\Core\Context;
 use Lightuna\Exception\QueryException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
+use Lightuna\Object\PostOption;
 use Lightuna\Object\Response;
 use Lightuna\Service\AttachmentServiceInterface;
 use Lightuna\Service\BoardServiceInterface;
@@ -37,10 +38,17 @@ class CreateResponseController extends AbstractController
     {
         if ($httpRequest->getPost('content') === '') {
             $httpResponse->setBody($this->templateRenderer->render('page/error.html', [
-                'message' => 'empty content'
+                'message' => 'empty content',
             ]));
             return $httpResponse;
         }
+
+        $options = new PostOption(
+            (!is_null($httpRequest->getPost('relay'))),
+            (!is_null($httpRequest->getPost('rich'))),
+            (!is_null($httpRequest->getPost('noup'))),
+            (!is_null($httpRequest->getPost('aa'))),
+        );
 
         $dateTime = new \DateTime();
 
@@ -72,7 +80,7 @@ class CreateResponseController extends AbstractController
             null,
         );
         try {
-            $this->threadService->createResponse($response);
+            $this->threadService->createResponse($response, $options);
             $body = "BAAAAAAAAAAAA";
         } catch (QueryException $e) {
             $body = $this->templateRenderer->render('page/error.html', [

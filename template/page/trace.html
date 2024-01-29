@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Trace - {{board_id}}>{{thread_id}}></title>
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="/js/tuna.js"></script>
 </head>
 <body>
+<section id="top"></section>
 <section class="container_default">
     <nav>
         {{nav}}
@@ -15,6 +19,11 @@
 </section>
 <section class="container_default">
     {{thread}}
+</section>
+<section id="bottom"></section>
+<section class="modal_container hide">
+    <section class="modal">
+    </section>
 </section>
 </body>
 </html>

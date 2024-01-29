@@ -11,7 +11,7 @@ use Lightuna\Http\HttpResponse;
 use Lightuna\Service\ThreadServiceInterface;
 use Lightuna\Util\TemplateRenderer;
 
-class DeleteResponseController extends AbstractApiController
+class RestoreResponseController extends AbstractApiController
 {
     private ThreadServiceInterface $threadService;
 
@@ -30,38 +30,39 @@ class DeleteResponseController extends AbstractApiController
         try {
             $logger = $this->context->getLogger();
 
-            $response = $this->threadService->deleteResponseById(
+            $response = $this->threadService->restoreResponseId(
                 $this->input->id,
                 $this->input->password,
             );
-            $logger->info("response({$this->input->id}) has been deleted");
 
             $arr = [
                 'sequence' => $response->getSequence(),
-                'username' => '',
-                'userId' => 'deleted',
+                'username' => $response->getUsername(),
+                'userId' => $response->getUserId(),
                 'createdAt' => $response->getCreatedAt()->format(DATETIME_FORMAT),
-                'deletedAt' => $response->getDeletedAt()->format(DATETIME_FORMAT),
-                'content' => '',
-                'youtube' => '',
-                'attachment' => '',
+                'content' => $response->getContent(),
+                'youtube' => $response->getYoutube(),
+                'attachment' => $response->getAttachment(),
             ];
+
+            $logger->info("response({$this->input->id}) has been restored");
             $httpResponse->setBody(json_encode(
                 [
                     'status' => 'ok',
-                    'message' => "response({$this->input->id}) has been deleted",
+                    'message' => "response({$this->input->id}) has been restored",
                     'data' => ['response' => $arr]
                 ],
                 JSON_UNESCAPED_UNICODE
             ));
         } catch (\Throwable $e) {
             $httpResponse->setBody(json_encode(
-                ['status' => 'error',
-                    'message' => $e->getMessage(),],
+                [
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                ],
                 JSON_UNESCAPED_UNICODE
             ));
         }
-
         return $httpResponse;
     }
 }

@@ -22,4 +22,8 @@ interface ThreadDaoInterface extends DaoInterface
      * @throws QueryException
      */
     public function getThreadByBoardId(string $boardId, int $limit = 0, int $offset = 0): array;
+
+    public function getThreadById(int $id): Thread;
+
+    public function updateThread(Thread $thread): void;
 }

@@ -1,13 +1,32 @@
 <fieldset class="post_form">
     <form action="/action/create/response" method="post" enctype="multipart/form-data">
+        <section class="option_bar">
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="relay_{{thread_id}}" name="relay" checked/>
+                <label for="relay_{{thread_id}}">계속 쓰기</label>
+            </div>
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="rich_{{thread_id}}" name="rich" checked/>
+                <label for="rich_{{thread_id}}">특수기능 쓰기</label>
+            </div>
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="aa_{{thread_id}}" name="aa"/>
+                <label class="check-box" for="aa_{{thread_id}}">AA 작성</label>
+            </div>
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="noup_{{thread_id}}" name="noup" />
+                <label for="noup_{{thread_id}}">갱신 안함</label>
+            </div>
+        </section>
         <input class="post_form_default" type="hidden" name="thread_id" value="{{thread_id}}"/>
         <input class="post_form_default" type="hidden" name="return_uri" value="{{return_uri}}"/>
-        <input class="post_form_default" type="text" name="username" placeholder="Username"/>
-        <textarea class="post_form_default post_form_content" name="content" placeholder="Content"></textarea>
-        <input class="post_form_default" type="text" name="youtube" placeholder="Youtube Link"/>
+        <input class="post_form_default" type="text" name="username" placeholder="사용자 이름"/>
+        <textarea class="post_form_default post_form_content" name="content" placeholder="본문"></textarea>
+        <input class="post_form_default" type="text" name="youtube"
+               placeholder="Youtube 링크(예시: https://www.youtube.com/watch?v=a1b2c3d4)"/>
         <input class="post_form_default post_form_attachment" type="file" name="attachment"/>
         <section class="post_form_button_group">
-            <button class="post_form_submit post_form_button_default">Submit</button>
+            <button class="post_form_submit post_form_button_default">답글 작성</button>
         </section>
     </form>
 </fieldset>

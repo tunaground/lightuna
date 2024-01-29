@@ -1,15 +1,33 @@
 <fieldset class="post_form post_form_thread">
     <form action="/action/create/thread" method="post" enctype="multipart/form-data">
+        <section class="option_bar">
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="relay" name="relay" checked/>
+                <label for="relay">계속 쓰기</label>
+            </div>
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="rich" name="rich" checked/>
+                <label for="rich">특수기능 쓰기</label>
+            </div>
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="aa" name="aa"/>
+                <label class="check-box" for="aa">AA 작성</label>
+            </div>
+            <div class="checkbox-wrapper-1">
+                <input class="substituted" type="checkbox" aria-hidden="true" id="noup" name="noup" />
+                <label for="noup">갱신 안함</label>
+            </div>
+        </section>
         <input class="post_form_default" type="hidden" name="board_id" value="{{board_id}}"/>
         <input class="post_form_default" type="hidden" name="return_uri" value="{{return_uri}}"/>
-        <input class="post_form_default" type="text" name="title" placeholder="Title"/>
-        <input class="post_form_default" type="password" name="password" placeholder="Password"/>
-        <input class="post_form_default" type="text" name="username" placeholder="Username"/>
-        <textarea class="post_form_default post_form_content" name="content" placeholder="Content"></textarea>
-        <input class="post_form_default" type="text" name="youtube" placeholder="Youtube Link"/>
+        <input class="post_form_default" type="text" name="title" placeholder="주제글 이름"/>
+        <input class="post_form_default" type="password" name="password" placeholder="주제글 암호"/>
+        <input class="post_form_default" type="text" name="username" placeholder="사용자 이름"/>
+        <textarea class="post_form_default post_form_content" name="content" placeholder="본문"></textarea>
+        <input class="post_form_default" type="text" name="youtube" placeholder="Youtube 링크(예시: https://www.youtube.com/watch?v=a1b2c3d4)"/>
         <input class="post_form_default post_form_attachment" type="file" name="attachment"/>
         <section class="post_form_button_group">
-            <button class="post_form_submit post_form_button_default">Submit</button>
+            <button class="post_form_submit post_form_button_default">주제글 작성</button>
         </section>
     </form>
 </fieldset>

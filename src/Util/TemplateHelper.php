@@ -51,6 +51,9 @@ class TemplateHelper
     {
         if ($response->getDeletedAt() !== null) {
             return $this->templateRenderer->render('deleted_response.html', [
+                'id' => $response->getId(),
+                'board_id' => $board->getId(),
+                'thread_id' => $response->getThreadId(),
                 'sequence' => $response->getSequence(),
                 'created_at' => $response->getCreatedAt()->format(DATETIME_FORMAT),
                 'deleted_at' => $response->getDeletedAt()->format(DATETIME_FORMAT),
@@ -96,6 +99,8 @@ HTML;
         }
         return $this->templateRenderer->render('response.html', [
             'id' => $response->getId(),
+            'board_id' => $board->getId(),
+            'thread_id' => $response->getThreadId(),
             'sequence' => $response->getSequence(),
             'username' => $response->getUsername(),
             'user_id' => $response->getUserId(),

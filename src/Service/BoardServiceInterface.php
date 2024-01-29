@@ -7,7 +7,7 @@ use Lightuna\Object\Notice;
 
 interface BoardServiceInterface
 {
-    public function createBoard(Board $board, Notice $notice): void;
+    public function createBoard(string $id, string $name): void;
 
     public function updateBoard(Board $board): void;
 

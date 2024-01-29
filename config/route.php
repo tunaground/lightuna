@@ -74,6 +74,12 @@ return [
         }
     ],
     [
+        'path' => '/api/v1/restore/response',
+        'controller' => function (Context $context): ControllerInterface {
+            return ControllerFactory::getRestoreResponseController($context);
+        }
+    ],
+    [
         'path' => '/api/v1/get/response',
         'controller' => function (Context $context): ControllerInterface {
             return ControllerFactory::getGetResponseController($context);

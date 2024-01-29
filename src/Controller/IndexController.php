@@ -52,6 +52,7 @@ class IndexController extends AbstractController
             ]);
 
             $body = $this->templateRenderer->render('page/index.html', [
+                'board_id' => $board->getName(),
                 'nav' => $this->templateRenderer->render('nav.html', [
                     'nav_items' => array_reduce($nav_list, function ($acc, $nav) {
                         return $acc . $this->templateRenderer->render('nav_item.html', [

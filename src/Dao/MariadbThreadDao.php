@@ -98,6 +98,30 @@ SQL;
         return $this->makeObject($stmt->fetch(\PDO::FETCH_ASSOC));
     }
 
+    public function updateThread(Thread $thread): void
+    {
+        $sql = <<<SQL
+update thread
+set
+updated_at = :updated_at,
+deleted_at = :deleted_at
+where id = :id
+SQL;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $thread->getId());
+        $stmt->bindValue(':updated_at', $thread->getUpdatedAt()->format(DATETIME_FORMAT));
+        if ($thread->getDeletedAt() === null) {
+            $stmt->bindValue(':deleted_at', null);
+        } else {
+            $stmt->bindValue(':deleted_at', $thread->getDeletedAt()->format(DATETIME_FORMAT));
+        }
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            throw new QueryException($error[1]);
+        }
+    }
+
     private function makeObject(array $result): Thread
     {
         return new Thread(

@@ -27,17 +27,10 @@ class CreateBoardController extends AbstractController
      */
     public function run(HttpRequest $httpRequest, HttpResponse $httpResponse): HttpResponse
     {
-        $dateTime = new \DateTime();
-        $board = new Board();
-        $board->setId($httpRequest->getPost("id"));
-        $board->setName($httpRequest->getPost("name"));
-        $board->setCreatedAt($dateTime);
-        $board->setUpdatedAt($dateTime);
-
-        $notice = new Notice();
-        $notice->setBoardId($board->getId());
-        $notice->setContent("");
-        $this->boardService->createBoard($board, $notice);
+        $this->boardService->createBoard(
+            $httpRequest->getPost('id'),
+            $httpRequest->getPost('name'),
+        );
         $httpResponse->addHeader("Refresh:0; url=/admin/boards");
         return $httpResponse;
     }

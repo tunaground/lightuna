@@ -1,10 +1,12 @@
 <article class="response"
+         data-board-id="{{board_id}}"
+         data-thread-id="{{thread_id}}"
          data-response-sequence="{{sequence}}">
     <header class="response_header">
         <span class="response_sequence">{{sequence}}</span>
         <span class="response_user_name">{{username}}</span>
         <span class="response_user_id">({{user_id}})</span>
-        <button class="delete" data-response-id="{{id}}"><i class="iconoir-trash"></i></button>
+        <button class="delete button-8" data-response-id="{{id}}"><i class="iconoir-trash"></i></button>
     </header>
     <section class="response_date">{{created_at}}</section>
     {{youtube}}

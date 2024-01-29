@@ -11,6 +11,7 @@ use Lightuna\Controller\Admin\AdminBoardController;
 use Lightuna\Controller\Admin\AdminBoardDetailController;
 use Lightuna\Controller\API\V1\DeleteResponseController;
 use Lightuna\Controller\API\V1\GetResponseController;
+use Lightuna\Controller\API\V1\RestoreResponseController;
 use Lightuna\Core\Context;
 use Lightuna\Service\ServiceFactory;
 use Lightuna\Util\TemplateRenderer;
@@ -118,6 +119,16 @@ class ControllerFactory
     {
         $config = $context->getConfig();
         return new DeleteResponseController(
+            $context,
+            new TemplateRenderer($config['site']['rootDir'] . '/template'),
+            ServiceFactory::getThreadService($config),
+        );
+    }
+
+    public static function getRestoreResponseController(Context $context): RestoreResponseController
+    {
+        $config = $context->getConfig();
+        return new RestoreResponseController(
             $context,
             new TemplateRenderer($config['site']['rootDir'] . '/template'),
             ServiceFactory::getThreadService($config),

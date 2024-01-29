@@ -4,7 +4,7 @@ namespace Lightuna\Dao;
 
 use Lightuna\Object\Notice;
 
-interface NoticeDaoInterface
+interface NoticeDaoInterface extends DaoInterface
 {
     public function getNextNoticeId(): int;
 

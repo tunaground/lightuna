@@ -26,11 +26,32 @@ class BoardService implements BoardServiceInterface
     /**
      * @throws QueryException
      */
-    public function createBoard(Board $board, Notice $notice): void
+    public function createBoard(string $id, string $name): void
     {
-        $this->boardDao->createBoard($board);
-        $notice->setId($this->noticeDao->getNextNoticeId());
-        $this->noticeDao->createNotice($notice);
+        try {
+            $dateTime = new \DateTime();
+            $board = new Board();
+            $board->setId($id);
+            $board->setName($name);
+            $board->setCreatedAt($dateTime);
+            $board->setUpdatedAt($dateTime);
+
+            $notice = new Notice();
+            $notice->setBoardId($board->getId());
+            $notice->setContent("");
+
+            $pdo = $this->boardDao->getPdo();
+            $this->noticeDao->setPdo($pdo);
+
+            $pdo->beginTransaction();
+            $this->boardDao->createBoard($board);
+            $notice->setId($this->noticeDao->getNextNoticeId());
+            $this->noticeDao->createNotice($notice);
+            $pdo->commit();
+        } catch (QueryException $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
     }
 
     public function updateBoard(Board $board): void
