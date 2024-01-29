@@ -208,6 +208,13 @@ $(document).ready(function () {
         start = $(this).data('response-start')
         end = $(this).data('response-end')
 
+        console.log(start)
+        if (start === '') {
+            $(location).attr('href', `/trace/${boardId}/${threadId}`)
+            // window.location.replace(`/trace/${boardId}/${threadId}`)
+            return
+        }
+
         $.ajax({
             type: 'post',
             url: '/api/v1/get/response',

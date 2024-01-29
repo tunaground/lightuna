@@ -223,6 +223,43 @@ nav a {
     color: rgba(255, 255, 255, 0.7);
 }
 
+.search_form {
+    width: 60em;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(50, 50, 50);
+}
+
+.search_form input {
+    margin: 0.8em;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(255, 255, 255, 0.7);
+    width: 52.5em;
+    font-size: 1em;
+    padding: 0.4em;
+    border: none;
+    border-bottom: rgb(150, 150, 150) 1px solid;
+}
+
+.search_form button {
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+    border: rgb(150, 150, 150) 1px solid;
+    color: rgba(255, 255, 255, 0.7);
+    min-width: 5em;
+    font-size: 1em;
+    padding: 0.4em;
+    margin: 0;
+}
+
+.search_form button:hover {
+    background-color: rgba(0, 145, 255, .2);
+    -webkit-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio: 0)
 and (min-resolution: .001dpcm) {
     .post_form textarea {
@@ -293,53 +330,6 @@ input:not([type="image"]), textarea {
     box-sizing: border-box;
 }
 
-@media (max-width: 60em) {
-    a {
-        word-break: break-all;
-    }
-
-    iframe, img {
-        width: 100%;
-    }
-
-    nav {
-        width: 100%;
-    }
-
-    .board_header {
-        width: 100%;
-    }
-
-    .notice {
-        width: 100%;
-    }
-
-    .post_form_button_group {
-        display: block;
-    }
-
-    .thread {
-        width: auto;
-    }
-
-    .thread_header p {
-        font-size: 0.9em;
-        word-break: break-all;
-    }
-
-    .response_header span {
-        font-size: 0.9em;
-        word-break: break-all;
-    }
-
-    .content {
-        font-size: 0.9em;
-    }
-
-    .post_form_content {
-        font-size: 1.0em;
-    }
-}
 
 .button-8 {
     background-color: #e1ecf4;
@@ -562,4 +552,132 @@ a {
 
 .option_bar label {
     color: rgba(255, 255, 255, 0.7);
+}
+
+.thread_list {
+    margin: 0 0 3em 0;
+    padding: 0;
+    width: 60em;
+    background-color: rgb(230, 250, 255);
+    box-shadow: 5px 5px 20px -8px rgba(0, 0, 0, 0.75);
+}
+
+.thread_list_item {
+    border: 0;
+    margin: 1.0em 0.5em;
+    padding: 0.3em 0.5em;
+    list-style: none;
+}
+
+.thread_list_item p {
+    margin: 0;
+}
+
+.thread_list a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.thread_list_count a {
+    color: #39739d;
+}
+
+.thread_list_title a {
+    color: #39739d;
+}
+
+.thread_list_username {
+    font-size: 0.8em;
+    color: rgb(80, 80, 80);
+}
+
+.thread_list_date {
+    font-size: 0.8em;
+    color: rgb(80, 80, 80);
+}
+
+.thread_list_item_more {
+    text-align: center;
+    margin: 0;
+    padding: 0.5em;
+    background-color: rgb(50, 50, 50);
+}
+
+.thread_list_item_more a {
+    color: white;
+}
+
+@media (max-width: 60em) {
+    .container_default {
+        display: block;
+    }
+
+    .search_form {
+        width: 100%;
+    }
+
+    .search_form input {
+        width: 100%;
+        margin: 0;
+    }
+
+    .search_form button {
+        width: 100%;
+        border: 0;
+    }
+
+    .thread_list {
+        width: 100%;
+        padding-top: 0.1px;
+    }
+
+    .mona {
+        font-size: 0.5em;
+    }
+
+    a {
+        word-break: break-all;
+    }
+
+    iframe, img {
+        width: 100%;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    .board_header {
+        width: 100%;
+    }
+
+    .notice {
+        width: 100%;
+    }
+
+    .post_form_button_group {
+        display: block;
+    }
+
+    .thread {
+        width: auto;
+    }
+
+    .thread_header p {
+        font-size: 0.9em;
+        word-break: break-all;
+    }
+
+    .response_header span {
+        font-size: 0.9em;
+        word-break: break-all;
+    }
+
+    .content {
+        font-size: 0.9em;
+    }
+
+    .post_form_content {
+        font-size: 1.0em;
+    }
 }

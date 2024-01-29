@@ -11,18 +11,30 @@
     <script src="/js/tuna.js"></script>
 </head>
 <body>
+<section id="top"></section>
 <section class="container_default">
     <nav>
         {{nav}}
     </nav>
 </section>
-<section id="top"></section>
 <section class="container_default">
     <section class="notice">
         <section>
             {{notice}}
         </section>
     </section>
+</section>
+<section class="container_default">
+    <fieldset class="search_form">
+        <form>
+            <input class="search_form_text" type="text" name="keyword"/>
+            <button class="search_form_button">검색</button>
+        </form>
+    </fieldset>
+    <ul class="thread_list">
+        {{thread_list}}
+        <li class="thread_list_item thread_list_item_more"><a href="/list/{{board_id}}"><p>더 보기</p></a></li>
+    </ul>
 </section>
 <section class="container_default">
     {{threads}}

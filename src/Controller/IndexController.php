@@ -8,6 +8,7 @@ use Lightuna\Exception\ResourceNotFoundException;
 use Lightuna\Http\HttpRequest;
 use Lightuna\Http\HttpResponse;
 use Lightuna\Object\Board;
+use Lightuna\Object\Response;
 use Lightuna\Object\Thread;
 use Lightuna\Service\BoardServiceInterface;
 use Lightuna\Service\ThreadServiceInterface;
@@ -52,7 +53,7 @@ class IndexController extends AbstractController
             ]);
 
             $body = $this->templateRenderer->render('page/index.html', [
-                'board_id' => $board->getName(),
+                'board_id' => $board->getId(),
                 'nav' => $this->templateRenderer->render('nav.html', [
                     'nav_items' => array_reduce($nav_list, function ($acc, $nav) {
                         return $acc . $this->templateRenderer->render('nav_item.html', [
@@ -63,6 +64,18 @@ class IndexController extends AbstractController
                     }, "")
                 ]),
                 'notice' => htmlspecialchars_decode($notice->getContent()),
+                'thread_list' => array_reduce($threads, function ($acc, $thread) {
+                    /** @var Thread $thread */
+                    $count = $this->threadService->getResponseCountByThreadId($thread->getId());
+                    return $acc . $this->templateRenderer->render('thread_list_item.html', [
+                            'board_id' => $thread->getBoardId(),
+                            'thread_id' => $thread->getId(),
+                            'title' => $thread->getTitle(),
+                            'count' => $count,
+                            'username' => $thread->getUsername(),
+                            'updated_at' => $thread->getUpdatedAt()->format(DATETIME_FORMAT),
+                        ]);
+                }, ""),
                 'board_name' => $board->getName(),
                 'threads' => array_reduce($threads, function ($acc, $thread) use ($board) {
                     /** @var Thread $thread */
