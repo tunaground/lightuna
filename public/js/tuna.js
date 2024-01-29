@@ -8,6 +8,9 @@ function setLink(el) {
 }
 
 function setAnchor(el) {
+    pBoardId = el.closest('.response').data('board-id')
+    pThreadId = el.closest('.response').data('thread-id')
+
     return el.html().replace(
         /([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/gm,
         function (match, boardId, threadId, responseStart, responseEnd) {
@@ -208,10 +211,8 @@ $(document).ready(function () {
         start = $(this).data('response-start')
         end = $(this).data('response-end')
 
-        console.log(start)
         if (start === '') {
             $(location).attr('href', `/trace/${boardId}/${threadId}`)
-            // window.location.replace(`/trace/${boardId}/${threadId}`)
             return
         }
 
@@ -239,9 +240,6 @@ $(document).ready(function () {
                         clone.find('button.delete i').attr('class', 'iconoir-redo')
                         clone.find('button.delete').removeClass('delete')
                     }
-                    clone.find('.response_content').html(response.content)
-                    clone.html(setLink(clone))
-                    clone.html(setAnchor(clone))
                     clone.addClass('anchor_response')
                     if (response.youtube != '') {
                         youtubeId = response.youtube.replace(/https:\/\/www\.youtube.com\/watch\?v=([^&]+).*/, "$1");
@@ -256,10 +254,17 @@ $(document).ready(function () {
                         $(`<p class="response_attachment"><a href="${attachment}"><img src="${thumbnail}"></a></p>`)
                             .insertBefore(clone.find('.response_content'))
                     }
-                    clone.data('board-id', boardId)
-                    clone.data('thread-id', threadId)
+                    console.log(boardId)
+                    console.log(threadId)
+                    clone.attr('data-board-id', boardId)
+                    clone.attr('data-thread-id', threadId)
+                    clone.attr('data-response-sequence', response.sequence)
                     clone.find('button').attr('data-response-id', response.id)
-                    console.log(clone.find('button'))
+                    clone.find('.response_content').html(response.content)
+
+                    response_content = clone.find('.response_content')
+                    response_content.html(setLink(response_content))
+                    response_content.html(setAnchor(response_content))
                     curResponse.prepend(clone)
                 })
             },
